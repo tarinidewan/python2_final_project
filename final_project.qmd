@@ -5,6 +5,8 @@ Q: _Did states with more comprehensive testing efforts also achieve faster vacci
 import pandas as pd
 import datetime as dt
 import altair as alt
+import statsmodels as sm
+from statsmodels.formula.api import ols
 ```
 
 1. Data cleaning
@@ -22,13 +24,16 @@ covid_test['Date'] = pd.to_datetime(covid_test['Date'])
 covid_vacc = covid_vacc[covid_vacc['Updated On'] > '2020-12-31']
 covid_test = covid_test[covid_test['Date'] > '2020-12-31']
 
-# modify data to be at monthly level (instead of daily)
-covid_vacc['Month'] = covid_vacc['Updated On'].dt.strftime('%m').astype(int)
+# modify data to be at monthly level (instead of daily) --- EXPLAIN
+covid_vacc['Month'] = covid_vacc['Updated On'].dt.strftime('%m').astype(int) 
 covid_test['Month'] = covid_test['Date'].dt.strftime('%m').astype(int)
 
 # merge datasets by state and date
 covid_merged = pd.merge(covid_vacc, covid_test, on=['State', 'Month'], how='inner')
 print(covid_merged.head())
+
+# rename relevant columns
+covid_merged.rename(columns={'Total Individuals Vaccinated':'tot_vacc'}, inplace=True)
 
 # check that the merged dataset has 36 states
 print(covid_merged['State'].nunique())
@@ -45,7 +50,19 @@ covid_final = covid_merged.to_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2
 2. Exploring the data
 
 ```{python}
+alt.data_transformers.disable_max_rows()
+
 # check distribution of testing rate
+# a. overall pattern (combined across all states)
+
+# b. state-wise (group states into bins)
+
 ```
 
 3. Relationship between vaccination and testing
+
+```{python}
+model = ols('tot_vacc ~ TotalSamples', data = covid_merged)
+result = model.fit()
+print(result.summary())
+```
