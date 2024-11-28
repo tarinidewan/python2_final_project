@@ -1,0 +1,51 @@
+
+Q: _Did states with more comprehensive testing efforts also achieve faster vaccination coverage?_
+
+```{python}
+import pandas as pd
+import datetime as dt
+import altair as alt
+```
+
+1. Data cleaning
+
+```{python}
+# load in the data
+covid_vacc = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_vaccine_statewise.csv') # MODIFY PATH ACCORDINGLY
+covid_test = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/StatewiseTestingDetails.csv') # MODIFY PATH ACCORDINGLY
+
+# make sure that date is a datetime object
+covid_vacc['Updated On'] = pd.to_datetime(covid_vacc['Updated On'])
+covid_test['Date'] = pd.to_datetime(covid_test['Date'])
+
+# drop dates before 2021 (vaccination rollout only began in 2021)
+covid_vacc = covid_vacc[covid_vacc['Updated On'] > '2020-12-31']
+covid_test = covid_test[covid_test['Date'] > '2020-12-31']
+
+# modify data to be at monthly level (instead of daily)
+covid_vacc['Month'] = covid_vacc['Updated On'].dt.strftime('%m').astype(int)
+covid_test['Month'] = covid_test['Date'].dt.strftime('%m').astype(int)
+
+# merge datasets by state and date
+covid_merged = pd.merge(covid_vacc, covid_test, on=['State', 'Month'], how='inner')
+print(covid_merged.head())
+
+# check that the merged dataset has 36 states
+print(covid_merged['State'].nunique())
+
+# find missing state
+for state in list(covid_vacc['State'].unique()):
+    if state not in list(covid_test['State'].unique()):
+        print(state) # Dadra and Nagar Haveli and Daman and Diu
+
+# save the dataset
+covid_final = covid_merged.to_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_final.csv') # MODIFY PATH ACCORDINGLY
+```
+
+2. Exploring the data
+
+```{python}
+# check distribution of testing rate
+```
+
+3. Relationship between vaccination and testing
