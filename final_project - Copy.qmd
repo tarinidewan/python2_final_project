@@ -7,44 +7,48 @@ import datetime as dt
 import altair as alt
 import statsmodels as sm
 from statsmodels.formula.api import ols
+import matplotlib.pyplot as plt
 ```
 
 1. Data cleaning
 
 ```{python}
-# load in the data
-covid_vacc = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_vaccine_statewise.csv') # MODIFY PATH ACCORDINGLY
-covid_test = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/StatewiseTestingDetails.csv') # MODIFY PATH ACCORDINGLY
+import pandas as pd
 
-# make sure that date is a datetime object
+# Load datasets
+covid_vacc = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/covid_vaccine_statewise.csv')
+covid_test = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/StatewiseTestingDetails.csv')
+population = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/state_population.csv')
+
+# Convert dates to datetime
 covid_vacc['Updated On'] = pd.to_datetime(covid_vacc['Updated On'])
 covid_test['Date'] = pd.to_datetime(covid_test['Date'])
 
-# drop dates before 2021 (vaccination rollout only began in 2021)
+# Filter data for 2021 onwards
 covid_vacc = covid_vacc[covid_vacc['Updated On'] > '2020-12-31']
 covid_test = covid_test[covid_test['Date'] > '2020-12-31']
 
-# modify data to be at monthly level (instead of daily) --- EXPLAIN
-covid_vacc['Month'] = covid_vacc['Updated On'].dt.strftime('%m').astype(int) 
-covid_test['Month'] = covid_test['Date'].dt.strftime('%m').astype(int)
+# Aggregate data to monthly level
+covid_vacc['Month'] = covid_vacc['Updated On'].dt.to_period('M')
+covid_test['Month'] = covid_test['Date'].dt.to_period('M')
 
-# merge datasets by state and date
-covid_merged = pd.merge(covid_vacc, covid_test, on=['State', 'Month'], how='inner')
+covid_vacc_monthly = covid_vacc.groupby(['State', 'Month'])['Total Individuals Vaccinated'].max().reset_index()
+covid_test_monthly = covid_test.groupby(['State', 'Month'])['TotalSamples'].max().reset_index()
+
+# Merge datasets
+covid_merged = pd.merge(covid_vacc_monthly, covid_test_monthly, on=['State', 'Month'], how='inner')
+covid_merged = pd.merge(covid_merged, population, on='State', how='left')
+
+# Calculate testing and vaccination rates
+covid_merged['testing_rate'] = covid_merged['TotalSamples'] / covid_merged['Projected Total Population'] * 100000
+covid_merged['vaccination_rate'] = covid_merged['Total Individuals Vaccinated'] / covid_merged['Projected Total Population'] * 100
+
+# Save the merged dataset
+covid_merged.to_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/covid_final_copy.csv', index=False)
+
 print(covid_merged.head())
+print(f"Number of unique states: {covid_merged['State'].nunique()}")
 
-# rename relevant columns
-covid_merged.rename(columns={'Total Individuals Vaccinated':'tot_vacc'}, inplace=True)
-
-# check that the merged dataset has 36 states
-print(covid_merged['State'].nunique())
-
-# find missing state
-for state in list(covid_vacc['State'].unique()):
-    if state not in list(covid_test['State'].unique()):
-        print(state) # Dadra and Nagar Haveli and Daman and Diu
-
-# save the dataset
-covid_final = covid_merged.to_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_final.csv') # MODIFY PATH ACCORDINGLY
 ```
 
 2. Exploring the data
@@ -54,15 +58,71 @@ alt.data_transformers.disable_max_rows()
 
 # check distribution of testing rate
 # a. overall pattern (combined across all states)
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(12, 6))
+plt.boxplot([covid_merged[covid_merged['State'] == state]['testing_rate'] for state in covid_merged['State'].unique()],
+            labels=covid_merged['State'].unique())
+plt.title('Distribution of Testing Rates by State')
+plt.xlabel('State')
+plt.ylabel('Testing Rate per 100,000 population')
+plt.xticks(rotation=90)
+plt.grid(axis='y')
+plt.tight_layout()
+plt.show()
+
 
 # b. state-wise (group states into bins)
+plt.figure(figsize=(12, 6))
+for state in covid_merged['State'].unique():
+    state_data = covid_merged[covid_merged['State'] == state]
+    plt.plot(state_data['Month'].astype(str), state_data['vaccination_rate'], label=state)
+
+plt.title('Vaccination Progress by State Over Time')
+plt.xlabel('Month')
+plt.ylabel('Vaccination Rate (%)')
+plt.legend(title='State', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
 
 ```
+
+
 
 3. Relationship between vaccination and testing
 
 ```{python}
-model = ols('tot_vacc ~ TotalSamples', data = covid_merged)
-result = model.fit()
-print(result.summary())
+plt.figure(figsize=(10, 6))
+
+for state in covid_merged['State'].unique():
+    state_data = covid_merged[covid_merged['State'] == state]
+    plt.scatter(state_data['testing_rate'], state_data['vaccination_rate'], label=state)
+
+plt.title('Testing Rate vs Vaccination Rate')
+plt.xlabel('Testing Rate per 100,000 population')
+plt.ylabel('Vaccination Rate (%)')
+plt.legend(title='State', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
 ```
+
+4. Correlation and regression analysis
+
+```{python}
+from statsmodels.formula.api import ols
+
+# Correlation analysis
+correlation = covid_merged[['testing_rate', 'vaccination_rate']].corr().iloc[0, 1]
+print(f"Correlation between testing rate and vaccination rate: {correlation:.2f}")
+
+# Regression analysis
+model = ols('vaccination_rate ~ testing_rate', data=covid_merged).fit()
+print(model.summary())
+
+```
+
+5. 
