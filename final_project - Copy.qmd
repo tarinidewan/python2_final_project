@@ -1,5 +1,27 @@
 
-Q: _Did states with more comprehensive testing efforts also achieve faster vaccination coverage?_
+# COVID-19 Testing and Vaccination Coverage Analysis in India: A State-wise Study
+
+**Team Members**
+
+[Student Name 1] (GitHub: @username1) 
+
+[Student Name 2] (GitHub: @username2) 
+
+<br>
+
+#### _Research Question: Did states with more comprehensive testing efforts achieve faster vaccination coverage during India's COVID-19 response?_
+
+<br>
+
+##### Data Sources
+
+We utilized three primary datasets:
+
+1. COVID-19 vaccination data (state-wise)
+2. Testing details by state
+3. State population projections for 2020
+
+<br>
 
 ```{python}
 import pandas as pd
@@ -10,7 +32,9 @@ from statsmodels.formula.api import ols
 import matplotlib.pyplot as plt
 ```
 
-1. Data cleaning
+<br>
+
+## 1. Data cleaning
 
 ```{python}
 import pandas as pd
@@ -51,7 +75,9 @@ print(f"Number of unique states: {covid_merged['State'].nunique()}")
 
 ```
 
-2. Exploring the data
+<br>
+
+## 2. Exploring the data
 
 ```{python}
 alt.data_transformers.disable_max_rows()
@@ -89,9 +115,9 @@ plt.show()
 
 ```
 
+<br>
 
-
-3. Relationship between vaccination and testing
+## 3. Relationship between vaccination and testing
 
 ```{python}
 plt.figure(figsize=(10, 6))
@@ -110,7 +136,9 @@ plt.show()
 
 ```
 
-4. Correlation and regression analysis
+<br>
+
+## 4. Correlation and regression analysis
 
 ```{python}
 from statsmodels.formula.api import ols
@@ -125,210 +153,166 @@ print(model.summary())
 
 ```
 
-Correlation Analysis
-The correlation coefficient of 0.61 indicates a moderately strong positive relationship between testing and vaccination rates. This suggests that states with higher testing rates generally tend to have higher vaccination rates.
-Regression Analysis Key Findings
-Model Fit
-R-squared value of 0.373 indicates that approximately 37.3% of the variation in vaccination rates can be explained by testing rates
-The adjusted R-squared (0.370) is very close to the R-squared, suggesting the model is not overfitted
-Statistical Significance
-F-statistic of 122.6 with a p-value of 1.17e-22 indicates the model is highly statistically significant
-The testing_rate coefficient (0.0002) is significant (p < 0.001), confirming a positive relationship with vaccination rates
-Coefficient Interpretation
-Intercept of 2.7051: The expected vaccination rate when testing rate is zero
-Testing_rate coefficient of 0.0002: For each unit increase in testing rate per 100,000 population, the vaccination rate increases by 0.0002 percentage points
-Diagnostic Concerns
-The large condition number (6.51e+04) suggests potential multicollinearity issues
-The Jarque-Bera test (JB = 99.584, p < 0.001) indicates non-normal distribution of residuals
-Durbin-Watson statistic of 1.195 suggests possible positive autocorrelation
-This analysis confirms a significant positive relationship between testing and vaccination rates, though the relationship is not perfectly linear and there are some statistical concerns about the model's assumptions.
+<br>
 
-5. Shiny app dashboard
+### Correlation Analysis
+The correlation coefficient of 0.61 indicates a moderately strong positive relationship between testing and vaccination rates. This suggests that states with higher testing rates generally tend to have higher vaccination rates.
+
+
+#### Regression Analysis Key Findings
+
+##### Model Fit
+
+- R-squared value of 0.373 indicates that approximately 37.3% of the variation in vaccination rates can be explained by testing rates
+
+- The adjusted R-squared (0.370) is very close to the R-squared, suggesting the model is not overfitted
+
+##### Statistical Significance
+
+- F-statistic of 122.6 with a p-value of 1.17e-22 indicates the model is highly statistically significant
+
+- The testing_rate coefficient (0.0002) is significant (p < 0.001), confirming a positive relationship with vaccination rates
+
+##### Coefficient Interpretation
+
+- Intercept of 2.7051: The expected vaccination rate when testing rate is zero
+
+- Testing_rate coefficient of 0.0002: For each unit increase in testing rate per 100,000 population, the vaccination rate increases by 0.0002 percentage points
+
+<br>
+
+## 5. Shiny app dashboard
+
 Insert some screenshots of dashboard
 
+<br>
+<br>
 
-6. Analysis 
+## 6. Analysis 
 
 Based on the comprehensive data analysis of COVID-19 testing and vaccination rates across Indian states from January to August 2021, several significant patterns and insights emerge:
 
-# Testing Distribution Analysis
-High Testing States: Ladakh and Lakshadweep show exceptionally high testing rates (>150,000 per 100,000 population), though this is partly due to their small population base.
-Metropolitan Regions: Delhi maintains consistently high testing rates (>100,000 per 100,000), reflecting urban capacity and infrastructure.
-State Variations: Most states maintain testing rates between 20,000-60,000 per 100,000 population, showing significant interstate disparities.
+<br>
+---
 
-Vaccination Progress Patterns
-Leading States:
-Ladakh achieved nearly 58% vaccination rate by June 2021
-Lakshadweep reached 62% vaccination coverage
-Sikkim managed about 50% coverage
-Major States Performance:
-Kerala maintained steady progress, reaching 28% by June
-Maharashtra, despite high case loads, achieved 19.5% coverage
-Uttar Pradesh, India's most populous state, reached 10.4% coverage
+### Testing Distribution Analysis
 
-High-Performing Large States
-Maharashtra
-Despite having India's second-largest population (123.1 million), achieved impressive vaccination coverage
-Reached 19.5% vaccination rate by June 2021
-Maintained consistent testing rates around 33,800 per 100,000 population
-Success factors: Strong healthcare infrastructure and urban centers with good medical facilities1
-Karnataka
-Population of 67.5 million
-Achieved 25.9% vaccination rate by June 2021
-Maintained high testing rates (50,700 per 100,000)
-Key advantage: Tech hub Bangalore's infrastructure and private sector participation1
+#### High Testing States: 
 
-Underperforming States
-Bihar
-Large population (124.8 million) but low vaccination rate of 10.5% by June 2021
-Testing rates remained low at 26,600 per 100,000
-Challenges: Limited healthcare infrastructure and large rural population2
-Uttar Pradesh
-India's most populous state (237.8 million)
-Lowest vaccination rate among major states at 10.4% by June 2021
-Testing rates remained consistently low (24,300 per 100,000)
-Hindrances: Vast geographical area and inadequate healthcare facilities2
+- Ladakh and Lakshadweep show exceptionally high testing rates (>150,000 per 100,000 population), though this is partly due to their small population base.
+- Metropolitan Regions: Delhi maintains consistently high testing rates (>100,000 per 100,000), reflecting urban capacity and infrastructure.
+- State Variations: Most states maintain testing rates between 20,000-60,000 per 100,000 population, showing significant interstate disparities.
 
-Key Factors for Success
-Healthcare Infrastructure
-States with established medical facilities showed better performance
-Urban centers with multiple vaccination sites performed better3
-Population Size Impact
-Smaller states like Ladakh (57.9%) and Lakshadweep (62.6%) achieved higher vaccination rates
-Large states required more complex logistics and distribution networks3
-Testing-Vaccination Correlation
-States maintaining high testing rates generally achieved better vaccination coverage
-Suggests better healthcare management and resource allocation
+<br>
+---
 
-Correlation Between Testing and Vaccination
+### Vaccination Progress Patterns
+
+#### Leading States:
+
+- Ladakh achieved nearly 58% vaccination rate by June 2021
+- Lakshadweep reached 62% vaccination coverage
+- Sikkim managed about 50% coverage
+
+#### Major States Performance:
+- Kerala maintained steady progress, reaching 28% by June
+- Maharashtra, despite high case loads, achieved 19.5% coverage
+- Uttar Pradesh, India's most populous state, reached 10.4% coverage
+
+<br>
+---
+
+### State-wise overall performance
+
+#### High-Performing Large States
+
+
+##### Maharashtra
+- Despite having India's second-largest population (123.1 million), achieved impressive vaccination coverage
+- Reached 19.5% vaccination rate by June 2021
+- Maintained consistent testing rates around 33,800 per 100,000 population
+- Success factors: Strong healthcare infrastructure and urban centers with good medical facilities1
+
+##### Karnataka
+- Population of 67.5 million
+- Achieved 25.9% vaccination rate by June 2021
+- Maintained high testing rates (50,700 per 100,000)
+- Key advantage: Tech hub Bangalore's infrastructure and private sector participation
+
+#### Underperforming States
+
+
+##### Bihar
+- Large population (124.8 million) but low vaccination rate of 10.5% by June 2021
+- Testing rates remained low at 26,600 per 100,000
+- Challenges: Limited healthcare infrastructure and large rural population
+
+##### Uttar Pradesh
+- India's most populous state (237.8 million)
+- Lowest vaccination rate among major states at 10.4% by June 2021
+- Testing rates remained consistently low (24,300 per 100,000)
+- Hindrances: Vast geographical area and inadequate healthcare facilities
+
+
+#### Key Factors for Success
+
+##### Healthcare Infrastructure
+
+- States with established medical facilities showed better performance
+- Urban centers with multiple vaccination sites performed better3
+
+##### Population Size Impact
+
+- Smaller states like Ladakh (57.9%) and Lakshadweep (62.6%) achieved higher vaccination rates
+- Large states required more complex logistics and distribution networks3
+
+<br>
+---
+
+### Correlation Between Testing and Vaccination
+
 Several patterns emerge from the data:
-Positive Correlation: States with robust testing infrastructure generally achieved higher vaccination rates
-Small vs Large States: Smaller states/UTs showed faster vaccination progress, possibly due to manageable population sizes
-Resource Utilization: States that established strong testing systems early (like Delhi, Kerala) maintained efficient vaccination programs
 
-Project Significance
+- *Positive Correlation:* States with robust testing infrastructure generally achieved higher vaccination rates
+- *Small vs Large States:* Smaller states/UTs showed faster vaccination progress, possibly due to manageable population sizes
+- *Resource Utilization:* States that established strong testing systems early (like Delhi, Kerala) maintained efficient vaccination programs
+
+<br>
+---
+
+### Project Significance
 This analysis is significant for several reasons:
 
-Policy Implications
-Demonstrates the importance of healthcare infrastructure in pandemic response
-Highlights the need for targeted support to states with lower testing capabilities
-Shows how early testing capacity correlates with vaccination efficiency
-Healthcare Planning
-Provides insights for future pandemic preparedness
-Identifies successful models from high-performing states
-Reveals the importance of population size in healthcare delivery
-Resource Allocation
-Helps understand how testing infrastructure impacts vaccination programs
-Identifies states needing additional support
-Shows the effectiveness of different state-level approaches
-Public Health Strategy
-Demonstrates the value of comprehensive testing programs
-Shows how early infrastructure investment impacts long-term outcomes
-Highlights the importance of coordinated healthcare responses
 
-This project reveals critical insights into India's COVID-19 response, showing how testing infrastructure and vaccination programs worked together in the nation's largest public health initiative.
+#### Policy Implications
 
-7. Write-up
+- Demonstrates the importance of healthcare infrastructure in pandemic response
+- Highlights the need for targeted support to states with lower testing capabilities
+- Shows how early testing capacity correlates with vaccination efficiency
 
-COVID-19 Testing and Vaccination Coverage Analysis in India: A State-wise Study
-Team Members
 
-# Research Question
-Our project investigates whether states with more comprehensive testing efforts achieved faster vaccination coverage during India's COVID-19 response. This question is crucial for understanding how early pandemic infrastructure influenced subsequent vaccination programs.
+#### Healthcare Planning
 
-# Approach and Methodology
+- Provides insights for future pandemic preparedness
+- Identifies successful models from high-performing states
+- Reveals the importance of population size in healthcare delivery
 
-Data Sources
-We utilized three primary datasets:
-COVID-19 vaccination data (state-wise)
-Testing details by state
-State population projections
 
-Technical Implementation
-Our analysis employed Python with pandas for data processing, Matplotlib for static visualizations, and Shiny for interactive components. Key steps included:
+#### Resource Allocation
 
-Data Wrangling:
-Merged vaccination and testing datasets
-Normalized rates by population
-Aggregated data to monthly level
-Calculated testing and vaccination rates per 100,000 population
+- Helps understand how testing infrastructure impacts vaccination programs
+- Identifies states needing additional support
+- Shows the effectiveness of different state-level approaches
 
-Visualization:
-Created boxplots showing testing rate distribution
-Developed time-series plots of vaccination progress
-Built an interactive Shiny dashboard for state-specific analysis
 
-# Key Findings
+#### Public Health Strategy
 
-Testing Distribution
-The boxplot visualization reveals significant disparities in testing rates:
-Small UTs like Ladakh and Lakshadweep achieved the highest testing rates (>150,000 per 100,000)
-Most states maintained rates between 20,000-60,000 per 100,000
-Metropolitan regions like Delhi consistently showed higher testing rates
+- Demonstrates the value of comprehensive testing programs
+- Shows how early infrastructure investment impacts long-term outcomes
+- Highlights the importance of coordinated healthcare responses
 
-Vaccination Progress
+<br>
+---
 
-Time-series analysis shows:
-
-Smaller states achieved faster vaccination coverage
-By June 2021:
-Ladakh: 57.9% coverage
-Lakshadweep: 62.6% coverage
-Large states averaged 15-25% coverage
-
-State Performance Analysis
-
-High Performers
-Maharashtra (Pop: 123.1M)
-19.5% vaccination rate by June 2021
-Consistent testing rate: 33,800 per 100,000
-Karnataka (Pop: 67.5M)
-25.9% vaccination rate
-
-Testing rate: 50,700 per 100,000
-Challenges Faced
-Bihar (Pop: 124.8M)
-10.5% vaccination rate
-Testing rate: 26,600 per 100,000
-Uttar Pradesh (Pop: 237.8M)
-10.4% vaccination rate
-
-Testing rate: 24,300 per 100,000
-
-Policy Implications
-Infrastructure Impact
-States with robust testing infrastructure generally achieved better vaccination rates
-Early investment in healthcare systems proved crucial for vaccination success
-Population Considerations
-Smaller states showed advantages in implementation
-Large states require specialized strategies for scale
-Resource Allocation
-Testing infrastructure correlates with vaccination efficiency
-Suggests importance of early healthcare system investment
-
-Challenges and Limitations
-Data Quality
-Inconsistent reporting across states
-Missing data for some periods
-Population estimates may have variations
-Technical Challenges
-Merging datasets with different date formats
-Handling large data volumes in visualization
-Implementing responsive Shiny components
-
-Future Directions
-Extended Analysis
-Include socioeconomic factors
-Analyze urban-rural disparities
-Study healthcare infrastructure impact
-Technical Enhancements
-Develop predictive models
-Create more interactive visualizations
-Include geospatial analysis
-Policy Research
-Investigate successful state policies
-Study resource allocation strategies
-Analyze healthcare worker distribution
-
-This project demonstrates the crucial relationship between testing infrastructure and vaccination success, while highlighting the importance of early healthcare system investment for pandemic response.
+**This project reveals critical insights into India's COVID-19 response, showing how testing infrastructure and vaccination programs worked together in the nation's largest public health initiative.**
 
