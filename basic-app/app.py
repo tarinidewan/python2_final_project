@@ -101,7 +101,7 @@ def server(input, output, session):
         # Plot first state
         state1_data = covid_merged[covid_merged['State'] == input.state1()]
         ax.scatter(state1_data['testing_rate'], state1_data['vaccination_rate'], 
-                  label=input.state1(), color='blue', alpha=0.6)
+                  label=input.state1(), color='teal', alpha=0.6)
         
         # Add trend line for first state
         z1 = np.polyfit(state1_data['testing_rate'], state1_data['vaccination_rate'], 1)
@@ -113,7 +113,7 @@ def server(input, output, session):
         if input.compare_states():
             state2_data = covid_merged[covid_merged['State'] == input.state2()]
             ax.scatter(state2_data['testing_rate'], state2_data['vaccination_rate'], 
-                      label=input.state2(), color='red', alpha=0.6)
+                      label=input.state2(), color='orange', alpha=0.6)
             
             # Add trend line for second state
             z2 = np.polyfit(state2_data['testing_rate'], state2_data['vaccination_rate'], 1)
