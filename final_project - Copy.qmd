@@ -235,16 +235,42 @@ plt.show()
 ## 3. Relationship between vaccination and testing
 
 ```{python}
-plt.figure(figsize=(10, 6))
+# Part A: Testing vs Vaccination Rates (in Population context)
 
+plt.figure(figsize=(12, 8))
+# Create scatter plot with point size based on population
 for state in covid_merged['State'].unique():
     state_data = covid_merged[covid_merged['State'] == state]
-    plt.scatter(state_data['testing_rate'], state_data['vaccination_rate'], label=state)
+    plt.scatter(state_data['testing_rate'], 
+                state_data['vaccination_rate'],
+                s=state_data['Projected Total Population']/500000, # Size based on population
+                alpha=0.6,
+                label=state)
 
-plt.title('Testing Rate vs Vaccination Rate')
+plt.title('Testing vs Vaccination Rates (Point Size = Population)')
 plt.xlabel('Testing Rate per 100,000 population')
 plt.ylabel('Vaccination Rate (%)')
-plt.legend(title='State', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.xlim(0, 100000)  # Set x-axis limit to 100,000
+plt.legend(bbox_to_anchor=(1.05, 1))
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
+# Part B: Patterns across different population categories
+
+plt.figure(figsize=(12, 8))
+for category in covid_merged['population_category'].unique():
+    category_data = covid_merged[covid_merged['population_category'] == category]
+    plt.scatter(category_data['testing_rate'], 
+                category_data['vaccination_rate'],
+                label=category,
+                alpha=0.6)
+
+plt.title('Testing vs Vaccination Rates by Population Category')
+plt.xlabel('Testing Rate per 100,000 population')
+plt.ylabel('Vaccination Rate (%)')
+plt.legend(title='Population Category')
 plt.grid(True)
 plt.tight_layout()
 plt.show()
