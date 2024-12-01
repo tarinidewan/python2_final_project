@@ -126,6 +126,7 @@ print(model.summary())
 ```
 
 5. Shiny app dashboard
+!("C:\Users\Shreya Work\OneDrive\Desktop\Screenshot 2024-11-30 180253.png")
 
 6. Analysis 
 
