@@ -125,8 +125,27 @@ print(model.summary())
 
 ```
 
+Correlation Analysis
+The correlation coefficient of 0.61 indicates a moderately strong positive relationship between testing and vaccination rates. This suggests that states with higher testing rates generally tend to have higher vaccination rates.
+Regression Analysis Key Findings
+Model Fit
+R-squared value of 0.373 indicates that approximately 37.3% of the variation in vaccination rates can be explained by testing rates
+The adjusted R-squared (0.370) is very close to the R-squared, suggesting the model is not overfitted
+Statistical Significance
+F-statistic of 122.6 with a p-value of 1.17e-22 indicates the model is highly statistically significant
+The testing_rate coefficient (0.0002) is significant (p < 0.001), confirming a positive relationship with vaccination rates
+Coefficient Interpretation
+Intercept of 2.7051: The expected vaccination rate when testing rate is zero
+Testing_rate coefficient of 0.0002: For each unit increase in testing rate per 100,000 population, the vaccination rate increases by 0.0002 percentage points
+Diagnostic Concerns
+The large condition number (6.51e+04) suggests potential multicollinearity issues
+The Jarque-Bera test (JB = 99.584, p < 0.001) indicates non-normal distribution of residuals
+Durbin-Watson statistic of 1.195 suggests possible positive autocorrelation
+This analysis confirms a significant positive relationship between testing and vaccination rates, though the relationship is not perfectly linear and there are some statistical concerns about the model's assumptions.
+
 5. Shiny app dashboard
-!("C:\Users\Shreya Work\OneDrive\Desktop\Screenshot 2024-11-30 180253.png")
+Insert some screenshots of dashboard
+
 
 6. Analysis 
 
