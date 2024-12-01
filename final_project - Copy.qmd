@@ -37,7 +37,6 @@ import matplotlib.pyplot as plt
 ## 1. Data cleaning
 
 ```{python}
-import pandas as pd
 
 # Load datasets
 covid_vacc = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/covid_vaccine_statewise.csv')
@@ -45,19 +44,20 @@ covid_test = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2
 population = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/state_population.csv')
 
 # Convert dates to datetime
-covid_vacc['Updated On'] = pd.to_datetime(covid_vacc['Updated On'])
+covid_vacc['Date'] = pd.to_datetime(covid_vacc['Updated On'], format='%d/%m/%Y')
 covid_test['Date'] = pd.to_datetime(covid_test['Date'])
 
-# Filter data for 2021 onwards
-covid_vacc = covid_vacc[covid_vacc['Updated On'] > '2020-12-31']
-covid_test = covid_test[covid_test['Date'] > '2020-12-31']
+# Filter data for 2021 (January to June)
+covid_vacc = covid_vacc[(covid_vacc['Date'] > '2020-12-31') & (covid_vacc['Date'] <= '2021-06-30')]
+covid_test = covid_test[(covid_test['Date'] > '2020-12-31') & (covid_test['Date'] <= '2021-06-30')]
 
 # Aggregate data to monthly level
-covid_vacc['Month'] = covid_vacc['Updated On'].dt.to_period('M')
+covid_vacc['Month'] = covid_vacc['Date'].dt.to_period('M')
 covid_test['Month'] = covid_test['Date'].dt.to_period('M')
 
-covid_vacc_monthly = covid_vacc.groupby(['State', 'Month'])['Total Individuals Vaccinated'].max().reset_index()
-covid_test_monthly = covid_test.groupby(['State', 'Month'])['TotalSamples'].max().reset_index()
+# Use last day of month value for cumulative metrics
+covid_vacc_monthly = covid_vacc.sort_values('Date').groupby(['State', 'Month'])['Total Individuals Vaccinated'].last().reset_index()
+covid_test_monthly = covid_test.sort_values('Date').groupby(['State', 'Month'])['TotalSamples'].last().reset_index()
 
 # Merge datasets
 covid_merged = pd.merge(covid_vacc_monthly, covid_test_monthly, on=['State', 'Month'], how='inner')
@@ -79,11 +79,14 @@ print(f"Number of unique states: {covid_merged['State'].nunique()}")
 
 ## 2. Exploring the data
 
+### Testing Rate and Vaccination Rate Progression
+
+
 ```{python}
 alt.data_transformers.disable_max_rows()
 
-# check distribution of testing rate
-# a. overall pattern (combined across all states)
+# testing rate
+
 import matplotlib.pyplot as plt
 
 plt.figure(figsize=(12, 6))
@@ -98,7 +101,8 @@ plt.tight_layout()
 plt.show()
 
 
-# b. state-wise (group states into bins)
+
+# vaccination progression
 plt.figure(figsize=(12, 6))
 for state in covid_merged['State'].unique():
     state_data = covid_merged[covid_merged['State'] == state]
@@ -112,7 +116,65 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
 
+```
 
+
+### Distribution of Testing Rate
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+# Part A: Overall pattern (combined across all states)
+plt.figure(figsize=(12, 6))
+plt.hist(covid_merged['testing_rate'], bins=30, edgecolor='black', alpha=0.7)
+plt.title('Overall Distribution of Testing Rates Across All States')
+plt.xlabel('Testing Rate per 100,000 population')
+plt.ylabel('Frequency')
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Part B: State-wise distribution (grouped into bins)
+# Calculate mean testing rate for each state
+state_testing = covid_merged.groupby('State')['testing_rate'].mean().reset_index()
+
+# Create testing rate bins
+bins = [0, 20000, 40000, 60000, 80000, 100000, float('inf')]
+labels = ['0-20k', '20k-40k', '40k-60k', '60k-80k', '80k-100k', '100k+']
+
+# Assign states to bins
+state_testing['rate_category'] = pd.cut(state_testing['testing_rate'], 
+                                      bins=bins, labels=labels)
+
+# Sort states by testing rate
+state_testing = state_testing.sort_values('testing_rate', ascending=False)
+
+# Create visualization for state-wise distribution
+plt.figure(figsize=(12, 6))
+plt.hist(state_testing['testing_rate'], bins=6, edgecolor='black', alpha=0.7)
+plt.title('Distribution of State-wise Average Testing Rates')
+plt.xlabel('Testing Rate per 100,000 population')
+plt.ylabel('Number of States')
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Print state categorization
+print("\nState-wise Testing Rate Categories:")
+print(state_testing[['State', 'testing_rate', 'rate_category']].to_string())
+
+# Optional: Create a bar plot showing testing rates by state
+plt.figure(figsize=(15, 8))
+sns.barplot(data=state_testing, x='State', y='testing_rate')
+plt.xticks(rotation=90)
+plt.title('Average Testing Rates by State')
+plt.xlabel('State')
+plt.ylabel('Testing Rate per 100,000 population')
+plt.tight_layout()
+plt.show()
 ```
 
 <br>
