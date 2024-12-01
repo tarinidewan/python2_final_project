@@ -119,62 +119,115 @@ plt.show()
 ```
 
 
-### Distribution of Testing Rate
+### Testing Data
 
 ```{python}
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Part A: Time-Series Analysis
 
-# Part A: Overall pattern (combined across all states)
+# Monthly testing progression
 plt.figure(figsize=(12, 6))
-plt.hist(covid_merged['testing_rate'], bins=30, edgecolor='black', alpha=0.7)
-plt.title('Overall Distribution of Testing Rates Across All States')
-plt.xlabel('Testing Rate per 100,000 population')
-plt.ylabel('Frequency')
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
+monthly_testing = covid_merged.groupby('Month')['testing_rate'].mean()
+plt.plot(monthly_testing.index.astype(str), monthly_testing.values, marker='o')
+plt.title('Average Monthly Testing Rate Across States')
+plt.xlabel('Month')
+plt.ylabel('Testing Rate per 100,000')
+plt.xticks(rotation=45)
+plt.grid(True)
 plt.show()
 
-# Part B: State-wise distribution (grouped into bins)
-# Calculate mean testing rate for each state
-state_testing = covid_merged.groupby('State')['testing_rate'].mean().reset_index()
+# Part B: Population Size vs Testing Rate
 
-# Create testing rate bins
-bins = [0, 20000, 40000, 60000, 80000, 100000, float('inf')]
-labels = ['0-20k', '20k-40k', '40k-60k', '60k-80k', '80k-100k', '100k+']
+# Create population categories
+covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], 
+                                            q=4, 
+                                            labels=['Small', 'Medium', 'Large', 'Very Large'])
 
-# Assign states to bins
-state_testing['rate_category'] = pd.cut(state_testing['testing_rate'], 
-                                      bins=bins, labels=labels)
-
-# Sort states by testing rate
-state_testing = state_testing.sort_values('testing_rate', ascending=False)
-
-# Create visualization for state-wise distribution
-plt.figure(figsize=(12, 6))
-plt.hist(state_testing['testing_rate'], bins=6, edgecolor='black', alpha=0.7)
-plt.title('Distribution of State-wise Average Testing Rates')
-plt.xlabel('Testing Rate per 100,000 population')
-plt.ylabel('Number of States')
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.show()
-
-# Print state categorization
-print("\nState-wise Testing Rate Categories:")
-print(state_testing[['State', 'testing_rate', 'rate_category']].to_string())
-
-# Optional: Create a bar plot showing testing rates by state
-plt.figure(figsize=(15, 8))
-sns.barplot(data=state_testing, x='State', y='testing_rate')
-plt.xticks(rotation=90)
-plt.title('Average Testing Rates by State')
-plt.xlabel('State')
+# Create boxplot of testing rates by population category
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=covid_merged, x='population_category', y='testing_rate')
+plt.title('Testing Rates by State Population Size')
+plt.xlabel('Population Category')
 plt.ylabel('Testing Rate per 100,000 population')
-plt.tight_layout()
+plt.grid(True, alpha=0.3)
 plt.show()
+
+# Print average testing rates by population category
+print("\nAverage Testing Rates by Population Category:")
+print(covid_merged.groupby('population_category')['testing_rate'].mean().round(2))
+
+# Population category ranges
+pop_ranges = covid_merged.groupby('population_category')['Projected Total Population'].agg(['min', 'max'])
+print("\nPopulation Category Ranges:")
+print(pop_ranges)
+
+# Part C: Testing Rate Growth
+
+# Calculate testing rate change
+testing_growth = covid_merged.groupby('State').agg({
+    'testing_rate': ['first', 'last', lambda x: (x.max() - x.min())/x.min() * 100]
+}).reset_index()
+testing_growth.columns = ['State', 'Initial_Rate', 'Final_Rate', 'Growth_Percentage']
+
+plt.figure(figsize=(12, 6))
+sns.barplot(data=testing_growth.sort_values('Growth_Percentage', ascending=False), 
+            x='State', y='Growth_Percentage')
+plt.title('Testing Rate Growth by State (%)')
+plt.xticks(rotation=90)
+plt.ylabel('Growth in Testing Rate (%)')
+plt.show()
+```
+
+### Vaccination Data
+
+```{python}
+# Part A: Temporal Analysis
+
+# Monthly vaccination progress
+plt.figure(figsize=(12, 6))
+monthly_vax = covid_merged.groupby('Month')['vaccination_rate'].mean()
+plt.plot(monthly_vax.index.astype(str), monthly_vax.values, marker='o')
+plt.title('Average Monthly Vaccination Rate Across States')
+plt.xlabel('Month')
+plt.ylabel('Vaccination Rate (%)')
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.show()
+
+# Part B: Population Size Impact
+
+# Create population categories
+covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], 
+                                            q=4, labels=['Small', 'Medium', 'Large', 'Very Large'])
+
+# Box plot of vaccination rates by population category
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=covid_merged, x='population_category', y='vaccination_rate')
+plt.title('Vaccination Rates by State Population Size')
+plt.xlabel('Population Category')
+plt.ylabel('Vaccination Rate (%)')
+plt.show()
+
+# Part C: Vaccination Efficiency
+
+# Calculate vaccination rate change
+vax_efficiency = covid_merged.groupby('State').agg({
+    'vaccination_rate': ['first', 'last', lambda x: x.max() - x.min()]
+}).reset_index()
+vax_efficiency.columns = ['State', 'Initial_Rate', 'Final_Rate', 'Rate_Change']
+
+# Plot vaccination rate change
+plt.figure(figsize=(12, 6))
+sns.barplot(data=vax_efficiency.sort_values('Rate_Change', ascending=False), 
+            x='State', y='Rate_Change')
+plt.title('Vaccination Rate Change by State')
+plt.xticks(rotation=90)
+plt.ylabel('Change in Vaccination Rate (%)')
+plt.show()
+
 ```
 
 <br>
@@ -212,6 +265,11 @@ print(f"Correlation between testing rate and vaccination rate: {correlation:.2f}
 # Regression analysis
 model = ols('vaccination_rate ~ testing_rate', data=covid_merged).fit()
 print(model.summary())
+
+# Create correlation matrix
+correlation_vars = ['vaccination_rate', 'testing_rate', 'Projected Total Population']
+correlation_matrix = covid_merged[correlation_vars].corr()
+
 
 ```
 
