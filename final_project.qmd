@@ -50,19 +50,115 @@ covid_final = covid_merged.to_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2
 2. Exploring the data
 
 ```{python}
+state_month = covid_merged.groupby(['State', 'Month'])[['TotalSamples', 'tot_vacc']].sum().reset_index()
+```
+
+
+```{python}
+
+import numpy as np
+import regex as re
+
 alt.data_transformers.disable_max_rows()
 
-# check distribution of testing rate
-# a. overall pattern (combined across all states)
+min_val = state_month['TotalSamples'].min()
+max_val = state_month['TotalSamples'].max()
 
-# b. state-wise (group states into bins)
+# Define 20 bins starting from 0
+bin_edges = np.linspace(0, max_val, 11)  # 21 edges for 20 bins
+bins = pd.DataFrame(pd.cut(state_month['TotalSamples'], bins=bin_edges))
+bins['counter'] = 1
+bins = bins.groupby('TotalSamples')['counter'].sum().reset_index()
 
+def simplify_number(num):
+    num = float(num)  # Ensure it's a float
+    if num >= 1e9:
+        return f"{num/1e9:.1f}B"  # Billions
+    elif num >= 1e6:
+        return f"{num/1e6:.1f}M"  # Millions
+    elif num >= 1e3:
+        return f"{num/1e3:.1f}K"  # Thousands
+    else:
+        return f"{num:.1f}"  # Keep it simple for smaller numbers
+
+# Function to clean up the range string
+def clean_range_string(range_str):
+    # Extract numbers using regex
+    numbers = re.findall(r"[-+]?\d*\.\d+|\d+", range_str)
+    if len(numbers) == 2:
+        simplified_range = f"{simplify_number(numbers[0])} - {simplify_number(numbers[1])}"
+        return simplified_range
+    return range_str  # Fallback if format is unexpected
+
+bins['TotalSamples'] = bins['TotalSamples'].astype(str)
+# Apply cleaning to the TotalSamples column
+bins['TotalSamples'] = bins['TotalSamples'].apply(clean_range_string)
+
+
+# check distribution of total testing samples
+# over months (all states combined)
+hist_chart = alt.Chart(bins).mark_bar().encode(
+    x=alt.X('TotalSamples:N', title='Total Samples', sort=None),
+    y=alt.Y('counter:Q', title='Counter')
+).properties(
+    title='Histogram of Total Samples vs Counter',
+    width=600,
+    height=400
+)
+hist_chart
+# check distribution of total vaccinations
+min_val = state_month['tot_vacc'].min()
+max_val = state_month['tot_vacc'].max()
+
+# Define 20 bins starting from 0
+bin_edges = np.linspace(0, max_val, 11)  # 21 edges for 20 bins
+bins = pd.DataFrame(pd.cut(state_month['tot_vacc'], bins=bin_edges))
+bins['counter'] = 1
+bins = bins.groupby('tot_vacc')['counter'].sum().reset_index()
+
+bins['tot_vacc'] = bins['tot_vacc'].astype(str)
+# Apply cleaning to the TotalSamples column
+bins['tot_vacc'] = bins['tot_vacc'].apply(clean_range_string)
+
+
+# check distribution of total testing samples
+# over months (all states combined)
+hist_chart = alt.Chart(bins).mark_bar().encode(
+    x=alt.X('tot_vacc:N', title='Total Vacc', sort=None),
+    y=alt.Y('counter:Q', title='Counter')
+).properties(
+    title='Histogram of Total Vacc vs Counter',
+    width=600,
+    height=400
+)
+hist_chart
+# scatter plot between testing sample and vaccinations
+scatter_plot = alt.Chart(state_month).mark_circle(size=60).encode(
+    x=alt.X('TotalSamples:Q', title='Total Samples'),
+    y=alt.Y('tot_vacc:Q', title='Total Vaccinations')
+).properties(
+    title='Scatter Plot of TotalSamples vs tot_vacc',
+    width=600,
+    height=400
+)
+
+# Display the chart
+scatter_plot
+```
+```{python}
+# missing values for each by state and month
+
+
+# basic descriptive stats by state and month
 ```
 
 3. Relationship between vaccination and testing
 
 ```{python}
+# without fixed effects
 model = ols('tot_vacc ~ TotalSamples', data = covid_merged)
 result = model.fit()
 print(result.summary())
+
+# with fixed effects
 ```
