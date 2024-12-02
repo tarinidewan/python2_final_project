@@ -3,9 +3,9 @@
 
 **Team Members**
 
-[Student Name 1] (GitHub: @username1) 
+Shreya Shravini (GitHub: @shreyashravini) 
 
-[Student Name 2] (GitHub: @username2) 
+Tarini Dewan (GitHub: @tarinidewan) 
 
 <br>
 
@@ -19,7 +19,8 @@ We utilized three primary datasets:
 
 1. COVID-19 vaccination data (state-wise)
 2. Testing details by state
-3. State population projections for 2020
+3. State population projections for 2020 from UDAI
+4. Hospitals in India in 2018 from Ministry of Health and Family Welfare
 
 <br>
 
@@ -30,6 +31,7 @@ import altair as alt
 import statsmodels as sm
 from statsmodels.formula.api import ols
 import matplotlib.pyplot as plt
+import seaborn as sns
 ```
 
 <br>
@@ -37,42 +39,82 @@ import matplotlib.pyplot as plt
 ## 1. Data cleaning
 
 ```{python}
+# load datasets
+covid_vacc = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_vaccine_statewise.csv') # MODIFY PATH ACCORDINGLY
+covid_test = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/StatewiseTestingDetails.csv') # MODIFY PATH ACCORDINGLY
+population = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/state_population.csv') # MODIFY PATH ACCORDINGLY
 
-# Load datasets
-covid_vacc = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/covid_vaccine_statewise.csv')
-covid_test = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/StatewiseTestingDetails.csv')
-population = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/state_population.csv')
-
-# Convert dates to datetime
+# convert dates to datetime
 covid_vacc['Date'] = pd.to_datetime(covid_vacc['Updated On'], format='%d/%m/%Y')
-covid_test['Date'] = pd.to_datetime(covid_test['Date'])
+covid_test['Date'] = pd.to_datetime(covid_test['Date'], format='mixed')
 
-# Filter data for 2021 (January to June)
-covid_vacc = covid_vacc[(covid_vacc['Date'] > '2020-12-31') & (covid_vacc['Date'] <= '2021-06-30')]
-covid_test = covid_test[(covid_test['Date'] > '2020-12-31') & (covid_test['Date'] <= '2021-06-30')]
+# find number of missing values in each column
+print('covid_vacc missing rates')
+for col in covid_vacc.columns:
+    missing_rate = round(100*(covid_vacc[col].isna().sum())/len(covid_vacc), 2)
+    print(col, ': ', missing_rate) # variable of interest = Total Doses Administered
 
-# Aggregate data to monthly level
-covid_vacc['Month'] = covid_vacc['Date'].dt.to_period('M')
-covid_test['Month'] = covid_test['Date'].dt.to_period('M')
+# rename Total Doses Administered variable
+covid_vacc = covid_vacc.rename(columns={'Total Doses Administered': 'total_doses'})
 
-# Use last day of month value for cumulative metrics
-covid_vacc_monthly = covid_vacc.sort_values('Date').groupby(['State', 'Month'])['Total Individuals Vaccinated'].last().reset_index()
-covid_test_monthly = covid_test.sort_values('Date').groupby(['State', 'Month'])['TotalSamples'].last().reset_index()
+# drop missing values in total doses
+covid_vacc = covid_vacc[~covid_vacc['total_doses'].isna()]
+
+# sort values by state and date
+covid_vacc = covid_vacc.sort_values(['State', 'Date'])
+
+# total doses is monotonically increasing as a result of being a cumulative sum; finding daily dose values
+covid_vacc['lagged_value'] = covid_vacc.groupby('State')['total_doses'].shift(1)
+covid_vacc['lagged_value'] = covid_vacc['lagged_value'].fillna(0)
+covid_vacc['total_doses_day'] = covid_vacc['total_doses'] - covid_vacc['lagged_value']
+covid_vacc = covid_vacc[covid_vacc['total_doses_day']>=0] # this leads to some negative data which is erroneous (likely poor data collection); drop these rows (note: there is a pattern here as most of the negative values are on Mar 9, 2021, Feb 18, 2021, etc.)
+
+print('\n')
+
+print('covid_test missing rates')
+for col in covid_test.columns:
+    missing_rate = round(100*(covid_test[col].isna().sum())/len(covid_test), 2)
+    print(col, ': ', missing_rate) # variable of interest = TotalSamples
+
+# total testing samples is also monotonically increasing as a result of being a cumulative sum; finding daily testing values
+covid_test = covid_test.sort_values(['State', 'Date'])
+covid_test['lagged_value'] = covid_test.groupby('State')['TotalSamples'].shift(1)
+covid_test['lagged_value'] = covid_test['lagged_value'].fillna(0)
+covid_test['total_samples_day'] = covid_test['TotalSamples'] - covid_test['lagged_value']
+covid_test = covid_test[covid_test['total_samples_day']>=0] # this leads to some negative data which is erroneous (likely poor data collection); drop these rows
+
+# Drop dates before 2021 (vaccination rollout only began in 2021)
+covid_vacc = covid_vacc[(covid_vacc['Date'] > '2020-12-31')] #& (covid_vacc['Date'] <= '2021-06-30')]
+covid_test = covid_test[(covid_test['Date'] > '2020-12-31')] #& (covid_test['Date'] <= '2021-06-30')]
+
+# Aggregate data to monthly level (instead of daily)
+covid_vacc['Month'] = covid_vacc['Date'].dt.strftime('%m').astype(int) 
+covid_test['Month'] = covid_test['Date'].dt.strftime('%m').astype(int)
+
+# group data by state and month
+covid_vacc_monthly = covid_vacc.sort_values('Date').groupby(['State', 'Month'])['total_doses_day'].sum().reset_index()
+covid_test_monthly = covid_test.sort_values('Date').groupby(['State', 'Month'])['total_samples_day'].sum().reset_index()
 
 # Merge datasets
 covid_merged = pd.merge(covid_vacc_monthly, covid_test_monthly, on=['State', 'Month'], how='inner')
 covid_merged = pd.merge(covid_merged, population, on='State', how='left')
 
 # Calculate testing and vaccination rates
-covid_merged['testing_rate'] = covid_merged['TotalSamples'] / covid_merged['Projected Total Population'] * 100000
-covid_merged['vaccination_rate'] = covid_merged['Total Individuals Vaccinated'] / covid_merged['Projected Total Population'] * 100
+covid_merged['testing_rate'] = 100*(covid_merged['total_samples_day'] / covid_merged['Projected Total Population'])
+covid_merged['vaccination_rate'] = 100*(covid_merged['total_doses_day'] / covid_merged['Projected Total Population'])
+
+# check that the merged dataset has 36 states
+print(covid_merged['State'].nunique())
+
+# find missing state
+for state in list(covid_vacc['State'].unique()):
+    if state not in list(covid_test['State'].unique()):
+        print('Missing state: ', state) # Dadra and Nagar Haveli and Daman and Diu
 
 # Save the merged dataset
-covid_merged.to_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/covid_final_copy.csv', index=False)
+#covid_final = covid_merged.to_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_final.csv') # MODIFY PATH ACCORDINGLY
 
 print(covid_merged.head())
-print(f"Number of unique states: {covid_merged['State'].nunique()}")
-
 ```
 
 <br>
@@ -81,91 +123,127 @@ print(f"Number of unique states: {covid_merged['State'].nunique()}")
 
 ### Testing Rate and Vaccination Rate Progression
 
-
 ```{python}
 alt.data_transformers.disable_max_rows()
 
 # testing rate
+boxplot_test = alt.Chart(covid_merged).mark_boxplot().encode(
+    x=alt.X('State:N', title='State', axis=alt.Axis(labelAngle=270)),
+    y=alt.Y('testing_rate:Q', title='Testing Rate')
+).properties(
+    title='Distribution of Testing Rates by State',
+)
 
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(12, 6))
-plt.boxplot([covid_merged[covid_merged['State'] == state]['testing_rate'] for state in covid_merged['State'].unique()],
-            labels=covid_merged['State'].unique())
-plt.title('Distribution of Testing Rates by State')
-plt.xlabel('State')
-plt.ylabel('Testing Rate per 100,000 population')
-plt.xticks(rotation=90)
-plt.grid(axis='y')
-plt.tight_layout()
-plt.show()
-
-
+boxplot_test
 
 # vaccination progression
-plt.figure(figsize=(12, 6))
-for state in covid_merged['State'].unique():
-    state_data = covid_merged[covid_merged['State'] == state]
-    plt.plot(state_data['Month'].astype(str), state_data['vaccination_rate'], label=state)
+boxplot_vacc = alt.Chart(covid_merged).mark_boxplot().encode(
+    x=alt.X('State:N', title='State', axis=alt.Axis(labelAngle=270)),
+    y=alt.Y('vaccination_rate:Q', title='Vaccination Rate')
+).properties(
+    title='Distribution of Vaccination Rates by State',
+)
 
-plt.title('Vaccination Progress by State Over Time')
-plt.xlabel('Month')
-plt.ylabel('Vaccination Rate (%)')
-plt.legend(title='State', bbox_to_anchor=(1.05, 1), loc='upper left')
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
+boxplot_vacc
 
+# show both plots together
+combined_plot = alt.vconcat(
+    boxplot_test, 
+    boxplot_vacc
+).resolve_scale(
+    y='shared'
+)
+
+combined_plot
 ```
-
 
 ### Testing Data
 
 ```{python}
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 # Part A: Time-Series Analysis
 
 # Monthly testing progression
-plt.figure(figsize=(12, 6))
-monthly_testing = covid_merged.groupby('Month')['testing_rate'].mean()
-plt.plot(monthly_testing.index.astype(str), monthly_testing.values, marker='o')
-plt.title('Average Monthly Testing Rate Across States')
-plt.xlabel('Month')
-plt.ylabel('Testing Rate per 100,000')
-plt.xticks(rotation=45)
-plt.grid(True)
-plt.show()
+#plt.figure(figsize=(12, 6))
+#monthly_testing = covid_merged.groupby('Month')['testing_rate'].mean()
+#plt.plot(monthly_testing.index.astype(str), monthly_testing.values, marker='o')
+#plt.title('Average Monthly Testing Rate Across States')
+#plt.xlabel('Month')
+#plt.ylabel('Testing Rate per 100,000')
+#plt.xticks(rotation=45)
+#plt.grid(True)
+#plt.show()
 
-# Part B: Population Size vs Testing Rate
+# covid testing (absolute) over months for all states combined
+test_time = covid_merged.groupby('Month')['total_samples_day'].sum().reset_index()
+
+line = alt.Chart(test_time).mark_line().encode(
+    x=alt.X('Month:O', title='Month'),
+    y=alt.Y('total_samples_day:Q', title='Testing')
+).properties(
+    title=' Covid Testing over Time (All States Combined)',
+    width=600,
+    height=400
+)
+
+# vaccination administration (absolute) over months for all states combined
+vacc_time = covid_merged.groupby('Month')['total_doses_day'].sum().reset_index()
+
+line2 = alt.Chart(vacc_time).mark_line(color='orange').encode(
+    x=alt.X('Month:O', title='Month'),
+    y=alt.Y('total_doses_day:Q', title='Vaccination')
+).properties(
+    title='Covid Vaccination over Time (All States Combined)',
+    width=600,
+    height=400
+)
+
+# adding a metric column to each dataset
+test_time['Metric'] = 'Testing'
+vacc_time['Metric'] = 'Vaccination'
+
+# combining the two datasets
+combined_time = pd.concat([test_time.rename(columns={'total_samples_day': 'Value'}),
+    vacc_time.rename(columns={'total_doses_day': 'Value'})])
+combined_time['Value'] = combined_time['Value']/1000000 # dividing by million
+
+# creating a combined chart for testing and vaccination progression over time
+combined_chart = alt.Chart(combined_time).mark_line().encode(
+    x=alt.X('Month:O', title='Month'),
+    y=alt.Y('Value:Q', title='Count (in millions)'),
+    color=alt.Color('Metric:N', title='Metric')
+).properties(
+    title='Testing and Vaccination Over Time (All States Combined)',
+    width=600,
+    height=400
+)
+
+combined_chart
 
 # Create population categories
-covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], 
-                                            q=4, 
-                                            labels=['Small', 'Medium', 'Large', 'Very Large'])
-
-# Create boxplot of testing rates by population category
-plt.figure(figsize=(10, 6))
-sns.boxplot(data=covid_merged, x='population_category', y='testing_rate')
-plt.title('Testing Rates by State Population Size')
-plt.xlabel('Population Category')
-plt.ylabel('Testing Rate per 100,000 population')
-plt.grid(True, alpha=0.3)
-plt.show()
-
-# Print average testing rates by population category
-print("\nAverage Testing Rates by Population Category:")
-print(covid_merged.groupby('population_category')['testing_rate'].mean().round(2))
-
-# Population category ranges
-pop_ranges = covid_merged.groupby('population_category')['Projected Total Population'].agg(['min', 'max'])
-print("\nPopulation Category Ranges:")
-print(pop_ranges)
-
-# Part C: Testing Rate Growth
-
+#covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], 
+#                                            q=4, 
+#                                            labels=['Small', 'Medium', 'Large', 'Very Large'])
+#
+## Create boxplot of testing rates by population category
+#plt.figure(figsize=(10, 6))
+#sns.boxplot(data=covid_merged, x='population_category', y='testing_rate')
+#plt.title('Testing Rates by State Population Size')
+#plt.xlabel('Population Category')
+#plt.ylabel('Testing Rate per 100,000 population')
+#plt.grid(True, alpha=0.3)
+#plt.show()
+#
+## Print average testing rates by population category
+#print("\nAverage Testing Rates by Population Category:")
+#print(covid_merged.groupby('population_category')['testing_rate'].mean().round(2))
+#
+## Population category ranges
+#pop_ranges = covid_merged.groupby('population_category')['Projected Total Population'].agg(['min', 'max'])
+#print("\nPopulation Category Ranges:")
+#print(pop_ranges)
+#
+## Part C: Testing Rate Growth
+#
 # Calculate testing rate change
 testing_growth = covid_merged.groupby('State').agg({
     'testing_rate': ['first', 'last', lambda x: (x.max() - x.min())/x.min() * 100]
@@ -187,29 +265,29 @@ plt.show()
 # Part A: Temporal Analysis
 
 # Monthly vaccination progress
-plt.figure(figsize=(12, 6))
-monthly_vax = covid_merged.groupby('Month')['vaccination_rate'].mean()
-plt.plot(monthly_vax.index.astype(str), monthly_vax.values, marker='o')
-plt.title('Average Monthly Vaccination Rate Across States')
-plt.xlabel('Month')
-plt.ylabel('Vaccination Rate (%)')
-plt.xticks(rotation=45)
-plt.grid(True)
-plt.show()
-
-# Part B: Population Size Impact
-
-# Create population categories
-covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], 
-                                            q=4, labels=['Small', 'Medium', 'Large', 'Very Large'])
-
-# Box plot of vaccination rates by population category
-plt.figure(figsize=(10, 6))
-sns.boxplot(data=covid_merged, x='population_category', y='vaccination_rate')
-plt.title('Vaccination Rates by State Population Size')
-plt.xlabel('Population Category')
-plt.ylabel('Vaccination Rate (%)')
-plt.show()
+#plt.figure(figsize=(12, 6))
+#monthly_vax = covid_merged.groupby('Month')['vaccination_rate'].mean()
+#plt.plot(monthly_vax.index.astype(str), monthly_vax.values, marker='o')
+#plt.title('Average Monthly Vaccination Rate Across States')
+#plt.xlabel('Month')
+#plt.ylabel('Vaccination Rate (%)')
+#plt.xticks(rotation=45)
+#plt.grid(True)
+#plt.show()
+#
+## Part B: Population Size Impact
+#
+## Create population categories
+#covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], 
+#                                            q=4, labels=['Small', 'Medium', 'Large', 'Very Large'])
+#
+## Box plot of vaccination rates by population category
+#plt.figure(figsize=(10, 6))
+#sns.boxplot(data=covid_merged, x='population_category', y='vaccination_rate')
+#plt.title('Vaccination Rates by State Population Size')
+#plt.xlabel('Population Category')
+#plt.ylabel('Vaccination Rate (%)')
+#plt.show()
 
 # Part C: Vaccination Efficiency
 
@@ -227,7 +305,6 @@ plt.title('Vaccination Rate Change by State')
 plt.xticks(rotation=90)
 plt.ylabel('Change in Vaccination Rate (%)')
 plt.show()
-
 ```
 
 <br>
@@ -237,44 +314,84 @@ plt.show()
 ```{python}
 # Part A: Testing vs Vaccination Rates (in Population context)
 
-plt.figure(figsize=(12, 8))
-# Create scatter plot with point size based on population
-for state in covid_merged['State'].unique():
-    state_data = covid_merged[covid_merged['State'] == state]
-    plt.scatter(state_data['testing_rate'], 
-                state_data['vaccination_rate'],
-                s=state_data['Projected Total Population']/500000, # Size based on population
-                alpha=0.6,
-                label=state)
+#plt.figure(figsize=(12, 8))
+## Create scatter plot with point size based on population
+#for state in covid_merged['State'].unique():
+#    state_data = covid_merged[covid_merged['State'] == state]
+#    plt.scatter(state_data['testing_rate'], 
+#                state_data['vaccination_rate'],
+#                s=state_data['Projected Total Population']/500000, # Size based on population
+#                alpha=0.6,
+#                label=state)
+#
+#plt.title('Testing vs Vaccination Rates (Point Size = Population)')
+#plt.xlabel('Testing Rate per 100,000 population')
+#plt.ylabel('Vaccination Rate (%)')
+#plt.xlim(0, 100000)  # Set x-axis limit to 100,000
+#plt.legend(bbox_to_anchor=(1.05, 1))
+#plt.grid(True)
+#plt.tight_layout()
+#plt.show()
 
-plt.title('Testing vs Vaccination Rates (Point Size = Population)')
-plt.xlabel('Testing Rate per 100,000 population')
-plt.ylabel('Vaccination Rate (%)')
-plt.xlim(0, 100000)  # Set x-axis limit to 100,000
-plt.legend(bbox_to_anchor=(1.05, 1))
-plt.grid(True)
-plt.tight_layout()
-plt.show()
+# abs
+scatter_abs = alt.Chart(covid_merged).mark_circle().encode(
+    x=alt.X('total_samples_day', title='Testing Samples'),
+    y=alt.Y('total_doses_day', title='Vaccination Doses')
+).properties(
+    title='Relationship Between Covid Testing and Vaccination',
+    width=600,
+    height=400
+)
+
+scatter_abs
+
+# pct
+state_agg = covid_merged.groupby('State', as_index=False).agg({
+    'testing_rate': 'mean',
+    'vaccination_rate': 'mean'
+})
 
 
+scatter_pct = alt.Chart(state_agg).mark_circle().encode(
+    x=alt.X('testing_rate', title='Average Testing Rate'),
+    y=alt.Y('vaccination_rate', title='Average Vaccination Rate')
+).properties(
+    title='Relationship Between Testing Rate and Vaccination Rate by State in India',
+    width=600,
+    height=400
+)
+
+scatter_pct
+
+text = alt.Chart(state_agg).mark_text(
+    align='left',
+    #dx=5,  # Offset the text position
+    #dy=-5  # Offset the text position
+    fontSize=5
+).encode(
+    x='testing_rate',
+    y='vaccination_rate',
+    text='State'
+)
+
+scatter_pct + text
 # Part B: Patterns across different population categories
 
-plt.figure(figsize=(12, 8))
-for category in covid_merged['population_category'].unique():
-    category_data = covid_merged[covid_merged['population_category'] == category]
-    plt.scatter(category_data['testing_rate'], 
-                category_data['vaccination_rate'],
-                label=category,
-                alpha=0.6)
-
-plt.title('Testing vs Vaccination Rates by Population Category')
-plt.xlabel('Testing Rate per 100,000 population')
-plt.ylabel('Vaccination Rate (%)')
-plt.legend(title='Population Category')
-plt.grid(True)
-plt.tight_layout()
-plt.show()
-
+#plt.figure(figsize=(12, 8))
+#for category in covid_merged['population_category'].unique():
+#    category_data = covid_merged[covid_merged['population_category'] == category]
+#    plt.scatter(category_data['testing_rate'], 
+#                category_data['vaccination_rate'],
+#                label=category,
+#                alpha=0.6)
+#
+#plt.title('Testing vs Vaccination Rates by Population Category')
+#plt.xlabel('Testing Rate per 100,000 population')
+#plt.ylabel('Vaccination Rate (%)')
+#plt.legend(title='Population Category')
+#plt.grid(True)
+#plt.tight_layout()
+#plt.show()
 ```
 
 <br>
@@ -282,21 +399,43 @@ plt.show()
 ## 4. Correlation and regression analysis
 
 ```{python}
-from statsmodels.formula.api import ols
-
 # Correlation analysis
-correlation = covid_merged[['testing_rate', 'vaccination_rate']].corr().iloc[0, 1]
-print(f"Correlation between testing rate and vaccination rate: {correlation:.2f}")
+#correlation = covid_merged[['testing_rate', 'vaccination_rate']].corr().iloc[0, 1]
+#print(f"Correlation between testing rate and vaccination rate: {correlation:.2f}")
 
 # Regression analysis
-model = ols('vaccination_rate ~ testing_rate', data=covid_merged).fit()
+model = ols('vaccination_rate ~ testing_rate + C(State)', data=covid_merged).fit() # with state fixed effects
 print(model.summary())
 
 # Create correlation matrix
 correlation_vars = ['vaccination_rate', 'testing_rate', 'Projected Total Population']
 correlation_matrix = covid_merged[correlation_vars].corr()
+correlation_matrix
+```
 
+```{python}
+# adding hospital data as a proxy for infrastructure
+hospital = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/Hospital_India.csv')
 
+# rename columns and rows in the hospital dataset that use '&'
+hospital = hospital.rename(columns={'State/UT/India': 'State'})
+hospital = hospital.rename(columns={'No. of beds available in public facilities': 'num_beds'})
+hospital = hospital.rename(index={'Andaman & Nicobar Islands': 'Andaman and Nicobar Islands'})
+hospital['State'] = hospital['State'].replace('Andaman & Nicobar Islands', 'Andaman and Nicobar Islands').replace('Jammu & Kashmir', 'Jammu and Kashmir')
+
+# merge this with our main covid_merged dataset
+covid_merged = pd.merge(covid_merged, hospital, on='State', how='left')
+```
+
+```{python}
+covid_merged['num_beds'] = pd.to_numeric(covid_merged['num_beds'], errors='coerce')
+covid_merged['Total'] = pd.to_numeric(covid_merged['Total'], errors='coerce')
+
+# Regression analysis
+model_hosp = ols('vaccination_rate ~ testing_rate + Total + testing_rate:Total + C(State)', 
+    data=covid_merged
+).fit()
+print(model_hosp.summary())
 ```
 
 <br>
