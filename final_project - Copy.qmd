@@ -21,6 +21,8 @@ We utilized three primary datasets:
 2. Testing details by state
 3. State population projections for 2020 from UDAI
 4. Hospitals in India in 2018 from Ministry of Health and Family Welfare
+5. State-wise per capita income for 2021 from RBI
+6. State-wise HDI data for 2022 from UNDP Global Lab
 
 <br>
 
@@ -97,7 +99,7 @@ covid_test_monthly = covid_test.sort_values('Date').groupby(['State', 'Month'])[
 
 # Merge datasets
 covid_merged = pd.merge(covid_vacc_monthly, covid_test_monthly, on=['State', 'Month'], how='inner')
-covid_merged = pd.merge(covid_merged, population, on='State', how='left')
+covid_merged = pd.merge(covid_merged, population, on='State', how='inner')
 
 # Calculate testing and vaccination rates
 covid_merged['testing_rate'] = 100*(covid_merged['total_samples_day'] / covid_merged['Projected Total Population'])
@@ -135,6 +137,7 @@ boxplot_test = alt.Chart(covid_merged).mark_boxplot().encode(
 )
 
 boxplot_test
+boxplot_test.save('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/boxplot_test.png', scale_factor=3)
 
 # vaccination progression
 boxplot_vacc = alt.Chart(covid_merged).mark_boxplot().encode(
@@ -145,16 +148,14 @@ boxplot_vacc = alt.Chart(covid_merged).mark_boxplot().encode(
 )
 
 boxplot_vacc
-
-# show both plots together
-combined_plot = alt.vconcat(
-    boxplot_test, 
-    boxplot_vacc
-).resolve_scale(
-    y='shared'
-)
-
-combined_plot
+boxplot_vacc.save('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/boxplot_vacc.png', scale_factor=3)
+## show both plots together
+#combined_plot = alt.vconcat(
+#    boxplot_test, 
+#    boxplot_vacc
+#)
+#
+#combined_plot
 ```
 
 ### Testing Data
@@ -218,6 +219,7 @@ combined_chart = alt.Chart(combined_time).mark_line().encode(
 )
 
 combined_chart
+combined_chart.save('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/combined_line_chart.png', scale_factor=3)
 
 # Create population categories
 #covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], 
@@ -244,19 +246,19 @@ combined_chart
 #
 ## Part C: Testing Rate Growth
 #
-# Calculate testing rate change
-testing_growth = covid_merged.groupby('State').agg({
-    'testing_rate': ['first', 'last', lambda x: (x.max() - x.min())/x.min() * 100]
-}).reset_index()
-testing_growth.columns = ['State', 'Initial_Rate', 'Final_Rate', 'Growth_Percentage']
-
-plt.figure(figsize=(12, 6))
-sns.barplot(data=testing_growth.sort_values('Growth_Percentage', ascending=False), 
-            x='State', y='Growth_Percentage')
-plt.title('Testing Rate Growth by State (%)')
-plt.xticks(rotation=90)
-plt.ylabel('Growth in Testing Rate (%)')
-plt.show()
+## Calculate testing rate change
+#testing_growth = covid_merged.groupby('State').agg({
+#    'testing_rate': ['first', 'last', lambda x: (x.max() - x.min())/x.min() * 100]
+#}).reset_index()
+#testing_growth.columns = ['State', 'Initial_Rate', 'Final_Rate', 'Growth_Percentage']
+#
+#plt.figure(figsize=(12, 6))
+#sns.barplot(data=testing_growth.sort_values('Growth_Percentage', ascending=False), 
+#            x='State', y='Growth_Percentage')
+#plt.title('Testing Rate Growth by State (%)')
+#plt.xticks(rotation=90)
+#plt.ylabel('Growth in Testing Rate (%)')
+#plt.show()
 ```
 
 ### Vaccination Data
@@ -292,19 +294,19 @@ plt.show()
 # Part C: Vaccination Efficiency
 
 # Calculate vaccination rate change
-vax_efficiency = covid_merged.groupby('State').agg({
-    'vaccination_rate': ['first', 'last', lambda x: x.max() - x.min()]
-}).reset_index()
-vax_efficiency.columns = ['State', 'Initial_Rate', 'Final_Rate', 'Rate_Change']
-
-# Plot vaccination rate change
-plt.figure(figsize=(12, 6))
-sns.barplot(data=vax_efficiency.sort_values('Rate_Change', ascending=False), 
-            x='State', y='Rate_Change')
-plt.title('Vaccination Rate Change by State')
-plt.xticks(rotation=90)
-plt.ylabel('Change in Vaccination Rate (%)')
-plt.show()
+#vax_efficiency = covid_merged.groupby('State').agg({
+#    'vaccination_rate': ['first', 'last', lambda x: x.max() - x.min()]
+#}).reset_index()
+#vax_efficiency.columns = ['State', 'Initial_Rate', 'Final_Rate', 'Rate_Change']
+#
+## Plot vaccination rate change
+#plt.figure(figsize=(12, 6))
+#sns.barplot(data=vax_efficiency.sort_values('Rate_Change', ascending=False), 
+#            x='State', y='Rate_Change')
+#plt.title('Vaccination Rate Change by State')
+#plt.xticks(rotation=90)
+#plt.ylabel('Change in Vaccination Rate (%)')
+#plt.show()
 ```
 
 <br>
@@ -375,6 +377,37 @@ text = alt.Chart(state_agg).mark_text(
 )
 
 scatter_pct + text
+
+
+scatter = alt.Chart(covid_merged).mark_circle(size=60).encode(
+    x=alt.X('testing_rate', 
+            title='Testing Rate',
+            scale=alt.Scale(zero=True)),
+    y=alt.Y('vaccination_rate', 
+            title='Vaccination Rate',
+            scale=alt.Scale(zero=True)),
+    color=alt.Color('State:N', legend=None)
+).properties(
+    width=600,
+    height=400,
+    title='Relationship between Testing and Vaccination Rates across Indian States'
+)
+
+scatter
+
+trend_line = alt.Chart(covid_merged).mark_line(
+    color='red',
+    strokeDash=[5,5]  # Creates a dashed line
+).transform_regression(
+    'testing_rate', 'vaccination_rate'
+).encode(
+    x='testing_rate',
+    y='vaccination_rate'
+)
+
+scatter + trend_line
+
+combined_chart.save('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/combined_line_chart.png', scale_factor=3)
 # Part B: Patterns across different population categories
 
 #plt.figure(figsize=(12, 8))
@@ -392,6 +425,78 @@ scatter_pct + text
 #plt.grid(True)
 #plt.tight_layout()
 #plt.show()
+```
+
+```{python}
+# adding hospital data as a proxy for infrastructure
+hospital = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/Hospital_India.csv')
+
+# rename columns and rows in the hospital dataset that use '&'
+hospital = hospital.rename(columns={'State/UT/India': 'State'})
+hospital = hospital.rename(columns={'No. of beds available in public facilities': 'num_beds'})
+hospital['State'] = hospital['State'].replace('Andaman & Nicobar Islands', 'Andaman and Nicobar Islands').replace('Jammu & Kashmir', 'Jammu and Kashmir')
+
+# merge this with our main covid_merged dataset
+covid_merged = pd.merge(covid_merged, hospital, on='State', how='inner')
+
+# change # of beds and # of hospitals variable to numeric
+covid_merged['num_beds'] = pd.to_numeric(covid_merged['num_beds'], errors='coerce')
+covid_merged['total_hosp'] = pd.to_numeric(covid_merged['Total'], errors='coerce')
+```
+
+```{python}
+covid_merged['hosp_per_capita'] = covid_merged['total_hosp']/covid_merged['Projected Total Population']
+covid_merged['Hospital_Category'] = pd.qcut(covid_merged['hosp_per_capita'], q=3, labels=['Low', 'Medium', 'High'])
+
+# scatter plot of testing vs vaccination rate by # of hospitals
+scatter_hosp = alt.Chart(covid_merged).mark_circle(size=60).encode(
+    x=alt.X('testing_rate', 
+            title='Testing Rate',
+            scale=alt.Scale(zero=True)),
+    y=alt.Y('vaccination_rate', 
+            title='Vaccination Rate',
+            scale=alt.Scale(zero=True)),
+    color=alt.Color('Hospital_Category:N')
+).properties(
+    width=600,
+    height=400,
+    title='Relationship between Testing and Vaccination Rates across Indian States (by # of Hospitals Per Capita)'
+)
+
+scatter_hosp
+scatter_hosp.save('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/scatter_hosp.png', scale_factor=3)
+```
+
+```{python}
+# testing vs vaccination by HDI 
+
+# load the HDI data
+hdi = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/hdi_india_state.csv')
+
+# create categories for HDI rank based on UNDP classifications; anything lower than India avg is low
+hdi['HDI_Category'] = hdi['HDI'].apply(lambda x: 'High' if x>=0.7 else ('Medium' if x>0.644 else 'Low'))
+hdi['State'] = hdi['State'].replace('Chhatisgarh', 'Chhattisgarh')
+
+# merge HDI with merged data
+covid_merged_hdi = pd.merge(covid_merged, hdi, on='State', how='inner')
+
+# scatter plot of testing vs vaccination rate by HDI rank
+scatter_hdi = alt.Chart(covid_merged_hdi).mark_circle(size=60).encode(
+    x=alt.X('testing_rate', 
+            title='Testing Rate',
+            scale=alt.Scale(zero=True)),
+    y=alt.Y('vaccination_rate', 
+            title='Vaccination Rate',
+            scale=alt.Scale(zero=True)),
+    color=alt.Color('HDI_Category:N')
+).properties(
+    width=600,
+    height=400,
+    title='Relationship between Testing and Vaccination Rates across Indian States (by HDI levels)'
+)
+
+scatter_hdi
+scatter_hdi.save('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/scatter_hdi.png', scale_factor=3)
 ```
 
 <br>
@@ -414,28 +519,42 @@ correlation_matrix
 ```
 
 ```{python}
-# adding hospital data as a proxy for infrastructure
-hospital = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/Hospital_India.csv')
-
-# rename columns and rows in the hospital dataset that use '&'
-hospital = hospital.rename(columns={'State/UT/India': 'State'})
-hospital = hospital.rename(columns={'No. of beds available in public facilities': 'num_beds'})
-hospital = hospital.rename(index={'Andaman & Nicobar Islands': 'Andaman and Nicobar Islands'})
-hospital['State'] = hospital['State'].replace('Andaman & Nicobar Islands', 'Andaman and Nicobar Islands').replace('Jammu & Kashmir', 'Jammu and Kashmir')
-
-# merge this with our main covid_merged dataset
-covid_merged = pd.merge(covid_merged, hospital, on='State', how='left')
-```
-
-```{python}
-covid_merged['num_beds'] = pd.to_numeric(covid_merged['num_beds'], errors='coerce')
-covid_merged['Total'] = pd.to_numeric(covid_merged['Total'], errors='coerce')
-
-# Regression analysis
-model_hosp = ols('vaccination_rate ~ testing_rate + Total + testing_rate:Total + C(State)', 
+# Regression analysis including hospital
+model_hosp = ols('vaccination_rate ~ testing_rate + total_hosp + testing_rate:total_hosp', 
     data=covid_merged
 ).fit()
 print(model_hosp.summary())
+
+model2 = ols('vaccination_rate ~ testing_rate + total_hosp', data=covid_merged).fit()
+print(model2.summary())
+```
+
+```{python}
+gdp = pd.read_csv('/Users/tarini_dewan/Downloads/archive/india_state_gdp.csv')
+
+gdp = gdp[['state','2021','CATEGORY']]
+gdp['GDP_PC_2021'] = gdp['2021']
+gdp = gdp[['state','GDP_PC_2021','CATEGORY']]
+gdp=gdp[gdp['CATEGORY'] == 'Per Capita Income']
+
+gdp['state'] = gdp['state'].replace('Andaman & Nicobar Island', 'Andaman and Nicobar Islands').replace('Jammu & Kashmir', 'Jammu and Kashmir')
+covid_merged_gdp = pd.merge(covid_merged, gdp[['state', 'GDP_PC_2021']], how='inner', left_on='State', right_on='state')
+```
+
+```{python}
+# Regression analysis
+model_pci = ols('vaccination_rate ~ testing_rate + GDP_PC_2021 + total_hosp', 
+    data=covid_merged_gdp
+).fit()
+print(model_pci.summary())
+```
+
+```{python}
+# main regression analysis
+model_main = ols('vaccination_rate ~ testing_rate + total_hosp + HDI + testing_rate:total_hosp + testing_rate:HDI', 
+    data=covid_merged_hdi
+).fit()
+print(model_main.summary())
 ```
 
 <br>
@@ -600,4 +719,3 @@ This analysis is significant for several reasons:
 ---
 
 **This project reveals critical insights into India's COVID-19 response, showing how testing infrastructure and vaccination programs worked together in the nation's largest public health initiative.**
-
