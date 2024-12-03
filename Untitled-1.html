@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Untitled</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="Untitled-1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Untitled-1_files/libs/quarto-html/quarto.js"></script>
+<script src="Untitled-1_files/libs/quarto-html/popper.min.js"></script>
+<script src="Untitled-1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Untitled-1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Untitled-1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Untitled-1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Untitled-1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Untitled-1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Untitled-1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Untitled</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="covid-19-testing-and-vaccination-coverage-analysis-in-india-a-state-wise-study" class="level1">
+<h1>COVID-19 Testing and Vaccination Coverage Analysis in India: A State-wise Study</h1>
+<p><strong>Team Members</strong></p>
+<p>Shreya Shravini (GitHub: <span class="citation" data-cites="shreyashravini">@shreyashravini</span>)</p>
+<p>Tarini Dewan (GitHub: <span class="citation" data-cites="tarinidewan">@tarinidewan</span>)</p>
+<p><br></p>
+<section id="research-question-did-states-with-more-comprehensive-testing-efforts-achieve-faster-vaccination-coverage-during-indias-covid-19-response" class="level4">
+<h4 class="anchored" data-anchor-id="research-question-did-states-with-more-comprehensive-testing-efforts-achieve-faster-vaccination-coverage-during-indias-covid-19-response"><em>Research Question: Did states with more comprehensive testing efforts achieve faster vaccination coverage during India’s COVID-19 response?</em></h4>
+<p><br></p>
+<section id="data-sources" class="level5">
+<h5 class="anchored" data-anchor-id="data-sources">Data Sources</h5>
+<p>We utilized three primary datasets:</p>
+<ol type="1">
+<li>COVID-19 vaccination data (state-wise)</li>
+<li>Testing details by state</li>
+<li>State population projections for 2020 from UDAI</li>
+<li>Hospitals in India in 2018 from Ministry of Health and Family Welfare</li>
+</ol>
+<p><br></p>
+<div id="ebfa9e04" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime <span class="im">as</span> dt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels <span class="im">as</span> sm</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.formula.api <span class="im">import</span> ols</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning">1. Data cleaning</h2>
+<div id="2cd37fec" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load datasets</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>covid_vacc <span class="op">=</span> pd.read_csv(<span class="st">'C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/covid_vaccine_statewise.csv'</span>) <span class="co"># MODIFY PATH ACCORDINGLY</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>covid_test <span class="op">=</span> pd.read_csv(<span class="st">'C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/StatewiseTestingDetails.csv'</span>) <span class="co"># MODIFY PATH ACCORDINGLY</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>population <span class="op">=</span> pd.read_csv(<span class="st">'C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/state_population.csv'</span>) <span class="co"># MODIFY PATH ACCORDINGLY</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># convert dates to datetime</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>covid_vacc[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(covid_vacc[<span class="st">'Updated On'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'</span><span class="sc">%d</span><span class="st">/%m/%Y'</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>covid_test[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(covid_test[<span class="st">'Date'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'mixed'</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># find number of missing values in each column</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'covid_vacc missing rates'</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> covid_vacc.columns:</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    missing_rate <span class="op">=</span> <span class="bu">round</span>(<span class="dv">100</span><span class="op">*</span>(covid_vacc[col].isna().<span class="bu">sum</span>())<span class="op">/</span><span class="bu">len</span>(covid_vacc), <span class="dv">2</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(col, <span class="st">': '</span>, missing_rate) <span class="co"># variable of interest = Total Doses Administered</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># rename Total Doses Administered variable</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>covid_vacc <span class="op">=</span> covid_vacc.rename(columns<span class="op">=</span>{<span class="st">'Total Doses Administered'</span>: <span class="st">'total_doses'</span>})</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># drop missing values in total doses</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>covid_vacc <span class="op">=</span> covid_vacc[<span class="op">~</span>covid_vacc[<span class="st">'total_doses'</span>].isna()]</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># sort values by state and date</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>covid_vacc <span class="op">=</span> covid_vacc.sort_values([<span class="st">'State'</span>, <span class="st">'Date'</span>])</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># total doses is monotonically increasing as a result of being a cumulative sum; finding daily dose values</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>covid_vacc[<span class="st">'lagged_value'</span>] <span class="op">=</span> covid_vacc.groupby(<span class="st">'State'</span>)[<span class="st">'total_doses'</span>].shift(<span class="dv">1</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>covid_vacc[<span class="st">'lagged_value'</span>] <span class="op">=</span> covid_vacc[<span class="st">'lagged_value'</span>].fillna(<span class="dv">0</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>covid_vacc[<span class="st">'total_doses_day'</span>] <span class="op">=</span> covid_vacc[<span class="st">'total_doses'</span>] <span class="op">-</span> covid_vacc[<span class="st">'lagged_value'</span>]</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>covid_vacc <span class="op">=</span> covid_vacc[covid_vacc[<span class="st">'total_doses_day'</span>]<span class="op">&gt;=</span><span class="dv">0</span>] <span class="co"># this leads to some negative data which is erroneous (likely poor data collection); drop these rows (note: there is a pattern here as most of the negative values are on Mar 9, 2021, Feb 18, 2021, etc.)</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'covid_test missing rates'</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> covid_test.columns:</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    missing_rate <span class="op">=</span> <span class="bu">round</span>(<span class="dv">100</span><span class="op">*</span>(covid_test[col].isna().<span class="bu">sum</span>())<span class="op">/</span><span class="bu">len</span>(covid_test), <span class="dv">2</span>)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(col, <span class="st">': '</span>, missing_rate) <span class="co"># variable of interest = TotalSamples</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co"># total testing samples is also monotonically increasing as a result of being a cumulative sum; finding daily testing values</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>covid_test <span class="op">=</span> covid_test.sort_values([<span class="st">'State'</span>, <span class="st">'Date'</span>])</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>covid_test[<span class="st">'lagged_value'</span>] <span class="op">=</span> covid_test.groupby(<span class="st">'State'</span>)[<span class="st">'TotalSamples'</span>].shift(<span class="dv">1</span>)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>covid_test[<span class="st">'lagged_value'</span>] <span class="op">=</span> covid_test[<span class="st">'lagged_value'</span>].fillna(<span class="dv">0</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>covid_test[<span class="st">'total_samples_day'</span>] <span class="op">=</span> covid_test[<span class="st">'TotalSamples'</span>] <span class="op">-</span> covid_test[<span class="st">'lagged_value'</span>]</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>covid_test <span class="op">=</span> covid_test[covid_test[<span class="st">'total_samples_day'</span>]<span class="op">&gt;=</span><span class="dv">0</span>] <span class="co"># this leads to some negative data which is erroneous (likely poor data collection); drop these rows</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop dates before 2021 (vaccination rollout only began in 2021)</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>covid_vacc <span class="op">=</span> covid_vacc[(covid_vacc[<span class="st">'Date'</span>] <span class="op">&gt;</span> <span class="st">'2020-12-31'</span>)] <span class="co">#&amp; (covid_vacc['Date'] &lt;= '2021-06-30')]</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>covid_test <span class="op">=</span> covid_test[(covid_test[<span class="st">'Date'</span>] <span class="op">&gt;</span> <span class="st">'2020-12-31'</span>)] <span class="co">#&amp; (covid_test['Date'] &lt;= '2021-06-30')]</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate data to monthly level (instead of daily)</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>covid_vacc[<span class="st">'Month'</span>] <span class="op">=</span> covid_vacc[<span class="st">'Date'</span>].dt.strftime(<span class="st">'%m'</span>).astype(<span class="bu">int</span>) </span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>covid_test[<span class="st">'Month'</span>] <span class="op">=</span> covid_test[<span class="st">'Date'</span>].dt.strftime(<span class="st">'%m'</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="co"># group data by state and month</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>covid_vacc_monthly <span class="op">=</span> covid_vacc.sort_values(<span class="st">'Date'</span>).groupby([<span class="st">'State'</span>, <span class="st">'Month'</span>])[<span class="st">'total_doses_day'</span>].<span class="bu">sum</span>().reset_index()</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>covid_test_monthly <span class="op">=</span> covid_test.sort_values(<span class="st">'Date'</span>).groupby([<span class="st">'State'</span>, <span class="st">'Month'</span>])[<span class="st">'total_samples_day'</span>].<span class="bu">sum</span>().reset_index()</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge datasets</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>covid_merged <span class="op">=</span> pd.merge(covid_vacc_monthly, covid_test_monthly, on<span class="op">=</span>[<span class="st">'State'</span>, <span class="st">'Month'</span>], how<span class="op">=</span><span class="st">'inner'</span>)</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>covid_merged <span class="op">=</span> pd.merge(covid_merged, population, on<span class="op">=</span><span class="st">'State'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate testing and vaccination rates</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>covid_merged[<span class="st">'testing_rate'</span>] <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>(covid_merged[<span class="st">'total_samples_day'</span>] <span class="op">/</span> covid_merged[<span class="st">'Projected Total Population'</span>])</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>covid_merged[<span class="st">'vaccination_rate'</span>] <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>(covid_merged[<span class="st">'total_doses_day'</span>] <span class="op">/</span> covid_merged[<span class="st">'Projected Total Population'</span>])</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="co"># check that the merged dataset has 36 states</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(covid_merged[<span class="st">'State'</span>].nunique())</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="co"># find missing state</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> state <span class="kw">in</span> <span class="bu">list</span>(covid_vacc[<span class="st">'State'</span>].unique()):</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> state <span class="kw">not</span> <span class="kw">in</span> <span class="bu">list</span>(covid_test[<span class="st">'State'</span>].unique()):</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'Missing state: '</span>, state) <span class="co"># Dadra and Nagar Haveli and Daman and Diu</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the merged dataset</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a><span class="co">#covid_final = covid_merged.to_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_final.csv') # MODIFY PATH ACCORDINGLY</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(covid_merged.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>covid_vacc missing rates
+Updated On :  0.0
+State :  0.0
+Total Doses Administered :  2.86
+Sessions :  2.86
+ Sites  :  2.86
+First Dose Administered :  2.86
+Second Dose Administered :  2.86
+Male (Doses Administered) :  4.89
+Female (Doses Administered) :  4.89
+Transgender (Doses Administered) :  4.89
+ Covaxin (Doses Administered) :  2.86
+CoviShield (Doses Administered) :  2.86
+Sputnik V (Doses Administered) :  61.82
+AEFI :  30.68
+18-44 Years (Doses Administered) :  78.3
+45-60 Years (Doses Administered) :  78.3
+60+ Years (Doses Administered) :  78.3
+18-44 Years(Individuals Vaccinated) :  52.42
+45-60 Years(Individuals Vaccinated) :  52.4
+60+ Years(Individuals Vaccinated) :  52.4
+Male(Individuals Vaccinated) :  97.96
+Female(Individuals Vaccinated) :  97.96
+Transgender(Individuals Vaccinated) :  97.96
+Total Individuals Vaccinated :  24.55
+Date :  0.0
+
+
+covid_test missing rates
+Date :  0.0
+State :  0.0
+TotalSamples :  0.0
+Negative :  57.34
+Positive :  65.34
+35
+Missing state:  Dadra and Nagar Haveli and Daman and Diu
+Missing state:  India
+                         State  Month  total_doses_day  total_samples_day  \
+0  Andaman and Nicobar Islands      1           2060.0            41497.0   
+1  Andaman and Nicobar Islands      2           5929.0            45362.0   
+2  Andaman and Nicobar Islands      3          16022.0            51365.0   
+3  Andaman and Nicobar Islands      4          82436.0            51032.0   
+4  Andaman and Nicobar Islands      5          19894.0            15717.0   
+
+   Projected Total Population  testing_rate  vaccination_rate  
+0                      417036      9.950460          0.493962  
+1                      417036     10.877238          1.421700  
+2                      417036     12.316682          3.841875  
+3                      417036     12.236833         19.767118  
+4                      417036      3.768739          4.770332  </code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="exploring-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="exploring-the-data">2. Exploring the data</h2>
+<section id="testing-rate-and-vaccination-rate-progression" class="level3">
+<h3 class="anchored" data-anchor-id="testing-rate-and-vaccination-rate-progression">Testing Rate and Vaccination Rate Progression</h3>
+<div id="91a66dd1" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>alt.data_transformers.disable_max_rows()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># testing rate</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>boxplot_test <span class="op">=</span> alt.Chart(covid_merged).mark_boxplot().encode(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'State:N'</span>, title<span class="op">=</span><span class="st">'State'</span>, axis<span class="op">=</span>alt.Axis(labelAngle<span class="op">=</span><span class="dv">270</span>)),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'testing_rate:Q'</span>, title<span class="op">=</span><span class="st">'Testing Rate'</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Distribution of Testing Rates by State'</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>boxplot_test</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># vaccination progression</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>boxplot_vacc <span class="op">=</span> alt.Chart(covid_merged).mark_boxplot().encode(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'State:N'</span>, title<span class="op">=</span><span class="st">'State'</span>, axis<span class="op">=</span>alt.Axis(labelAngle<span class="op">=</span><span class="dv">270</span>)),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'vaccination_rate:Q'</span>, title<span class="op">=</span><span class="st">'Vaccination Rate'</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Distribution of Vaccination Rates by State'</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>boxplot_vacc</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># show both plots together</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>combined_plot <span class="op">=</span> alt.vconcat(</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    boxplot_test, </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    boxplot_vacc</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>).resolve_scale(</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'shared'</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>combined_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+
+<style>
+  #altair-viz-4e58e55bd1664c7e95be06e3c458cf2c.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-4e58e55bd1664c7e95be06e3c458cf2c.vega-embed details,
+  #altair-viz-4e58e55bd1664c7e95be06e3c458cf2c.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-4e58e55bd1664c7e95be06e3c458cf2c"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-4e58e55bd1664c7e95be06e3c458cf2c") {
+      outputDiv = document.getElementById("altair-viz-4e58e55bd1664c7e95be06e3c458cf2c");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@5.20.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.20.1"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "vconcat": [{"mark": {"type": "boxplot"}, "encoding": {"x": {"axis": {"labelAngle": 270}, "field": "State", "title": "State", "type": "nominal"}, "y": {"field": "testing_rate", "title": "Testing Rate", "type": "quantitative"}}, "title": "Distribution of Testing Rates by State"}, {"mark": {"type": "boxplot"}, "encoding": {"x": {"axis": {"labelAngle": 270}, "field": "State", "title": "State", "type": "nominal"}, "y": {"field": "vaccination_rate", "title": "Vaccination Rate", "type": "quantitative"}}, "title": "Distribution of Vaccination Rates by State"}], "data": {"name": "data-901027c1ef8efd8678becc6a0fcfc4c7"}, "resolve": {"scale": {"y": "shared"}}, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-901027c1ef8efd8678becc6a0fcfc4c7": [{"State": "Andaman and Nicobar Islands", "Month": 1, "total_doses_day": 2060.0, "total_samples_day": 41497.0, "Projected Total Population": 417036, "testing_rate": 9.950459912333708, "vaccination_rate": 0.49396215194851284}, {"State": "Andaman and Nicobar Islands", "Month": 2, "total_doses_day": 5929.0, "total_samples_day": 45362.0, "Projected Total Population": 417036, "testing_rate": 10.877238415868176, "vaccination_rate": 1.4216998052925887}, {"State": "Andaman and Nicobar Islands", "Month": 3, "total_doses_day": 16022.0, "total_samples_day": 51365.0, "Projected Total Population": 417036, "testing_rate": 12.316682492638526, "vaccination_rate": 3.8418745623878996}, {"State": "Andaman and Nicobar Islands", "Month": 4, "total_doses_day": 82436.0, "total_samples_day": 51032.0, "Projected Total Population": 417036, "testing_rate": 12.236833270988596, "vaccination_rate": 19.767118426226993}, {"State": "Andaman and Nicobar Islands", "Month": 5, "total_doses_day": 19894.0, "total_samples_day": 15717.0, "Projected Total Population": 417036, "testing_rate": 3.7687393894052312, "vaccination_rate": 4.770331578089182}, {"State": "Andaman and Nicobar Islands", "Month": 6, "total_doses_day": 52025.0, "total_samples_day": 23277.0, "Projected Total Population": 417036, "testing_rate": 5.581532529565793, "vaccination_rate": 12.474942211223972}, {"State": "Andaman and Nicobar Islands", "Month": 7, "total_doses_day": 122676.0, "total_samples_day": 30980.0, "Projected Total Population": 417036, "testing_rate": 7.428615275419868, "vaccination_rate": 29.416165510891148}, {"State": "Andaman and Nicobar Islands", "Month": 8, "total_doses_day": 11674.0, "total_samples_day": 11717.0, "Projected Total Population": 417036, "testing_rate": 2.8095895797964685, "vaccination_rate": 2.799278719343174}, {"State": "Andhra Pradesh", "Month": 1, "total_doses_day": 133623.0, "total_samples_day": 1312306.0, "Projected Total Population": 53903393, "testing_rate": 2.4345517544693336, "vaccination_rate": 0.24789348603714056}, {"State": "Andhra Pradesh", "Month": 2, "total_doses_day": 540144.0, "total_samples_day": 816259.0, "Projected Total Population": 53903393, "testing_rate": 1.5142998512171582, "vaccination_rate": 1.0020593694352413}, {"State": "Andhra Pradesh", "Month": 3, "total_doses_day": 2197188.0, "total_samples_day": 1129048.0, "Projected Total Population": 53903393, "testing_rate": 2.094576866432137, "vaccination_rate": 4.076158990585249}, {"State": "Andhra Pradesh", "Month": 4, "total_doses_day": 3853865.0, "total_samples_day": 1307181.0, "Projected Total Population": 53903393, "testing_rate": 2.425044004187269, "vaccination_rate": 7.149577764056522}, {"State": "Andhra Pradesh", "Month": 5, "total_doses_day": 3289713.0, "total_samples_day": 2865944.0, "Projected Total Population": 53903393, "testing_rate": 5.316815585245256, "vaccination_rate": 6.102979454373123}, {"State": "Andhra Pradesh", "Month": 6, "total_doses_day": 5834607.0, "total_samples_day": 2737314.0, "Projected Total Population": 53903393, "testing_rate": 5.0781849669463295, "vaccination_rate": 10.824192458534105}, {"State": "Andhra Pradesh", "Month": 7, "total_doses_day": 5966039.0, "total_samples_day": 2569425.0, "Projected Total Population": 53903393, "testing_rate": 4.766722198730607, "vaccination_rate": 11.068021265377489}, {"State": "Andhra Pradesh", "Month": 8, "total_doses_day": 2173502.0, "total_samples_day": 748690.0, "Projected Total Population": 53903393, "testing_rate": 1.388947816327629, "vaccination_rate": 4.032217415330423}, {"State": "Arunachal Pradesh", "Month": 1, "total_doses_day": 6525.0, "total_samples_day": 14060.0, "Projected Total Population": 1570458, "testing_rate": 0.8952802303531836, "vaccination_rate": 0.4154838906866659}, {"State": "Arunachal Pradesh", "Month": 2, "total_doses_day": 26340.0, "total_samples_day": 13593.0, "Projected Total Population": 1570458, "testing_rate": 0.8655436821615096, "vaccination_rate": 1.6772177288408858}, {"State": "Arunachal Pradesh", "Month": 3, "total_doses_day": 64375.0, "total_samples_day": 8159.0, "Projected Total Population": 1570458, "testing_rate": 0.5195299715114954, "vaccination_rate": 4.099122676314808}, {"State": "Arunachal Pradesh", "Month": 4, "total_doses_day": 152629.0, "total_samples_day": 39943.0, "Projected Total Population": 1570458, "testing_rate": 2.5433981679229882, "vaccination_rate": 9.718757203312665}, {"State": "Arunachal Pradesh", "Month": 5, "total_doses_day": 92584.0, "total_samples_day": 131999.0, "Projected Total Population": 1570458, "testing_rate": 8.405127676130148, "vaccination_rate": 5.895350273614449}, {"State": "Arunachal Pradesh", "Month": 6, "total_doses_day": 259348.0, "total_samples_day": 179985.0, "Projected Total Population": 1570458, "testing_rate": 11.460669435285757, "vaccination_rate": 16.51416338418474}, {"State": "Arunachal Pradesh", "Month": 7, "total_doses_day": 252245.0, "total_samples_day": 173042.0, "Projected Total Population": 1570458, "testing_rate": 11.01856910531832, "vaccination_rate": 16.061874943487823}, {"State": "Arunachal Pradesh", "Month": 8, "total_doses_day": 33494.0, "total_samples_day": 47349.0, "Projected Total Population": 1570458, "testing_rate": 3.0149803433138613, "vaccination_rate": 2.132753629832826}, {"State": "Assam", "Month": 1, "total_doses_day": 30688.0, "total_samples_day": 468476.0, "Projected Total Population": 35607039, "testing_rate": 1.3156836770392506, "vaccination_rate": 0.08618520624531571}, {"State": "Assam", "Month": 2, "total_doses_day": 192446.0, "total_samples_day": 384278.0, "Projected Total Population": 35607039, "testing_rate": 1.0792191959572939, "vaccination_rate": 0.540471787053116}, {"State": "Assam", "Month": 3, "total_doses_day": 898692.0, "total_samples_day": 381195.0, "Projected Total Population": 35607039, "testing_rate": 1.0705607955775263, "vaccination_rate": 2.523916689618589}, {"State": "Assam", "Month": 4, "total_doses_day": 1382379.0, "total_samples_day": 1373536.0, "Projected Total Population": 35607039, "testing_rate": 3.857484470977775, "vaccination_rate": 3.8823194481293433}, {"State": "Assam", "Month": 5, "total_doses_day": 1656919.0, "total_samples_day": 2440767.0, "Projected Total Population": 35607039, "testing_rate": 6.854731728746105, "vaccination_rate": 4.653346772249161}, {"State": "Assam", "Month": 6, "total_doses_day": 2885269.0, "total_samples_day": 3803089.0, "Projected Total Population": 35607039, "testing_rate": 10.68072242682128, "vaccination_rate": 8.10308602183967}, {"State": "Assam", "Month": 7, "total_doses_day": 3615325.0, "total_samples_day": 3782319.0, "Projected Total Population": 35607039, "testing_rate": 10.622391263704909, "vaccination_rate": 10.153399725262188}, {"State": "Assam", "Month": 8, "total_doses_day": 2065623.0, "total_samples_day": 1219757.0, "Projected Total Population": 35607039, "testing_rate": 3.425606380805773, "vaccination_rate": 5.801164764079372}, {"State": "Bihar", "Month": 1, "total_doses_day": 108889.0, "total_samples_day": 2684928.0, "Projected Total Population": 124799926, "testing_rate": 2.151385891046121, "vaccination_rate": 0.08725085301733271}, {"State": "Bihar", "Month": 2, "total_doses_day": 528660.0, "total_samples_day": 1412394.0, "Projected Total Population": 124799926, "testing_rate": 1.1317266325943174, "vaccination_rate": 0.4236060204074159}, {"State": "Bihar", "Month": 3, "total_doses_day": 2216130.0, "total_samples_day": 1267426.0, "Projected Total Population": 124799926, "testing_rate": 1.015566307306945, "vaccination_rate": 1.7757462452341517}, {"State": "Bihar", "Month": 4, "total_doses_day": 4227882.0, "total_samples_day": 2732420.0, "Projected Total Population": 124799926, "testing_rate": 2.189440400789981, "vaccination_rate": 3.3877279702874183}, {"State": "Bihar", "Month": 5, "total_doses_day": 3340108.0, "total_samples_day": 3476706.0, "Projected Total Population": 124799926, "testing_rate": 2.7858237672352466, "vaccination_rate": 2.676370176693855}, {"State": "Bihar", "Month": 6, "total_doses_day": 5591422.0, "total_samples_day": 3295508.0, "Projected Total Population": 124799926, "testing_rate": 2.640632976016348, "vaccination_rate": 4.480308746336917}, {"State": "Bihar", "Month": 7, "total_doses_day": 8543442.0, "total_samples_day": 4145691.0, "Projected Total Population": 124799926, "testing_rate": 3.321869758159953, "vaccination_rate": 6.8457107899246665}, {"State": "Bihar", "Month": 8, "total_doses_day": 3392475.0, "total_samples_day": 1468723.0, "Projected Total Population": 124799926, "testing_rate": 1.1768620760239874, "vaccination_rate": 2.718330938753922}, {"State": "Chandigarh", "Month": 1, "total_doses_day": 2217.0, "total_samples_day": 35060.0, "Projected Total Population": 1158473, "testing_rate": 3.0263976803947954, "vaccination_rate": 0.19137260859769714}, {"State": "Chandigarh", "Month": 2, "total_doses_day": 16350.0, "total_samples_day": 38187.0, "Projected Total Population": 1158473, "testing_rate": 3.296321968660469, "vaccination_rate": 1.411340618210351}, {"State": "Chandigarh", "Month": 3, "total_doses_day": 59882.0, "total_samples_day": 57472.0, "Projected Total Population": 1158473, "testing_rate": 4.961013333931822, "vaccination_rate": 5.169045804261299}, {"State": "Chandigarh", "Month": 4, "total_doses_day": 130778.0, "total_samples_day": 92710.0, "Projected Total Population": 1158473, "testing_rate": 8.002776068151784, "vaccination_rate": 11.28882589408644}, {"State": "Chandigarh", "Month": 5, "total_doses_day": 141018.0, "total_samples_day": 103854.0, "Projected Total Population": 1158473, "testing_rate": 8.96473202223962, "vaccination_rate": 12.172748091668947}, {"State": "Chandigarh", "Month": 6, "total_doses_day": 177370.0, "total_samples_day": 58703.0, "Projected Total Population": 1158473, "testing_rate": 5.06727390280136, "vaccination_rate": 15.310671893086846}, {"State": "Chandigarh", "Month": 7, "total_doses_day": 290267.0, "total_samples_day": 46719.0, "Projected Total Population": 1158473, "testing_rate": 4.032808705943082, "vaccination_rate": 25.056000441961103}, {"State": "Chandigarh", "Month": 8, "total_doses_day": 106675.0, "total_samples_day": 15169.0, "Projected Total Population": 1158473, "testing_rate": 1.3093960756961966, "vaccination_rate": 9.208242229210349}, {"State": "Chhattisgarh", "Month": 1, "total_doses_day": 57455.0, "total_samples_day": 705597.0, "Projected Total Population": 29436231, "testing_rate": 2.3970358161681773, "vaccination_rate": 0.19518463488073592}, {"State": "Chhattisgarh", "Month": 2, "total_doses_day": 371018.0, "total_samples_day": 591969.0, "Projected Total Population": 29436231, "testing_rate": 2.0110217235351904, "vaccination_rate": 1.2604127206366875}, {"State": "Chhattisgarh", "Month": 3, "total_doses_day": 1633179.0, "total_samples_day": 945535.0, "Projected Total Population": 29436231, "testing_rate": 3.2121469627004897, "vaccination_rate": 5.548193313199642}, {"State": "Chhattisgarh", "Month": 4, "total_doses_day": 3592991.0, "total_samples_day": 1448692.0, "Projected Total Population": 29436231, "testing_rate": 4.921458864757516, "vaccination_rate": 12.20601577695188}, {"State": "Chhattisgarh", "Month": 5, "total_doses_day": 669619.0, "total_samples_day": 1918743.0, "Projected Total Population": 29436231, "testing_rate": 6.518303922808596, "vaccination_rate": 2.2748122882987296}, {"State": "Chhattisgarh", "Month": 6, "total_doses_day": 2212817.0, "total_samples_day": 1224994.0, "Projected Total Population": 29436231, "testing_rate": 4.161517824751409, "vaccination_rate": 7.5173244835590545}, {"State": "Chhattisgarh", "Month": 7, "total_doses_day": 2500110.0, "total_samples_day": 1043996.0, "Projected Total Population": 29436231, "testing_rate": 3.5466361165598954, "vaccination_rate": 8.493308807095582}, {"State": "Chhattisgarh", "Month": 8, "total_doses_day": 815722.0, "total_samples_day": 367808.0, "Projected Total Population": 29436231, "testing_rate": 1.249507791945239, "vaccination_rate": 2.771149608113892}, {"State": "Delhi", "Month": 1, "total_doses_day": 44840.0, "total_samples_day": 2081596.0, "Projected Total Population": 18710922, "testing_rate": 11.125031679358184, "vaccination_rate": 0.2396461275398401}, {"State": "Delhi", "Month": 2, "total_doses_day": 361591.0, "total_samples_day": 1639273.0, "Projected Total Population": 18710922, "testing_rate": 8.761048760718472, "vaccination_rate": 1.932512999626635}, {"State": "Delhi", "Month": 3, "total_doses_day": 923763.0, "total_samples_day": 2194963.0, "Projected Total Population": 18710922, "testing_rate": 11.730918444318243, "vaccination_rate": 4.937025551172733}, {"State": "Delhi", "Month": 4, "total_doses_day": 1977893.0, "total_samples_day": 2576123.0, "Projected Total Population": 18710922, "testing_rate": 13.768017417848249, "vaccination_rate": 10.570793892465588}, {"State": "Delhi", "Month": 5, "total_doses_day": 2147391.0, "total_samples_day": 2150495.0, "Projected Total Population": 18710922, "testing_rate": 11.493260460387788, "vaccination_rate": 11.476671219087976}, {"State": "Delhi", "Month": 6, "total_doses_day": 2474193.0, "total_samples_day": 2180824.0, "Projected Total Population": 18710922, "testing_rate": 11.65535295374541, "vaccination_rate": 13.223255379932642}, {"State": "Delhi", "Month": 7, "total_doses_day": 2154106.0, "total_samples_day": 2183133.0, "Projected Total Population": 18710922, "testing_rate": 11.667693339750976, "vaccination_rate": 11.5125593490262}, {"State": "Delhi", "Month": 8, "total_doses_day": 788442.0, "total_samples_day": 667669.0, "Projected Total Population": 18710922, "testing_rate": 3.5683383213291147, "vaccination_rate": 4.213806246426553}, {"State": "Goa", "Month": 1, "total_doses_day": 3469.0, "total_samples_day": 51470.0, "Projected Total Population": 1586250, "testing_rate": 3.244759653270292, "vaccination_rate": 0.21869188337273446}, {"State": "Goa", "Month": 2, "total_doses_day": 19891.0, "total_samples_day": 42691.0, "Projected Total Population": 1586250, "testing_rate": 2.6913159968479117, "vaccination_rate": 1.2539637509850277}, {"State": "Goa", "Month": 3, "total_doses_day": 102920.0, "total_samples_day": 51285.0, "Projected Total Population": 1586250, "testing_rate": 3.233096926713948, "vaccination_rate": 6.488258471237194}, {"State": "Goa", "Month": 4, "total_doses_day": 227737.0, "total_samples_day": 108164.0, "Projected Total Population": 1586250, "testing_rate": 6.818849487785658, "vaccination_rate": 14.356942474389284}, {"State": "Goa", "Month": 5, "total_doses_day": 179237.0, "total_samples_day": 170121.0, "Projected Total Population": 1586250, "testing_rate": 10.724728132387707, "vaccination_rate": 11.299416863672183}, {"State": "Goa", "Month": 6, "total_doses_day": 405067.0, "total_samples_day": 99323.0, "Projected Total Population": 1586250, "testing_rate": 6.261497241922774, "vaccination_rate": 25.536138691883377}, {"State": "Goa", "Month": 7, "total_doses_day": 393079.0, "total_samples_day": 133924.0, "Projected Total Population": 1586250, "testing_rate": 8.44280535855004, "vaccination_rate": 24.780394011032307}, {"State": "Goa", "Month": 8, "total_doses_day": 69810.0, "total_samples_day": 46290.0, "Projected Total Population": 1586250, "testing_rate": 2.918203309692671, "vaccination_rate": 4.400945626477541}, {"State": "Gujarat", "Month": 1, "total_doses_day": 251338.0, "total_samples_day": 1160891.0, "Projected Total Population": 63872399, "testing_rate": 1.817515888200786, "vaccination_rate": 0.39350017211659766}, {"State": "Gujarat", "Month": 2, "total_doses_day": 745064.0, "total_samples_day": 926175.0, "Projected Total Population": 63872399, "testing_rate": 1.4500394763628652, "vaccination_rate": 1.1664882040832694}, {"State": "Gujarat", "Month": 3, "total_doses_day": 4866180.0, "total_samples_day": 1757331.0, "Projected Total Population": 63872399, "testing_rate": 2.751315165099717, "vaccination_rate": 7.618595944705318}, {"State": "Gujarat", "Month": 4, "total_doses_day": 6802186.0, "total_samples_day": 4542779.0, "Projected Total Population": 63872399, "testing_rate": 7.112272391710228, "vaccination_rate": 10.649648528153763}, {"State": "Gujarat", "Month": 5, "total_doses_day": 4652865.0, "total_samples_day": 3719258.0, "Projected Total Population": 63872399, "testing_rate": 5.822950222990684, "vaccination_rate": 7.284625398209952}, {"State": "Gujarat", "Month": 6, "total_doses_day": 8581423.0, "total_samples_day": 1931086.0, "Projected Total Population": 63872399, "testing_rate": 3.0233497257555646, "vaccination_rate": 13.435260197444595}, {"State": "Gujarat", "Month": 7, "total_doses_day": 7586838.0, "total_samples_day": 1864591.0, "Projected Total Population": 63872399, "testing_rate": 2.919243725290481, "vaccination_rate": 11.878116555478055}, {"State": "Gujarat", "Month": 8, "total_doses_day": 3873495.0, "total_samples_day": 637735.0, "Projected Total Population": 63872399, "testing_rate": 0.9984516160102269, "vaccination_rate": 6.064426983555134}, {"State": "Haryana", "Month": 1, "total_doses_day": 95245.0, "total_samples_day": 618174.0, "Projected Total Population": 28204692, "testing_rate": 2.191741714463679, "vaccination_rate": 0.33769204074272463}, {"State": "Haryana", "Month": 2, "total_doses_day": 184936.0, "total_samples_day": 497654.0, "Projected Total Population": 28204692, "testing_rate": 1.7644369241826858, "vaccination_rate": 0.6556923223979896}, {"State": "Haryana", "Month": 3, "total_doses_day": 1282683.0, "total_samples_day": 586202.0, "Projected Total Population": 28204692, "testing_rate": 2.0783846886184754, "vaccination_rate": 4.54776460597407}, {"State": "Haryana", "Month": 4, "total_doses_day": 2241522.0, "total_samples_day": 1138264.0, "Projected Total Population": 28204692, "testing_rate": 4.035725687059443, "vaccination_rate": 7.9473372728197145}, {"State": "Haryana", "Month": 5, "total_doses_day": 2130824.0, "total_samples_day": 1655856.0, "Projected Total Population": 28204692, "testing_rate": 5.8708529772280444, "vaccination_rate": 7.554856475653058}, {"State": "Haryana", "Month": 6, "total_doses_day": 2967477.0, "total_samples_day": 988861.0, "Projected Total Population": 28204692, "testing_rate": 3.5060159494030283, "vaccination_rate": 10.521217533593347}, {"State": "Haryana", "Month": 7, "total_doses_day": 2967350.0, "total_samples_day": 834914.0, "Projected Total Population": 28204692, "testing_rate": 2.9601954171313056, "vaccination_rate": 10.520767253902294}, {"State": "Haryana", "Month": 8, "total_doses_day": 1186353.0, "total_samples_day": 261474.0, "Projected Total Population": 28204692, "testing_rate": 0.9270585191995714, "vaccination_rate": 4.206225687555816}, {"State": "Himachal Pradesh", "Month": 1, "total_doses_day": 22798.0, "total_samples_day": 159379.0, "Projected Total Population": 7451955, "testing_rate": 2.1387541926917164, "vaccination_rate": 0.3059331410348023}, {"State": "Himachal Pradesh", "Month": 2, "total_doses_day": 100618.0, "total_samples_day": 163309.0, "Projected Total Population": 7451955, "testing_rate": 2.1914920312857498, "vaccination_rate": 1.350222860980776}, {"State": "Himachal Pradesh", "Month": 3, "total_doses_day": 444359.0, "total_samples_day": 165803.0, "Projected Total Population": 7451955, "testing_rate": 2.2249597588820653, "vaccination_rate": 5.962985552113506}, {"State": "Himachal Pradesh", "Month": 4, "total_doses_day": 1256876.0, "total_samples_day": 249056.0, "Projected Total Population": 7451955, "testing_rate": 3.3421565213423863, "vaccination_rate": 16.86639277880771}, {"State": "Himachal Pradesh", "Month": 5, "total_doses_day": 662916.0, "total_samples_day": 412643.0, "Projected Total Population": 7451955, "testing_rate": 5.537379117292039, "vaccination_rate": 8.895866923512017}, {"State": "Himachal Pradesh", "Month": 6, "total_doses_day": 1410030.0, "total_samples_day": 515943.0, "Projected Total Population": 7451955, "testing_rate": 6.923592533771339, "vaccination_rate": 18.921611845482158}, {"State": "Himachal Pradesh", "Month": 7, "total_doses_day": 1356404.0, "total_samples_day": 396277.0, "Projected Total Population": 7451955, "testing_rate": 5.317758896826403, "vaccination_rate": 18.201988605674618}, {"State": "Himachal Pradesh", "Month": 8, "total_doses_day": 409750.0, "total_samples_day": 127196.0, "Projected Total Population": 7451955, "testing_rate": 1.7068809460067862, "vaccination_rate": 5.498557090052207}, {"State": "Jammu and Kashmir", "Month": 1, "total_doses_day": 21268.0, "total_samples_day": 721713.0, "Projected Total Population": 13606320, "testing_rate": 5.3042483198984005, "vaccination_rate": 0.15630971489719483}, {"State": "Jammu and Kashmir", "Month": 2, "total_doses_day": 216807.0, "total_samples_day": 657278.0, "Projected Total Population": 13606320, "testing_rate": 4.830681624421592, "vaccination_rate": 1.5934286419840193}, {"State": "Jammu and Kashmir", "Month": 3, "total_doses_day": 555648.0, "total_samples_day": 849922.0, "Projected Total Population": 13606320, "testing_rate": 6.2465236742925345, "vaccination_rate": 4.0837493164941}, {"State": "Jammu and Kashmir", "Month": 4, "total_doses_day": 1558847.0, "total_samples_day": 1216934.0, "Projected Total Population": 13606320, "testing_rate": 8.94388784035654, "vaccination_rate": 11.456786258150624}, {"State": "Jammu and Kashmir", "Month": 5, "total_doses_day": 952953.0, "total_samples_day": 1298638.0, "Projected Total Population": 13606320, "testing_rate": 9.544373497021972, "vaccination_rate": 7.003752667877869}, {"State": "Jammu and Kashmir", "Month": 6, "total_doses_day": 1224533.0, "total_samples_day": 1393519.0, "Projected Total Population": 13606320, "testing_rate": 10.241703855267257, "vaccination_rate": 8.999736886976052}, {"State": "Jammu and Kashmir", "Month": 7, "total_doses_day": 1689805.0, "total_samples_day": 1758298.0, "Projected Total Population": 13606320, "testing_rate": 12.92265653020067, "vaccination_rate": 12.419265458992585}, {"State": "Jammu and Kashmir", "Month": 8, "total_doses_day": 593002.0, "total_samples_day": 588590.0, "Projected Total Population": 13606320, "testing_rate": 4.32585739568083, "vaccination_rate": 4.358283503548352}, {"State": "Jharkhand", "Month": 1, "total_doses_day": 31672.0, "total_samples_day": 417879.0, "Projected Total Population": 38593948, "testing_rate": 1.08275784586744, "vaccination_rate": 0.0820646801928634}, {"State": "Jharkhand", "Month": 2, "total_doses_day": 281766.0, "total_samples_day": 311395.0, "Projected Total Population": 38593948, "testing_rate": 0.8068493018646342, "vaccination_rate": 0.7300781977526631}, {"State": "Jharkhand", "Month": 3, "total_doses_day": 1387979.0, "total_samples_day": 352834.0, "Projected Total Population": 38593948, "testing_rate": 0.914221058700706, "vaccination_rate": 3.5963643833483947}, {"State": "Jharkhand", "Month": 4, "total_doses_day": 1453169.0, "total_samples_day": 1040061.0, "Projected Total Population": 38593948, "testing_rate": 2.6948810730635797, "vaccination_rate": 3.7652768770896414}, {"State": "Jharkhand", "Month": 5, "total_doses_day": 1080227.0, "total_samples_day": 1569707.0, "Projected Total Population": 38593948, "testing_rate": 4.067236137645208, "vaccination_rate": 2.798954385283413}, {"State": "Jharkhand", "Month": 6, "total_doses_day": 2659790.0, "total_samples_day": 1492697.0, "Projected Total Population": 38593948, "testing_rate": 3.8676970803816184, "vaccination_rate": 6.891728205676186}, {"State": "Jharkhand", "Month": 7, "total_doses_day": 2735622.0, "total_samples_day": 1677444.0, "Projected Total Population": 38593948, "testing_rate": 4.346391304667768, "vaccination_rate": 7.088214970906838}, {"State": "Jharkhand", "Month": 8, "total_doses_day": 788530.0, "total_samples_day": 523232.0, "Projected Total Population": 38593948, "testing_rate": 1.3557358785890472, "vaccination_rate": 2.0431441737963683}, {"State": "Karnataka", "Month": 1, "total_doses_day": 247613.0, "total_samples_day": 2955772.0, "Projected Total Population": 67562686, "testing_rate": 4.374858631286506, "vaccination_rate": 0.3664937181449536}, {"State": "Karnataka", "Month": 2, "total_doses_day": 607779.0, "total_samples_day": 1762845.0, "Projected Total Population": 67562686, "testing_rate": 2.609199107329747, "vaccination_rate": 0.8995779119853229}, {"State": "Karnataka", "Month": 3, "total_doses_day": 3324624.0, "total_samples_day": 2614451.0, "Projected Total Population": 67562686, "testing_rate": 3.869667052609483, "vaccination_rate": 4.920799033951965}, {"State": "Karnataka", "Month": 4, "total_doses_day": 5690224.0, "total_samples_day": 4185765.0, "Projected Total Population": 67562686, "testing_rate": 6.195379798843403, "vaccination_rate": 8.42213999603272}, {"State": "Karnataka", "Month": 5, "total_doses_day": 4040951.0, "total_samples_day": 4139969.0, "Projected Total Population": 67562686, "testing_rate": 6.127596821713098, "vaccination_rate": 5.981039593363709}, {"State": "Karnataka", "Month": 6, "total_doses_day": 9029024.0, "total_samples_day": 4532767.0, "Projected Total Population": 67562686, "testing_rate": 6.708979865010104, "vaccination_rate": 13.363921025875142}, {"State": "Karnataka", "Month": 7, "total_doses_day": 7658800.0, "total_samples_day": 4379771.0, "Projected Total Population": 67562686, "testing_rate": 6.482529424599845, "vaccination_rate": 11.335842982915155}, {"State": "Karnataka", "Month": 8, "total_doses_day": 2909329.0, "total_samples_day": 1455417.0, "Projected Total Population": 67562686, "testing_rate": 2.154172792952607, "vaccination_rate": 4.306118024970173}, {"State": "Kerala", "Month": 1, "total_doses_day": 140906.0, "total_samples_day": 1713979.0, "Projected Total Population": 35699443, "testing_rate": 4.801136533138626, "vaccination_rate": 0.3947008360886751}, {"State": "Kerala", "Month": 2, "total_doses_day": 452427.0, "total_samples_day": 1850371.0, "Projected Total Population": 35699443, "testing_rate": 5.183192914242388, "vaccination_rate": 1.2673222940761288}, {"State": "Kerala", "Month": 3, "total_doses_day": 3101944.0, "total_samples_day": 1682580.0, "Projected Total Population": 35699443, "testing_rate": 4.7131827799106, "vaccination_rate": 8.689054336225919}, {"State": "Kerala", "Month": 4, "total_doses_day": 3802077.0, "total_samples_day": 2640660.0, "Projected Total Population": 35699443, "testing_rate": 7.39692213125006, "vaccination_rate": 10.650241797890237}, {"State": "Kerala", "Month": 5, "total_doses_day": 2036789.0, "total_samples_day": 3996404.0, "Projected Total Population": 35699443, "testing_rate": 11.194583624175873, "vaccination_rate": 5.7053803332449755}, {"State": "Kerala", "Month": 6, "total_doses_day": 4682003.0, "total_samples_day": 3277741.0, "Projected Total Population": 35699443, "testing_rate": 9.18149059076356, "vaccination_rate": 13.115058966046053}, {"State": "Kerala", "Month": 7, "total_doses_day": 6069374.0, "total_samples_day": 4143341.0, "Projected Total Population": 35699443, "testing_rate": 11.606178281268981, "vaccination_rate": 17.001312877626688}, {"State": "Kerala", "Month": 8, "total_doses_day": 1932631.0, "total_samples_day": 1528535.0, "Projected Total Population": 35699443, "testing_rate": 4.281677448020687, "vaccination_rate": 5.413616677436676}, {"State": "Ladakh", "Month": 1, "total_doses_day": 959.0, "total_samples_day": 4451.0, "Projected Total Population": 289023, "testing_rate": 1.5400158464897258, "vaccination_rate": 0.3318075032090872}, {"State": "Ladakh", "Month": 4, "total_doses_day": 61294.0, "total_samples_day": 90243.0, "Projected Total Population": 289023, "testing_rate": 31.2234666445231, "vaccination_rate": 21.20730876089446}, {"State": "Ladakh", "Month": 5, "total_doses_day": 51330.0, "total_samples_day": 61926.0, "Projected Total Population": 289023, "testing_rate": 21.425976479380534, "vaccination_rate": 17.759832262484302}, {"State": "Ladakh", "Month": 6, "total_doses_day": 67305.0, "total_samples_day": 93397.0, "Projected Total Population": 289023, "testing_rate": 32.31472927760075, "vaccination_rate": 23.287074039090314}, {"State": "Ladakh", "Month": 7, "total_doses_day": 27926.0, "total_samples_day": 80263.0, "Projected Total Population": 289023, "testing_rate": 27.770454254505694, "vaccination_rate": 9.662206813990581}, {"State": "Ladakh", "Month": 8, "total_doses_day": 4309.0, "total_samples_day": 18189.0, "Projected Total Population": 289023, "testing_rate": 6.293270777758171, "vaccination_rate": 1.49088480847545}, {"State": "Lakshadweep", "Month": 1, "total_doses_day": 807.0, "total_samples_day": 2328.0, "Projected Total Population": 73183, "testing_rate": 3.181066641159832, "vaccination_rate": 1.1027151114329832}, {"State": "Lakshadweep", "Month": 2, "total_doses_day": 1124.0, "total_samples_day": 28879.0, "Projected Total Population": 73183, "testing_rate": 39.46135031359742, "vaccination_rate": 1.5358758181544894}, {"State": "Lakshadweep", "Month": 3, "total_doses_day": 5536.0, "total_samples_day": 17270.0, "Projected Total Population": 73183, "testing_rate": 23.598376672177963, "vaccination_rate": 7.564598335679051}, {"State": "Lakshadweep", "Month": 4, "total_doses_day": 16200.0, "total_samples_day": 27236.0, "Projected Total Population": 73183, "testing_rate": 37.216293401473024, "vaccination_rate": 22.1362884822978}, {"State": "Lakshadweep", "Month": 5, "total_doses_day": 10612.0, "total_samples_day": 58903.0, "Projected Total Population": 73183, "testing_rate": 80.48727163412268, "vaccination_rate": 14.500635393465696}, {"State": "Lakshadweep", "Month": 6, "total_doses_day": 21064.0, "total_samples_day": 47125.0, "Projected Total Population": 73183, "testing_rate": 64.3933700449558, "vaccination_rate": 28.782640777229684}, {"State": "Lakshadweep", "Month": 7, "total_doses_day": 11509.0, "total_samples_day": 36208.0, "Projected Total Population": 73183, "testing_rate": 49.47597119549622, "vaccination_rate": 15.726329885355888}, {"State": "Lakshadweep", "Month": 8, "total_doses_day": 2086.0, "total_samples_day": 8775.0, "Projected Total Population": 73183, "testing_rate": 11.990489594577976, "vaccination_rate": 2.8503887514860007}, {"State": "Madhya Pradesh", "Month": 1, "total_doses_day": 285481.0, "total_samples_day": 720257.0, "Projected Total Population": 85358965, "testing_rate": 0.8437977194311106, "vaccination_rate": 0.3344475884870441}, {"State": "Madhya Pradesh", "Month": 2, "total_doses_day": 518897.0, "total_samples_day": 424113.0, "Projected Total Population": 85358965, "testing_rate": 0.49685818004002275, "vaccination_rate": 0.6078998263392721}, {"State": "Madhya Pradesh", "Month": 3, "total_doses_day": 2824540.0, "total_samples_day": 603046.0, "Projected Total Population": 85358965, "testing_rate": 0.7064823243815105, "vaccination_rate": 3.309013880381516}, {"State": "Madhya Pradesh", "Month": 4, "total_doses_day": 4679817.0, "total_samples_day": 1358648.0, "Projected Total Population": 85358965, "testing_rate": 1.5916875280762834, "vaccination_rate": 5.482513758220944}, {"State": "Madhya Pradesh", "Month": 5, "total_doses_day": 3090781.0, "total_samples_day": 2148735.0, "Projected Total Population": 85358965, "testing_rate": 2.5172927061615615, "vaccination_rate": 3.620921364264433}, {"State": "Madhya Pradesh", "Month": 6, "total_doses_day": 9143839.0, "total_samples_day": 2179295.0, "Projected Total Population": 85358965, "testing_rate": 2.5530944523518997, "vaccination_rate": 10.712218687281412}, {"State": "Madhya Pradesh", "Month": 7, "total_doses_day": 11685051.0, "total_samples_day": 2351614.0, "Projected Total Population": 85358965, "testing_rate": 2.7549701428549422, "vaccination_rate": 13.689307268428102}, {"State": "Madhya Pradesh", "Month": 8, "total_doses_day": 3457467.0, "total_samples_day": 717288.0, "Projected Total Population": 85358965, "testing_rate": 0.840319467322501, "vaccination_rate": 4.050502486762814}, {"State": "Maharashtra", "Month": 1, "total_doses_day": 234520.0, "total_samples_day": 1869535.0, "Projected Total Population": 123144223, "testing_rate": 1.5181670357366257, "vaccination_rate": 0.19044336330742856}, {"State": "Maharashtra", "Month": 2, "total_doses_day": 953028.0, "total_samples_day": 1667444.0, "Projected Total Population": 123144223, "testing_rate": 1.3540578350963326, "vaccination_rate": 0.7739120656922737}, {"State": "Maharashtra", "Month": 3, "total_doses_day": 5349941.0, "total_samples_day": 3507531.0, "Projected Total Population": 123144223, "testing_rate": 2.8483114469770943, "vaccination_rate": 4.344451464848659}, {"State": "Maharashtra", "Month": 4, "total_doses_day": 9813586.0, "total_samples_day": 7314139.0, "Projected Total Population": 123144223, "testing_rate": 5.939490153752482, "vaccination_rate": 7.969180982204906}, {"State": "Maharashtra", "Month": 5, "total_doses_day": 6402773.0, "total_samples_day": 7948772.0, "Projected Total Population": 123144223, "testing_rate": 6.454847662646748, "vaccination_rate": 5.199409963389026}, {"State": "Maharashtra", "Month": 6, "total_doses_day": 9852948.0, "total_samples_day": 6582896.0, "Projected Total Population": 123144223, "testing_rate": 5.345679918740483, "vaccination_rate": 8.001145128829958}, {"State": "Maharashtra", "Month": 7, "total_doses_day": 11920035.0, "total_samples_day": 6329659.0, "Projected Total Population": 123144223, "testing_rate": 5.140037304064195, "vaccination_rate": 9.679735443212794}, {"State": "Maharashtra", "Month": 8, "total_doses_day": 2793763.0, "total_samples_day": 1937456.0, "Projected Total Population": 123144223, "testing_rate": 1.5733226884707372, "vaccination_rate": 2.2686918898339226}, {"State": "Manipur", "Month": 1, "total_doses_day": 2970.0, "total_samples_day": 40598.0, "Projected Total Population": 3091545, "testing_rate": 1.313194535418375, "vaccination_rate": 0.0960684706190594}, {"State": "Manipur", "Month": 2, "total_doses_day": 47618.0, "total_samples_day": 34618.0, "Projected Total Population": 3091545, "testing_rate": 1.1197637427241072, "vaccination_rate": 1.5402654659725152}, {"State": "Manipur", "Month": 3, "total_doses_day": 64942.0, "total_samples_day": 26400.0, "Projected Total Population": 3091545, "testing_rate": 0.8539419610583058, "vaccination_rate": 2.100632531630625}, {"State": "Manipur", "Month": 4, "total_doses_day": 137720.0, "total_samples_day": 38304.0, "Projected Total Population": 3091545, "testing_rate": 1.2389921544082327, "vaccination_rate": 4.454730563520829}, {"State": "Manipur", "Month": 5, "total_doses_day": 207830.0, "total_samples_day": 102982.0, "Projected Total Population": 3091545, "testing_rate": 3.331085266428275, "vaccination_rate": 6.722528703285898}, {"State": "Manipur", "Month": 6, "total_doses_day": 197309.0, "total_samples_day": 184573.0, "Projected Total Population": 3091545, "testing_rate": 5.9702511203944955, "vaccination_rate": 6.3822134240323205}, {"State": "Manipur", "Month": 7, "total_doses_day": 658464.0, "total_samples_day": 184941.0, "Projected Total Population": 3091545, "testing_rate": 5.982154553791066, "vaccination_rate": 21.298865130541525}, {"State": "Manipur", "Month": 8, "total_doses_day": 92407.0, "total_samples_day": 55233.0, "Projected Total Population": 3091545, "testing_rate": 1.7865824369368715, "vaccination_rate": 2.9890232877088962}, {"State": "Meghalaya", "Month": 1, "total_doses_day": 3120.0, "total_samples_day": 42754.0, "Projected Total Population": 3366710, "testing_rate": 1.2699044467744476, "vaccination_rate": 0.09267207451785274}, {"State": "Meghalaya", "Month": 2, "total_doses_day": 40744.0, "total_samples_day": 34549.0, "Projected Total Population": 3366710, "testing_rate": 1.0261947123452866, "vaccination_rate": 1.2102022449216}, {"State": "Meghalaya", "Month": 3, "total_doses_day": 71858.0, "total_samples_day": 33309.0, "Projected Total Population": 3366710, "testing_rate": 0.9893635032420375, "vaccination_rate": 2.134368567533289}, {"State": "Meghalaya", "Month": 4, "total_doses_day": 177805.0, "total_samples_day": 58999.0, "Projected Total Population": 3366710, "testing_rate": 1.7524229886149978, "vaccination_rate": 5.281268656938079}, {"State": "Meghalaya", "Month": 5, "total_doses_day": 175310.0, "total_samples_day": 113431.0, "Projected Total Population": 3366710, "testing_rate": 3.3691942578956904, "vaccination_rate": 5.207160699911784}, {"State": "Meghalaya", "Month": 6, "total_doses_day": 233523.0, "total_samples_day": 123097.0, "Projected Total Population": 3366710, "testing_rate": 3.6562994733731147, "vaccination_rate": 6.9362374543694}, {"State": "Meghalaya", "Month": 7, "total_doses_day": 387487.0, "total_samples_day": 146375.0, "Projected Total Population": 3366710, "testing_rate": 4.347716316522659, "vaccination_rate": 11.50936671112154}, {"State": "Meghalaya", "Month": 8, "total_doses_day": 83854.0, "total_samples_day": 50347.0, "Projected Total Population": 3366710, "testing_rate": 1.4954361973558756, "vaccination_rate": 2.4906808130192384}, {"State": "Mizoram", "Month": 1, "total_doses_day": 7984.0, "total_samples_day": 27709.0, "Projected Total Population": 1239244, "testing_rate": 2.2359599885091233, "vaccination_rate": 0.6442637608090094}, {"State": "Mizoram", "Month": 2, "total_doses_day": 19581.0, "total_samples_day": 24757.0, "Projected Total Population": 1239244, "testing_rate": 1.997750241276133, "vaccination_rate": 1.5800762400302122}, {"State": "Mizoram", "Month": 3, "total_doses_day": 48395.0, "total_samples_day": 20340.0, "Projected Total Population": 1239244, "testing_rate": 1.6413232583736534, "vaccination_rate": 3.9052034950340695}, {"State": "Mizoram", "Month": 4, "total_doses_day": 186611.0, "total_samples_day": 51522.0, "Projected Total Population": 1239244, "testing_rate": 4.157534755060343, "vaccination_rate": 15.058454993528311}, {"State": "Mizoram", "Month": 5, "total_doses_day": 59178.0, "total_samples_day": 85829.0, "Projected Total Population": 1239244, "testing_rate": 6.92591612305567, "vaccination_rate": 4.775330766176798}, {"State": "Mizoram", "Month": 6, "total_doses_day": 257803.0, "total_samples_day": 93846.0, "Projected Total Population": 1239244, "testing_rate": 7.572842797705698, "vaccination_rate": 20.80324778655374}, {"State": "Mizoram", "Month": 7, "total_doses_day": 262950.0, "total_samples_day": 137783.0, "Projected Total Population": 1239244, "testing_rate": 11.118310841125718, "vaccination_rate": 21.218581651393915}, {"State": "Mizoram", "Month": 8, "total_doses_day": 25721.0, "total_samples_day": 72057.0, "Projected Total Population": 1239244, "testing_rate": 5.814593413403656, "vaccination_rate": 2.075539603177421}, {"State": "Nagaland", "Month": 1, "total_doses_day": 3530.0, "total_samples_day": 4699.0, "Projected Total Population": 2249695, "testing_rate": 0.2088727583072372, "vaccination_rate": 0.1569101589326553}, {"State": "Nagaland", "Month": 2, "total_doses_day": 28878.0, "total_samples_day": 5320.0, "Projected Total Population": 2249695, "testing_rate": 0.23647650014779784, "vaccination_rate": 1.2836406712909971}, {"State": "Nagaland", "Month": 3, "total_doses_day": 52182.0, "total_samples_day": 6096.0, "Projected Total Population": 2249695, "testing_rate": 0.27097006483101044, "vaccination_rate": 2.319514423066238}, {"State": "Nagaland", "Month": 4, "total_doses_day": 118890.0, "total_samples_day": 10576.0, "Projected Total Population": 2249695, "testing_rate": 0.4701081702186296, "vaccination_rate": 5.28471637266385}, {"State": "Nagaland", "Month": 5, "total_doses_day": 70105.0, "total_samples_day": 45316.0, "Projected Total Population": 2249695, "testing_rate": 2.0143174963717305, "vaccination_rate": 3.116200196026573}, {"State": "Nagaland", "Month": 6, "total_doses_day": 231296.0, "total_samples_day": 34422.0, "Projected Total Population": 2249695, "testing_rate": 1.530074076708176, "vaccination_rate": 10.281215898155082}, {"State": "Nagaland", "Month": 7, "total_doses_day": 264888.0, "total_samples_day": 37028.0, "Projected Total Population": 2249695, "testing_rate": 1.645912001404635, "vaccination_rate": 11.774396084802605}, {"State": "Nagaland", "Month": 8, "total_doses_day": 26402.0, "total_samples_day": 17074.0, "Projected Total Population": 2249695, "testing_rate": 0.7589473239705826, "vaccination_rate": 1.1735813076883757}, {"State": "Odisha", "Month": 1, "total_doses_day": 158567.0, "total_samples_day": 762641.0, "Projected Total Population": 46356334, "testing_rate": 1.6451710784549962, "vaccination_rate": 0.34206113020067547}, {"State": "Odisha", "Month": 2, "total_doses_day": 415261.0, "total_samples_day": 612035.0, "Projected Total Population": 46356334, "testing_rate": 1.3202834374262642, "vaccination_rate": 0.8958020709748101}, {"State": "Odisha", "Month": 3, "total_doses_day": 1836951.0, "total_samples_day": 722331.0, "Projected Total Population": 46356334, "testing_rate": 1.558214245328373, "vaccination_rate": 3.962675305601172}, {"State": "Odisha", "Month": 4, "total_doses_day": 3559055.0, "total_samples_day": 1042684.0, "Projected Total Population": 46356334, "testing_rate": 2.2492805406053034, "vaccination_rate": 7.677602374683038}, {"State": "Odisha", "Month": 5, "total_doses_day": 2001103.0, "total_samples_day": 1686416.0, "Projected Total Population": 46356334, "testing_rate": 3.6379408259505595, "vaccination_rate": 4.316784411813066}, {"State": "Odisha", "Month": 6, "total_doses_day": 4158540.0, "total_samples_day": 1986798.0, "Projected Total Population": 46356334, "testing_rate": 4.285925629925783, "vaccination_rate": 8.970812920624828}, {"State": "Odisha", "Month": 7, "total_doses_day": 4482741.0, "total_samples_day": 2262807.0, "Projected Total Population": 46356334, "testing_rate": 4.881332937155902, "vaccination_rate": 9.670180131155325}, {"State": "Odisha", "Month": 8, "total_doses_day": 1655607.0, "total_samples_day": 661087.0, "Projected Total Population": 46356334, "testing_rate": 1.4260985348841433, "vaccination_rate": 3.571479573859313}, {"State": "Puducherry", "Month": 1, "total_doses_day": 2077.0, "total_samples_day": 90250.0, "Projected Total Population": 1413542, "testing_rate": 6.384670565147693, "vaccination_rate": 0.14693585333863446}, {"State": "Puducherry", "Month": 2, "total_doses_day": 9177.0, "total_samples_day": 52427.0, "Projected Total Population": 1413542, "testing_rate": 3.708909958105242, "vaccination_rate": 0.6492201858876496}, {"State": "Puducherry", "Month": 3, "total_doses_day": 64399.0, "total_samples_day": 42994.0, "Projected Total Population": 1413542, "testing_rate": 3.041579238536952, "vaccination_rate": 4.555860384763948}, {"State": "Puducherry", "Month": 4, "total_doses_day": 123111.0, "total_samples_day": 129352.0, "Projected Total Population": 1413542, "testing_rate": 9.150913096321156, "vaccination_rate": 8.709398093583353}, {"State": "Puducherry", "Month": 5, "total_doses_day": 71464.0, "total_samples_day": 255395.0, "Projected Total Population": 1413542, "testing_rate": 18.067733395965597, "vaccination_rate": 5.055668667786313}, {"State": "Puducherry", "Month": 6, "total_doses_day": 238140.0, "total_samples_day": 257728.0, "Projected Total Population": 1413542, "testing_rate": 18.23277978298487, "vaccination_rate": 16.847040979327108}, {"State": "Puducherry", "Month": 7, "total_doses_day": 209757.0, "total_samples_day": 188010.0, "Projected Total Population": 1413542, "testing_rate": 13.300630614442301, "vaccination_rate": 14.839106301758278}, {"State": "Puducherry", "Month": 8, "total_doses_day": 36137.0, "total_samples_day": 53014.0, "Projected Total Population": 1413542, "testing_rate": 3.750436845880773, "vaccination_rate": 2.556485764130107}, {"State": "Punjab", "Month": 1, "total_doses_day": 45738.0, "total_samples_day": 582144.0, "Projected Total Population": 30141373, "testing_rate": 1.9313785075417766, "vaccination_rate": 0.1517449122175025}, {"State": "Punjab", "Month": 2, "total_doses_day": 135955.0, "total_samples_day": 516773.0, "Projected Total Population": 30141373, "testing_rate": 1.7144972128509208, "vaccination_rate": 0.45105775373935353}, {"State": "Punjab", "Month": 3, "total_doses_day": 791761.0, "total_samples_day": 932706.0, "Projected Total Population": 30141373, "testing_rate": 3.094437668781711, "vaccination_rate": 2.6268245975390703}, {"State": "Punjab", "Month": 4, "total_doses_day": 2449546.0, "total_samples_day": 1289335.0, "Projected Total Population": 30141373, "testing_rate": 4.277625309238567, "vaccination_rate": 8.126856065913122}, {"State": "Punjab", "Month": 5, "total_doses_day": 1245182.0, "total_samples_day": 2034715.0, "Projected Total Population": 30141373, "testing_rate": 6.750571714168428, "vaccination_rate": 4.131138949775115}, {"State": "Punjab", "Month": 6, "total_doses_day": 1653216.0, "total_samples_day": 1640006.0, "Projected Total Population": 30141373, "testing_rate": 5.441046099658433, "vaccination_rate": 5.484872902107014}, {"State": "Punjab", "Month": 7, "total_doses_day": 2863003.0, "total_samples_day": 1233480.0, "Projected Total Population": 30141373, "testing_rate": 4.092315237265402, "vaccination_rate": 9.498581899371338}, {"State": "Punjab", "Month": 8, "total_doses_day": 1135784.0, "total_samples_day": 345897.0, "Projected Total Population": 30141373, "testing_rate": 1.147582095878645, "vaccination_rate": 3.768189325682012}, {"State": "Rajasthan", "Month": 1, "total_doses_day": 309565.0, "total_samples_day": 586533.0, "Projected Total Population": 81032689, "testing_rate": 0.7238227032056163, "vaccination_rate": 0.3820248393830297}, {"State": "Rajasthan", "Month": 2, "total_doses_day": 715934.0, "total_samples_day": 452728.0, "Projected Total Population": 81032689, "testing_rate": 0.558697984217209, "vaccination_rate": 0.8835125784854554}, {"State": "Rajasthan", "Month": 3, "total_doses_day": 4824950.0, "total_samples_day": 604416.0, "Projected Total Population": 81032689, "testing_rate": 0.7458915746952443, "vaccination_rate": 5.95432542044853}, {"State": "Rajasthan", "Month": 4, "total_doses_day": 7451700.0, "total_samples_day": 1756101.0, "Projected Total Population": 81032689, "testing_rate": 2.1671513332107244, "vaccination_rate": 9.195918452119983}, {"State": "Rajasthan", "Month": 5, "total_doses_day": 3994383.0, "total_samples_day": 1926446.0, "Projected Total Population": 81032689, "testing_rate": 2.377368965257959, "vaccination_rate": 4.929347710527044}, {"State": "Rajasthan", "Month": 6, "total_doses_day": 7714715.0, "total_samples_day": 1277265.0, "Projected Total Population": 81032689, "testing_rate": 1.5762342528211053, "vaccination_rate": 9.520497339043013}, {"State": "Rajasthan", "Month": 7, "total_doses_day": 7737574.0, "total_samples_day": 1066315.0, "Projected Total Population": 81032689, "testing_rate": 1.315907213692489, "vaccination_rate": 9.54870694220699}, {"State": "Rajasthan", "Month": 8, "total_doses_day": 2915042.0, "total_samples_day": 250128.0, "Projected Total Population": 81032689, "testing_rate": 0.3086754285051555, "vaccination_rate": 3.597365502704717}, {"State": "Sikkim", "Month": 1, "total_doses_day": 1709.0, "total_samples_day": 5864.0, "Projected Total Population": 690251, "testing_rate": 0.8495460347033181, "vaccination_rate": 0.2475910936746198}, {"State": "Sikkim", "Month": 2, "total_doses_day": 17403.0, "total_samples_day": 4079.0, "Projected Total Population": 690251, "testing_rate": 0.5909444535393646, "vaccination_rate": 2.5212567602220064}, {"State": "Sikkim", "Month": 3, "total_doses_day": 57202.0, "total_samples_day": 4250.0, "Projected Total Population": 690251, "testing_rate": 0.6157180503903652, "vaccination_rate": 8.287130333748157}, {"State": "Sikkim", "Month": 4, "total_doses_day": 129775.0, "total_samples_day": 10637.0, "Projected Total Population": 690251, "testing_rate": 1.5410336240005449, "vaccination_rate": 18.801131762214034}, {"State": "Sikkim", "Month": 5, "total_doses_day": 35017.0, "total_samples_day": 25817.0, "Projected Total Population": 690251, "testing_rate": 3.740233625159543, "vaccination_rate": 5.073082110710452}, {"State": "Sikkim", "Month": 6, "total_doses_day": 234827.0, "total_samples_day": 44250.0, "Projected Total Population": 690251, "testing_rate": 6.410711465829097, "vaccination_rate": 34.020522969180774}, {"State": "Sikkim", "Month": 7, "total_doses_day": 164926.0, "total_samples_day": 36963.0, "Projected Total Population": 690251, "testing_rate": 5.355008540371546, "vaccination_rate": 23.89362710086621}, {"State": "Sikkim", "Month": 8, "total_doses_day": 10653.0, "total_samples_day": 12687.0, "Projected Total Population": 690251, "testing_rate": 1.8380270365417797, "vaccination_rate": 1.5433516213667202}, {"State": "Tamil Nadu", "Month": 1, "total_doses_day": 77809.0, "total_samples_day": 1828468.0, "Projected Total Population": 77841267, "testing_rate": 2.348969987860038, "vaccination_rate": 0.09995854769424553}, {"State": "Tamil Nadu", "Month": 2, "total_doses_day": 242157.0, "total_samples_day": 1459610.0, "Projected Total Population": 77841267, "testing_rate": 1.8751107943810832, "vaccination_rate": 0.3110907739978076}, {"State": "Tamil Nadu", "Month": 3, "total_doses_day": 2585469.0, "total_samples_day": 2115796.0, "Projected Total Population": 77841267, "testing_rate": 2.718090392850363, "vaccination_rate": 3.3214631514155593}, {"State": "Tamil Nadu", "Month": 4, "total_doses_day": 3041621.0, "total_samples_day": 3067039.0, "Projected Total Population": 77841267, "testing_rate": 3.940119576933402, "vaccination_rate": 3.9074659460514694}, {"State": "Tamil Nadu", "Month": 5, "total_doses_day": 3148798.0, "total_samples_day": 5012708.0, "Projected Total Population": 77841267, "testing_rate": 6.4396536608274895, "vaccination_rate": 4.0451525538503885}, {"State": "Tamil Nadu", "Month": 6, "total_doses_day": 6546231.0, "total_samples_day": 5163135.0, "Projected Total Population": 77841267, "testing_rate": 6.632902056951359, "vaccination_rate": 8.40971794562388}, {"State": "Tamil Nadu", "Month": 7, "total_doses_day": 7394107.0, "total_samples_day": 4607898.0, "Projected Total Population": 77841267, "testing_rate": 5.919608168762207, "vaccination_rate": 9.4989550979431}, {"State": "Tamil Nadu", "Month": 8, "total_doses_day": 2486516.0, "total_samples_day": 1556609.0, "Projected Total Population": 77841267, "testing_rate": 1.999722075438469, "vaccination_rate": 3.1943416337249495}, {"State": "Telangana", "Month": 1, "total_doses_day": 95057.0, "total_samples_day": 978667.0, "Projected Total Population": 38510982, "testing_rate": 2.541267319540177, "vaccination_rate": 0.2468308909910425}, {"State": "Telangana", "Month": 2, "total_doses_day": 324032.0, "total_samples_day": 839290.0, "Projected Total Population": 38510982, "testing_rate": 2.1793523727855084, "vaccination_rate": 0.8414015513808503}, {"State": "Telangana", "Month": 3, "total_doses_day": 984702.0, "total_samples_day": 1450958.0, "Projected Total Population": 38510982, "testing_rate": 3.767647368742765, "vaccination_rate": 2.556938174155102}, {"State": "Telangana", "Month": 4, "total_doses_day": 3512947.0, "total_samples_day": 2754245.0, "Projected Total Population": 38510982, "testing_rate": 7.151843076865711, "vaccination_rate": 9.121935659807376}, {"State": "Telangana", "Month": 5, "total_doses_day": 1284640.0, "total_samples_day": 2270305.0, "Projected Total Population": 38510982, "testing_rate": 5.89521451309655, "vaccination_rate": 3.335775753524021}, {"State": "Telangana", "Month": 6, "total_doses_day": 5006606.0, "total_samples_day": 3495748.0, "Projected Total Population": 38510982, "testing_rate": 9.07727567165127, "vaccination_rate": 13.000463088684677}, {"State": "Telangana", "Month": 7, "total_doses_day": 3661593.0, "total_samples_day": 3334308.0, "Projected Total Population": 38510982, "testing_rate": 8.658070573219867, "vaccination_rate": 9.50791906578752}, {"State": "Telangana", "Month": 8, "total_doses_day": 881884.0, "total_samples_day": 985634.0, "Projected Total Population": 38510982, "testing_rate": 2.5593582630533804, "vaccination_rate": 2.289954590095885}, {"State": "Tripura", "Month": 1, "total_doses_day": 21367.0, "total_samples_day": 28255.0, "Projected Total Population": 4169794, "testing_rate": 0.6776114119786254, "vaccination_rate": 0.5124233954962764}, {"State": "Tripura", "Month": 2, "total_doses_day": 87724.0, "total_samples_day": 13438.0, "Projected Total Population": 4169794, "testing_rate": 0.32227011694102875, "vaccination_rate": 2.103796974143087}, {"State": "Tripura", "Month": 3, "total_doses_day": 586767.0, "total_samples_day": 19207.0, "Projected Total Population": 4169794, "testing_rate": 0.46062227534501704, "vaccination_rate": 14.07184623508979}, {"State": "Tripura", "Month": 4, "total_doses_day": 563149.0, "total_samples_day": 65665.0, "Projected Total Population": 4169794, "testing_rate": 1.574778034598352, "vaccination_rate": 13.505439357435883}, {"State": "Tripura", "Month": 5, "total_doses_day": 374023.0, "total_samples_day": 242521.0, "Projected Total Population": 4169794, "testing_rate": 5.816138638983125, "vaccination_rate": 8.969819612191873}, {"State": "Tripura", "Month": 6, "total_doses_day": 939559.0, "total_samples_day": 332693.0, "Projected Total Population": 4169794, "testing_rate": 7.978643549297638, "vaccination_rate": 22.532504003794912}, {"State": "Tripura", "Month": 7, "total_doses_day": 594858.0, "total_samples_day": 278508.0, "Projected Total Population": 4169794, "testing_rate": 6.679178875503203, "vaccination_rate": 14.265884597656383}, {"State": "Tripura", "Month": 8, "total_doses_day": 70093.0, "total_samples_day": 71571.0, "Projected Total Population": 4169794, "testing_rate": 1.716415727011934, "vaccination_rate": 1.6809703309084334}, {"State": "Uttar Pradesh", "Month": 1, "total_doses_day": 434877.0, "total_samples_day": 3945451.0, "Projected Total Population": 237882725, "testing_rate": 1.6585697847542313, "vaccination_rate": 0.18281150932670712}, {"State": "Uttar Pradesh", "Month": 2, "total_doses_day": 1234446.0, "total_samples_day": 3398606.0, "Projected Total Population": 237882725, "testing_rate": 1.4286897041388777, "vaccination_rate": 0.5189304940070785}, {"State": "Uttar Pradesh", "Month": 3, "total_doses_day": 4586405.0, "total_samples_day": 3510987.0, "Projected Total Population": 237882725, "testing_rate": 1.4759318903884255, "vaccination_rate": 1.9280109558186709}, {"State": "Uttar Pradesh", "Month": 4, "total_doses_day": 6809920.0, "total_samples_day": 5999829.0, "Projected Total Population": 237882725, "testing_rate": 2.522179363802058, "vaccination_rate": 2.86272153642094}, {"State": "Uttar Pradesh", "Month": 5, "total_doses_day": 5777203.0, "total_samples_day": 8611359.0, "Projected Total Population": 237882725, "testing_rate": 3.6200018307340307, "vaccination_rate": 2.428592912747237}, {"State": "Uttar Pradesh", "Month": 6, "total_doses_day": 12946391.0, "total_samples_day": 8434626.0, "Projected Total Population": 237882725, "testing_rate": 3.545707659099668, "vaccination_rate": 5.4423418093936835}, {"State": "Uttar Pradesh", "Month": 7, "total_doses_day": 16994629.0, "total_samples_day": 7658604.0, "Projected Total Population": 237882725, "testing_rate": 3.2194872494419253, "vaccination_rate": 7.144120700651971}, {"State": "Uttar Pradesh", "Month": 8, "total_doses_day": 6171695.0, "total_samples_day": 2395225.0, "Projected Total Population": 237882725, "testing_rate": 1.00689320756688, "vaccination_rate": 2.594427569299116}, {"State": "Uttarakhand", "Month": 1, "total_doses_day": 26556.0, "total_samples_day": 357181.0, "Projected Total Population": 11250858, "testing_rate": 3.174700098428049, "vaccination_rate": 0.2360353317053686}, {"State": "Uttarakhand", "Month": 2, "total_doses_day": 142087.0, "total_samples_day": 272151.0, "Projected Total Population": 11250858, "testing_rate": 2.418935515851324, "vaccination_rate": 1.262899238440304}, {"State": "Uttarakhand", "Month": 3, "total_doses_day": 598005.0, "total_samples_day": 333206.0, "Projected Total Population": 11250858, "testing_rate": 2.961605239351523, "vaccination_rate": 5.315194627823051}, {"State": "Uttarakhand", "Month": 4, "total_doses_day": 1349966.0, "total_samples_day": 1042723.0, "Projected Total Population": 11250858, "testing_rate": 9.267942053841583, "vaccination_rate": 11.998782670619432}, {"State": "Uttarakhand", "Month": 5, "total_doses_day": 839889.0, "total_samples_day": 1012253.0, "Projected Total Population": 11250858, "testing_rate": 8.997118264224827, "vaccination_rate": 7.465110660893595}, {"State": "Uttarakhand", "Month": 6, "total_doses_day": 1482686.0, "total_samples_day": 739073.0, "Projected Total Population": 11250858, "testing_rate": 6.569036779239415, "vaccination_rate": 13.178426036485394}, {"State": "Uttarakhand", "Month": 7, "total_doses_day": 1505201.0, "total_samples_day": 764296.0, "Projected Total Population": 11250858, "testing_rate": 6.793224125662238, "vaccination_rate": 13.378544107480513}, {"State": "Uttarakhand", "Month": 8, "total_doses_day": 760126.0, "total_samples_day": 228607.0, "Projected Total Population": 11250858, "testing_rate": 2.031907255428875, "vaccination_rate": 6.756160285731097}, {"State": "West Bengal", "Month": 1, "total_doses_day": 214256.0, "total_samples_day": 885424.0, "Projected Total Population": 99609303, "testing_rate": 0.888896893495982, "vaccination_rate": 0.21509637508456414}, {"State": "West Bengal", "Month": 2, "total_doses_day": 878473.0, "total_samples_day": 567424.0, "Projected Total Population": 99609303, "testing_rate": 0.569649603913, "vaccination_rate": 0.8819186296283992}, {"State": "West Bengal", "Month": 3, "total_doses_day": 4462211.0, "total_samples_day": 609321.0, "Projected Total Population": 99609303, "testing_rate": 0.611710936276705, "vaccination_rate": 4.479713104708704}, {"State": "West Bengal", "Month": 4, "total_doses_day": 5504509.0, "total_samples_day": 1259954.0, "Projected Total Population": 99609303, "testing_rate": 1.2648959103749575, "vaccination_rate": 5.5260993041985245}, {"State": "West Bengal", "Month": 5, "total_doses_day": 3746187.0, "total_samples_day": 1998424.0, "Projected Total Population": 99609303, "testing_rate": 2.0062624070364192, "vaccination_rate": 3.760880647864788}, {"State": "West Bengal", "Month": 6, "total_doses_day": 7171487.0, "total_samples_day": 1787215.0, "Projected Total Population": 99609303, "testing_rate": 1.7942249831825445, "vaccination_rate": 7.199615682482991}, {"State": "West Bengal", "Month": 7, "total_doses_day": 7629076.0, "total_samples_day": 1512282.0, "Projected Total Population": 99609303, "testing_rate": 1.5182136150475825, "vaccination_rate": 7.658999481203075}, {"State": "West Bengal", "Month": 8, "total_doses_day": 2871680.0, "total_samples_day": 432340.0, "Projected Total Population": 99609303, "testing_rate": 0.4340357647116555, "vaccination_rate": 2.8829435740555276}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+</section>
+<section id="testing-data" class="level3">
+<h3 class="anchored" data-anchor-id="testing-data">Testing Data</h3>
+<div id="5dc90bee" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part A: Time-Series Analysis</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Monthly testing progression</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.figure(figsize=(12, 6))</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#monthly_testing = covid_merged.groupby('Month')['testing_rate'].mean()</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.plot(monthly_testing.index.astype(str), monthly_testing.values, marker='o')</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title('Average Monthly Testing Rate Across States')</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xlabel('Month')</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ylabel('Testing Rate per 100,000')</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xticks(rotation=45)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.grid(True)</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.show()</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># covid testing (absolute) over months for all states combined</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>test_time <span class="op">=</span> covid_merged.groupby(<span class="st">'Month'</span>)[<span class="st">'total_samples_day'</span>].<span class="bu">sum</span>().reset_index()</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>line <span class="op">=</span> alt.Chart(test_time).mark_line().encode(</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'Month:O'</span>, title<span class="op">=</span><span class="st">'Month'</span>),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'total_samples_day:Q'</span>, title<span class="op">=</span><span class="st">'Testing'</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">' Covid Testing over Time (All States Combined)'</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">600</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">400</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co"># vaccination administration (absolute) over months for all states combined</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>vacc_time <span class="op">=</span> covid_merged.groupby(<span class="st">'Month'</span>)[<span class="st">'total_doses_day'</span>].<span class="bu">sum</span>().reset_index()</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>line2 <span class="op">=</span> alt.Chart(vacc_time).mark_line(color<span class="op">=</span><span class="st">'orange'</span>).encode(</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'Month:O'</span>, title<span class="op">=</span><span class="st">'Month'</span>),</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'total_doses_day:Q'</span>, title<span class="op">=</span><span class="st">'Vaccination'</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Covid Vaccination over Time (All States Combined)'</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">600</span>,</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">400</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="co"># adding a metric column to each dataset</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>test_time[<span class="st">'Metric'</span>] <span class="op">=</span> <span class="st">'Testing'</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>vacc_time[<span class="st">'Metric'</span>] <span class="op">=</span> <span class="st">'Vaccination'</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="co"># combining the two datasets</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>combined_time <span class="op">=</span> pd.concat([test_time.rename(columns<span class="op">=</span>{<span class="st">'total_samples_day'</span>: <span class="st">'Value'</span>}),</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    vacc_time.rename(columns<span class="op">=</span>{<span class="st">'total_doses_day'</span>: <span class="st">'Value'</span>})])</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>combined_time[<span class="st">'Value'</span>] <span class="op">=</span> combined_time[<span class="st">'Value'</span>]<span class="op">/</span><span class="dv">1000000</span> <span class="co"># dividing by million</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="co"># creating a combined chart for testing and vaccination progression over time</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>combined_chart <span class="op">=</span> alt.Chart(combined_time).mark_line().encode(</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'Month:O'</span>, title<span class="op">=</span><span class="st">'Month'</span>),</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'Value:Q'</span>, title<span class="op">=</span><span class="st">'Count (in millions)'</span>),</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>alt.Color(<span class="st">'Metric:N'</span>, title<span class="op">=</span><span class="st">'Metric'</span>)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Testing and Vaccination Over Time (All States Combined)'</span>,</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">600</span>,</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">400</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>combined_chart</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Create population categories</span></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="co">#covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], </span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co">#                                            q=4, </span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="co">#                                            labels=['Small', 'Medium', 'Large', 'Very Large'])</span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="co">## Create boxplot of testing rates by population category</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.figure(figsize=(10, 6))</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="co">#sns.boxplot(data=covid_merged, x='population_category', y='testing_rate')</span></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title('Testing Rates by State Population Size')</span></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xlabel('Population Category')</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ylabel('Testing Rate per 100,000 population')</span></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.grid(True, alpha=0.3)</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.show()</span></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="co">## Print average testing rates by population category</span></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a><span class="co">#print("\nAverage Testing Rates by Population Category:")</span></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a><span class="co">#print(covid_merged.groupby('population_category')['testing_rate'].mean().round(2))</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a><span class="co">## Population category ranges</span></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="co">#pop_ranges = covid_merged.groupby('population_category')['Projected Total Population'].agg(['min', 'max'])</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a><span class="co">#print("\nPopulation Category Ranges:")</span></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a><span class="co">#print(pop_ranges)</span></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a><span class="co">## Part C: Testing Rate Growth</span></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate testing rate change</span></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>testing_growth <span class="op">=</span> covid_merged.groupby(<span class="st">'State'</span>).agg({</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>    <span class="st">'testing_rate'</span>: [<span class="st">'first'</span>, <span class="st">'last'</span>, <span class="kw">lambda</span> x: (x.<span class="bu">max</span>() <span class="op">-</span> x.<span class="bu">min</span>())<span class="op">/</span>x.<span class="bu">min</span>() <span class="op">*</span> <span class="dv">100</span>]</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>}).reset_index()</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>testing_growth.columns <span class="op">=</span> [<span class="st">'State'</span>, <span class="st">'Initial_Rate'</span>, <span class="st">'Final_Rate'</span>, <span class="st">'Growth_Percentage'</span>]</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>testing_growth.sort_values(<span class="st">'Growth_Percentage'</span>, ascending<span class="op">=</span><span class="va">False</span>), </span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span><span class="st">'State'</span>, y<span class="op">=</span><span class="st">'Growth_Percentage'</span>)</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Testing Rate Growth by State (%)'</span>)</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Growth in Testing Rate (%)'</span>)</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Untitled-1_files/figure-html/cell-5-output-1.png" width="974" height="709" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="vaccination-data" class="level3">
+<h3 class="anchored" data-anchor-id="vaccination-data">Vaccination Data</h3>
+<div id="ef73f651" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part A: Temporal Analysis</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Monthly vaccination progress</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.figure(figsize=(12, 6))</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#monthly_vax = covid_merged.groupby('Month')['vaccination_rate'].mean()</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.plot(monthly_vax.index.astype(str), monthly_vax.values, marker='o')</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title('Average Monthly Vaccination Rate Across States')</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xlabel('Month')</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ylabel('Vaccination Rate (%)')</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xticks(rotation=45)</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.grid(True)</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.show()</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">## Part B: Population Size Impact</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">## Create population categories</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], </span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                                            q=4, labels=['Small', 'Medium', 'Large', 'Very Large'])</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">## Box plot of vaccination rates by population category</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.figure(figsize=(10, 6))</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#sns.boxplot(data=covid_merged, x='population_category', y='vaccination_rate')</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title('Vaccination Rates by State Population Size')</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xlabel('Population Category')</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ylabel('Vaccination Rate (%)')</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.show()</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Part C: Vaccination Efficiency</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate vaccination rate change</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>vax_efficiency <span class="op">=</span> covid_merged.groupby(<span class="st">'State'</span>).agg({</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">'vaccination_rate'</span>: [<span class="st">'first'</span>, <span class="st">'last'</span>, <span class="kw">lambda</span> x: x.<span class="bu">max</span>() <span class="op">-</span> x.<span class="bu">min</span>()]</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>}).reset_index()</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>vax_efficiency.columns <span class="op">=</span> [<span class="st">'State'</span>, <span class="st">'Initial_Rate'</span>, <span class="st">'Final_Rate'</span>, <span class="st">'Rate_Change'</span>]</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot vaccination rate change</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>vax_efficiency.sort_values(<span class="st">'Rate_Change'</span>, ascending<span class="op">=</span><span class="va">False</span>), </span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span><span class="st">'State'</span>, y<span class="op">=</span><span class="st">'Rate_Change'</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Vaccination Rate Change by State'</span>)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Change in Vaccination Rate (%)'</span>)</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Untitled-1_files/figure-html/cell-6-output-1.png" width="957" height="709" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="relationship-between-vaccination-and-testing" class="level2">
+<h2 class="anchored" data-anchor-id="relationship-between-vaccination-and-testing">3. Relationship between vaccination and testing</h2>
+<div id="f70faeda" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part A: Testing vs Vaccination Rates (in Population context)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.figure(figsize=(12, 8))</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">## Create scatter plot with point size based on population</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#for state in covid_merged['State'].unique():</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    state_data = covid_merged[covid_merged['State'] == state]</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#    plt.scatter(state_data['testing_rate'], </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                state_data['vaccination_rate'],</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                s=state_data['Projected Total Population']/500000, # Size based on population</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                alpha=0.6,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#                label=state)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title('Testing vs Vaccination Rates (Point Size = Population)')</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xlabel('Testing Rate per 100,000 population')</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ylabel('Vaccination Rate (%)')</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xlim(0, 100000)  # Set x-axis limit to 100,000</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.legend(bbox_to_anchor=(1.05, 1))</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.grid(True)</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.tight_layout()</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.show()</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># abs</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>scatter_abs <span class="op">=</span> alt.Chart(covid_merged).mark_circle().encode(</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'total_samples_day'</span>, title<span class="op">=</span><span class="st">'Testing Samples'</span>),</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'total_doses_day'</span>, title<span class="op">=</span><span class="st">'Vaccination Doses'</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Relationship Between Covid Testing and Vaccination'</span>,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">600</span>,</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">400</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>scatter_abs</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="co"># pct</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>state_agg <span class="op">=</span> covid_merged.groupby(<span class="st">'State'</span>, as_index<span class="op">=</span><span class="va">False</span>).agg({</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">'testing_rate'</span>: <span class="st">'mean'</span>,</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'vaccination_rate'</span>: <span class="st">'mean'</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>scatter_pct <span class="op">=</span> alt.Chart(state_agg).mark_circle().encode(</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'testing_rate'</span>, title<span class="op">=</span><span class="st">'Average Testing Rate'</span>),</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'vaccination_rate'</span>, title<span class="op">=</span><span class="st">'Average Vaccination Rate'</span>)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Relationship Between Testing Rate and Vaccination Rate by State in India'</span>,</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">600</span>,</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">400</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>scatter_pct</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> alt.Chart(state_agg).mark_text(</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    align<span class="op">=</span><span class="st">'left'</span>,</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    <span class="co">#dx=5,  # Offset the text position</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="co">#dy=-5  # Offset the text position</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    fontSize<span class="op">=</span><span class="dv">5</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>).encode(</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'testing_rate'</span>,</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'vaccination_rate'</span>,</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span><span class="st">'State'</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>scatter_pct <span class="op">+</span> text</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Part B: Patterns across different population categories</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.figure(figsize=(12, 8))</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="co">#for category in covid_merged['population_category'].unique():</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a><span class="co">#    category_data = covid_merged[covid_merged['population_category'] == category]</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="co">#    plt.scatter(category_data['testing_rate'], </span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a><span class="co">#                category_data['vaccination_rate'],</span></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a><span class="co">#                label=category,</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a><span class="co">#                alpha=0.6)</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title('Testing vs Vaccination Rates by Population Category')</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xlabel('Testing Rate per 100,000 population')</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ylabel('Vaccination Rate (%)')</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.legend(title='Population Category')</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.grid(True)</span></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.tight_layout()</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.show()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+
+<style>
+  #altair-viz-c5d710e081f54b038eb0ad378301b47f.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-c5d710e081f54b038eb0ad378301b47f.vega-embed details,
+  #altair-viz-c5d710e081f54b038eb0ad378301b47f.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-c5d710e081f54b038eb0ad378301b47f"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-c5d710e081f54b038eb0ad378301b47f") {
+      outputDiv = document.getElementById("altair-viz-c5d710e081f54b038eb0ad378301b47f");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@5.20.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.20.1"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "layer": [{"mark": {"type": "circle"}, "encoding": {"x": {"field": "testing_rate", "title": "Average Testing Rate", "type": "quantitative"}, "y": {"field": "vaccination_rate", "title": "Average Vaccination Rate", "type": "quantitative"}}, "title": "Relationship Between Testing Rate and Vaccination Rate by State in India"}, {"mark": {"type": "text", "align": "left", "fontSize": 5}, "encoding": {"text": {"field": "State", "type": "nominal"}, "x": {"field": "testing_rate", "type": "quantitative"}, "y": {"field": "vaccination_rate", "type": "quantitative"}}}], "data": {"name": "data-67ee49f92e3e7950f1f43b0754993455"}, "height": 400, "width": 600, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-67ee49f92e3e7950f1f43b0754993455": [{"State": "Andaman and Nicobar Islands", "testing_rate": 8.121211358252046, "vaccination_rate": 9.373171620675434}, {"State": "Andhra Pradesh", "testing_rate": 3.127392880444465, "vaccination_rate": 5.562887525466161}, {"State": "Arunachal Pradesh", "testing_rate": 4.840387326499658, "vaccination_rate": 7.064340466284357}, {"State": "Assam", "testing_rate": 4.863299992453739, "vaccination_rate": 4.467986301809594}, {"State": "Bihar", "testing_rate": 2.0516634761466124, "vaccination_rate": 2.7993814675819597}, {"State": "Chandigarh", "testing_rate": 4.832589969727391, "vaccination_rate": 9.97603094763538}, {"State": "Chhattisgarh", "testing_rate": 3.502203627903314, "vaccination_rate": 5.033300204092026}, {"State": "Delhi", "testing_rate": 10.471207672182054, "vaccination_rate": 7.263283845659771}, {"State": "Goa", "testing_rate": 5.541907013396375, "vaccination_rate": 11.041843971631206}, {"State": "Gujarat", "testing_rate": 3.236892276427569, "vaccination_rate": 7.311332747968335}, {"State": "Haryana", "testing_rate": 2.916801484660779, "vaccination_rate": 5.786444149079877}, {"State": "Himachal Pradesh", "testing_rate": 3.6728717497623107, "vaccination_rate": 9.500444849707224}, {"State": "Jammu and Kashmir", "testing_rate": 7.794991592142475, "vaccination_rate": 6.258914056115099}, {"State": "Jharkhand", "testing_rate": 2.3919712100975, "vaccination_rate": 3.374478234255796}, {"State": "Karnataka", "testing_rate": 4.815297936793099, "vaccination_rate": 6.199491535904893}, {"State": "Kerala", "testing_rate": 7.294795537846347, "vaccination_rate": 7.77958601482942}, {"State": "Ladakh", "testing_rate": 20.094652213376328, "vaccination_rate": 12.2898523646907}, {"State": "Lakshadweep", "testing_rate": 38.725523687195114, "vaccination_rate": 11.7749340693877}, {"State": "Madhya Pradesh", "testing_rate": 1.5380628150774789, "vaccination_rate": 5.225853107520692}, {"State": "Maharashtra", "testing_rate": 3.771739255685587, "vaccination_rate": 4.803371287664871}, {"State": "Manipur", "testing_rate": 2.699495721394966, "vaccination_rate": 5.698040947163959}, {"State": "Meghalaya", "testing_rate": 2.238316487015514, "vaccination_rate": 4.357744652791598}, {"State": "Mizoram", "testing_rate": 5.1830289273137495, "vaccination_rate": 8.757587287087935}, {"State": "Nagaland", "testing_rate": 0.8919597989949749, "vaccination_rate": 4.4237718890782975}, {"State": "Odisha", "testing_rate": 2.6255309037164154, "vaccination_rate": 4.925924739864028}, {"State": "Puducherry", "testing_rate": 9.454706687173074, "vaccination_rate": 6.669964528821924}, {"State": "Punjab", "testing_rate": 3.5561817306729853, "vaccination_rate": 4.279908300793066}, {"State": "Rajasthan", "testing_rate": 1.2217186819506878, "vaccination_rate": 5.5014623481148455}, {"State": "Sikkim", "testing_rate": 2.617652853816945, "vaccination_rate": 11.79846171899787}, {"State": "Tamil Nadu", "testing_rate": 3.9842720892505517, "vaccination_rate": 4.098518206287675}, {"State": "Telangana", "testing_rate": 5.228753644869403, "vaccination_rate": 5.112652346803309}, {"State": "Tripura", "testing_rate": 3.1532073287073654, "vaccination_rate": 9.70533556333958}, {"State": "Uttar Pradesh", "testing_rate": 2.309682586240762, "vaccination_rate": 2.8877446859581752}, {"State": "Uttarakhand", "testing_rate": 5.276808666503479, "vaccination_rate": 7.448894119897345}, {"State": "West Bengal", "testing_rate": 1.1359862642548557, "vaccination_rate": 4.075658349903321}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="correlation-and-regression-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-and-regression-analysis">4. Correlation and regression analysis</h2>
+<div id="b0d68d3e" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation analysis</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#correlation = covid_merged[['testing_rate', 'vaccination_rate']].corr().iloc[0, 1]</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#print(f"Correlation between testing rate and vaccination rate: {correlation:.2f}")</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression analysis</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols(<span class="st">'vaccination_rate ~ testing_rate + C(State)'</span>, data<span class="op">=</span>covid_merged).fit() <span class="co"># with state fixed effects</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.summary())</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create correlation matrix</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>correlation_vars <span class="op">=</span> [<span class="st">'vaccination_rate'</span>, <span class="st">'testing_rate'</span>, <span class="st">'Projected Total Population'</span>]</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>correlation_matrix <span class="op">=</span> covid_merged[correlation_vars].corr()</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>correlation_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:       vaccination_rate   R-squared:                       0.361
+Model:                            OLS   Adj. R-squared:                  0.269
+Method:                 Least Squares   F-statistic:                     3.906
+Date:                Mon, 02 Dec 2024   Prob (F-statistic):           1.63e-10
+Time:                        21:46:41   Log-Likelihood:                -842.22
+No. Observations:                 278   AIC:                             1756.
+Df Residuals:                     242   BIC:                             1887.
+Df Model:                          35                                         
+Covariance Type:            nonrobust                                         
+=================================================================================================
+                                    coef    std err          t      P&gt;|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------------------
+Intercept                         4.9919      1.965      2.540      0.012       1.120       8.863
+C(State)[T.Andhra Pradesh]       -1.1162      2.701     -0.413      0.680      -6.437       4.205
+C(State)[T.Arunachal Pradesh]    -0.5389      2.691     -0.200      0.841      -5.839       4.761
+C(State)[T.Assam]                -3.1476      2.691     -1.170      0.243      -8.448       2.153
+C(State)[T.Bihar]                -3.2993      2.710     -1.217      0.225      -8.638       2.039
+C(State)[T.Chandigarh]            2.3770      2.691      0.883      0.378      -2.923       7.677
+C(State)[T.Chhattisgarh]         -1.8480      2.699     -0.685      0.494      -7.164       3.468
+C(State)[T.Delhi]                -3.3777      2.687     -1.257      0.210      -8.670       1.915
+C(State)[T.Goa]                   3.0602      2.688      1.139      0.256      -2.234       8.354
+C(State)[T.Gujarat]               0.5732      2.700      0.212      0.832      -4.746       5.893
+C(State)[T.Haryana]              -0.7790      2.703     -0.288      0.773      -6.103       4.545
+C(State)[T.Himachal Pradesh]      2.5271      2.697      0.937      0.350      -2.786       7.841
+C(State)[T.Jammu and Kashmir]    -2.9383      2.683     -1.095      0.275      -8.223       2.346
+C(State)[T.Jharkhand]            -2.9078      2.707     -1.074      0.284      -8.240       2.425
+C(State)[T.Karnataka]            -1.3902      2.691     -0.517      0.606      -6.691       3.910
+C(State)[T.Kerala]               -1.1477      2.683     -0.428      0.669      -6.433       4.138
+C(State)[T.Ladakh]               -3.5429      2.995     -1.183      0.238      -9.443       2.357
+C(State)[T.Lakshadweep]         -14.1090      3.309     -4.264      0.000     -20.627      -7.591
+C(State)[T.Madhya Pradesh]       -0.5958      2.715     -0.219      0.826      -5.944       4.752
+C(State)[T.Maharashtra]          -2.2233      2.697     -0.824      0.411      -7.536       3.089
+C(State)[T.Manipur]              -0.7502      2.705     -0.277      0.782      -6.078       4.577
+C(State)[T.Meghalaya]            -1.8417      2.708     -0.680      0.497      -7.177       3.493
+C(State)[T.Mizoram]               0.9695      2.689      0.361      0.719      -4.328       6.267
+C(State)[T.Nagaland]             -1.0493      2.721     -0.386      0.700      -6.410       4.312
+C(State)[T.Odisha]               -1.4824      2.705     -0.548      0.584      -6.811       3.846
+C(State)[T.Puducherry]           -3.4226      2.684     -1.275      0.203      -8.710       1.864
+C(State)[T.Punjab]               -2.6305      2.698     -0.975      0.331      -7.946       2.685
+C(State)[T.Rajasthan]            -0.1495      2.718     -0.055      0.956      -5.504       5.205
+C(State)[T.Sikkim]                5.3944      2.705      1.994      0.047       0.066      10.723
+C(State)[T.Tamil Nadu]           -3.0428      2.695     -1.129      0.260      -8.352       2.267
+C(State)[T.Telangana]            -2.7001      2.689     -1.004      0.316      -7.997       2.597
+C(State)[T.Tripura]               3.0124      2.701      1.115      0.266      -2.308       8.333
+C(State)[T.Uttar Pradesh]        -3.3502      2.708     -1.237      0.217      -8.684       1.984
+C(State)[T.Uttarakhand]          -0.3897      2.689     -0.145      0.885      -5.686       4.907
+C(State)[T.West Bengal]          -1.5291      2.719     -0.562      0.574      -6.885       3.827
+testing_rate                      0.5395      0.063      8.524      0.000       0.415       0.664
+==============================================================================
+Omnibus:                       29.797   Durbin-Watson:                   1.756
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               67.736
+Skew:                           0.521   Prob(JB):                     1.96e-15
+Kurtosis:                       5.182   Cond. No.                         354.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">vaccination_rate</th>
+<th data-quarto-table-cell-role="th">testing_rate</th>
+<th data-quarto-table-cell-role="th">Projected Total Population</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">vaccination_rate</td>
+<td>1.000000</td>
+<td>0.442666</td>
+<td>-0.245322</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">testing_rate</td>
+<td>0.442666</td>
+<td>1.000000</td>
+<td>-0.227024</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Projected Total Population</td>
+<td>-0.245322</td>
+<td>-0.227024</td>
+<td>1.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="7b83f456" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adding hospital data as a proxy for infrastructure</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>hospital <span class="op">=</span> pd.read_csv(<span class="st">'C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/Hospital_India.csv'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># rename columns and rows in the hospital dataset that use '&amp;'</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>hospital <span class="op">=</span> hospital.rename(columns<span class="op">=</span>{<span class="st">'State/UT/India'</span>: <span class="st">'State'</span>})</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>hospital <span class="op">=</span> hospital.rename(columns<span class="op">=</span>{<span class="st">'No. of beds available in public facilities'</span>: <span class="st">'num_beds'</span>})</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>hospital <span class="op">=</span> hospital.rename(index<span class="op">=</span>{<span class="st">'Andaman &amp; Nicobar Islands'</span>: <span class="st">'Andaman and Nicobar Islands'</span>})</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>hospital[<span class="st">'State'</span>] <span class="op">=</span> hospital[<span class="st">'State'</span>].replace(<span class="st">'Andaman &amp; Nicobar Islands'</span>, <span class="st">'Andaman and Nicobar Islands'</span>).replace(<span class="st">'Jammu &amp; Kashmir'</span>, <span class="st">'Jammu and Kashmir'</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># merge this with our main covid_merged dataset</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>covid_merged <span class="op">=</span> pd.merge(covid_merged, hospital, on<span class="op">=</span><span class="st">'State'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ceeb1a45" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>covid_merged[<span class="st">'num_beds'</span>] <span class="op">=</span> pd.to_numeric(covid_merged[<span class="st">'num_beds'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>covid_merged[<span class="st">'Total'</span>] <span class="op">=</span> pd.to_numeric(covid_merged[<span class="st">'Total'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression analysis</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>model_hosp <span class="op">=</span> ols(<span class="st">'vaccination_rate ~ testing_rate + Total + testing_rate:Total + C(State)'</span>, </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>covid_merged</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>).fit()</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model_hosp.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:       vaccination_rate   R-squared:                       0.374
+Model:                            OLS   Adj. R-squared:                  0.282
+Method:                 Least Squares   F-statistic:                     4.035
+Date:                Mon, 02 Dec 2024   Prob (F-statistic):           6.29e-11
+Time:                        21:46:41   Log-Likelihood:                -815.18
+No. Observations:                 272   AIC:                             1702.
+Df Residuals:                     236   BIC:                             1832.
+Df Model:                          35                                         
+Covariance Type:            nonrobust                                         
+=================================================================================================
+                                    coef    std err          t      P&gt;|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------------------
+Intercept                         5.8353      1.949      2.994      0.003       1.995       9.675
+C(State)[T.Andhra Pradesh]       -0.0625      1.876     -0.033      0.973      -3.759       3.634
+C(State)[T.Arunachal Pradesh]    -0.8459      2.515     -0.336      0.737      -5.800       4.109
+C(State)[T.Assam]                -3.4848      2.037     -1.711      0.088      -7.498       0.528
+C(State)[T.Bihar]                -0.6443      1.810     -0.356      0.722      -4.211       2.922
+C(State)[T.Chandigarh]            2.0719      2.603      0.796      0.427      -3.056       7.200
+C(State)[T.Chhattisgarh]         -1.5619      2.102     -0.743      0.458      -5.704       2.580
+C(State)[T.Delhi]                -4.9768      2.351     -2.117      0.035      -9.609      -0.345
+C(State)[T.Goa]                   2.8186      2.603      1.083      0.280      -2.310       7.947
+C(State)[T.Gujarat]               2.0335      1.784      1.140      0.256      -1.482       5.549
+C(State)[T.Haryana]              -0.5830      2.264     -0.258      0.797      -5.043       3.877
+C(State)[T.Himachal Pradesh]      2.5146      2.267      1.109      0.268      -1.951       6.980
+C(State)[T.Jammu and Kashmir]    -4.2614      2.237     -1.905      0.058      -8.668       0.145
+C(State)[T.Jharkhand]            -2.7393      2.332     -1.175      0.241      -7.333       1.855
+C(State)[T.Karnataka]            -1.7057      1.948     -0.876      0.382      -5.543       2.131
+C(State)[T.Kerala]               -2.9582      2.103     -1.407      0.161      -7.102       1.185
+C(State)[T.Ladakh]             7.908e-12   4.73e-12      1.671      0.096   -1.42e-12    1.72e-11
+C(State)[T.Lakshadweep]         -10.8211      3.356     -3.224      0.001     -17.433      -4.210
+C(State)[T.Madhya Pradesh]        2.1066      1.865      1.130      0.260      -1.567       5.781
+C(State)[T.Maharashtra]          -0.7888      1.928     -0.409      0.683      -4.587       3.009
+C(State)[T.Manipur]              -1.1597      2.579     -0.450      0.653      -6.241       3.921
+C(State)[T.Meghalaya]            -2.1798      2.544     -0.857      0.392      -7.192       2.833
+C(State)[T.Mizoram]               0.6861      2.578      0.266      0.790      -4.392       5.764
+C(State)[T.Nagaland]             -1.4340      2.567     -0.559      0.577      -6.491       3.622
+C(State)[T.Odisha]                0.1376      1.847      0.075      0.941      -3.501       3.777
+C(State)[T.Puducherry]           -3.3477      2.591     -1.292      0.198      -8.453       1.758
+C(State)[T.Punjab]               -2.5635      2.232     -1.149      0.252      -6.960       1.833
+C(State)[T.Rajasthan]             5.3651      2.019      2.657      0.008       1.387       9.343
+C(State)[T.Sikkim]                4.8816      2.629      1.857      0.065      -0.297      10.060
+C(State)[T.Tamil Nadu]           -2.2650      1.811     -1.251      0.212      -5.833       1.303
+C(State)[T.Telangana]            -3.1762      2.152     -1.476      0.141      -7.415       1.063
+C(State)[T.Tripura]               2.6642      2.550      1.045      0.297      -2.359       7.688
+C(State)[T.Uttar Pradesh]         1.7568      2.306      0.762      0.447      -2.787       6.301
+C(State)[T.Uttarakhand]          -0.7436      2.412     -0.308      0.758      -5.496       4.009
+C(State)[T.West Bengal]           1.6203      1.880      0.862      0.390      -2.084       5.325
+testing_rate                      0.4280      0.069      6.194      0.000       0.292       0.564
+Total                            -0.0027      0.001     -2.736      0.007      -0.005      -0.001
+testing_rate:Total                0.0006      0.000      4.154      0.000       0.000       0.001
+==============================================================================
+Omnibus:                       38.523   Durbin-Watson:                   1.836
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               85.074
+Skew:                           0.699   Prob(JB):                     3.36e-19
+Kurtosis:                       5.356   Cond. No.                     3.05e+18
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The smallest eigenvalue is 1.06e-27. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.</code></pre>
+</div>
+</div>
+<p><br></p>
+<section id="correlation-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-analysis">Correlation Analysis</h3>
+<p>The correlation coefficient of 0.61 indicates a moderately strong positive relationship between testing and vaccination rates. This suggests that states with higher testing rates generally tend to have higher vaccination rates.</p>
+<section id="regression-analysis-key-findings" class="level4">
+<h4 class="anchored" data-anchor-id="regression-analysis-key-findings">Regression Analysis Key Findings</h4>
+<section id="model-fit" class="level5">
+<h5 class="anchored" data-anchor-id="model-fit">Model Fit</h5>
+<ul>
+<li><p>R-squared value of 0.373 indicates that approximately 37.3% of the variation in vaccination rates can be explained by testing rates</p></li>
+<li><p>The adjusted R-squared (0.370) is very close to the R-squared, suggesting the model is not overfitted</p></li>
+</ul>
+</section>
+<section id="statistical-significance" class="level5">
+<h5 class="anchored" data-anchor-id="statistical-significance">Statistical Significance</h5>
+<ul>
+<li><p>F-statistic of 122.6 with a p-value of 1.17e-22 indicates the model is highly statistically significant</p></li>
+<li><p>The testing_rate coefficient (0.0002) is significant (p &lt; 0.001), confirming a positive relationship with vaccination rates</p></li>
+</ul>
+</section>
+<section id="coefficient-interpretation" class="level5">
+<h5 class="anchored" data-anchor-id="coefficient-interpretation">Coefficient Interpretation</h5>
+<ul>
+<li><p>Intercept of 2.7051: The expected vaccination rate when testing rate is zero</p></li>
+<li><p>Testing_rate coefficient of 0.0002: For each unit increase in testing rate per 100,000 population, the vaccination rate increases by 0.0002 percentage points</p></li>
+</ul>
+<p><br></p>
+</section>
+</section>
+</section>
+</section>
+<section id="shiny-app-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="shiny-app-dashboard">5. Shiny app dashboard</h2>
+<p>Insert some screenshots of dashboard</p>
+<p><br> <br></p>
+</section>
+<section id="analysis" class="level2">
+<h2 class="anchored" data-anchor-id="analysis">6. Analysis</h2>
+<p>Based on the comprehensive data analysis of COVID-19 testing and vaccination rates across Indian states from January to August 2021, several significant patterns and insights emerge:</p>
+<p><br></p>
+<hr>
+<section id="testing-distribution-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="testing-distribution-analysis">Testing Distribution Analysis</h3>
+<section id="high-testing-states" class="level4">
+<h4 class="anchored" data-anchor-id="high-testing-states">High Testing States:</h4>
+<ul>
+<li>Ladakh and Lakshadweep show exceptionally high testing rates (&gt;150,000 per 100,000 population), though this is partly due to their small population base.</li>
+<li>Metropolitan Regions: Delhi maintains consistently high testing rates (&gt;100,000 per 100,000), reflecting urban capacity and infrastructure.</li>
+<li>State Variations: Most states maintain testing rates between 20,000-60,000 per 100,000 population, showing significant interstate disparities.</li>
+</ul>
+<p><br></p>
+<hr>
+</section>
+</section>
+<section id="vaccination-progress-patterns" class="level3">
+<h3 class="anchored" data-anchor-id="vaccination-progress-patterns">Vaccination Progress Patterns</h3>
+<section id="leading-states" class="level4">
+<h4 class="anchored" data-anchor-id="leading-states">Leading States:</h4>
+<ul>
+<li>Ladakh achieved nearly 58% vaccination rate by June 2021</li>
+<li>Lakshadweep reached 62% vaccination coverage</li>
+<li>Sikkim managed about 50% coverage</li>
+</ul>
+</section>
+<section id="major-states-performance" class="level4">
+<h4 class="anchored" data-anchor-id="major-states-performance">Major States Performance:</h4>
+<ul>
+<li>Kerala maintained steady progress, reaching 28% by June</li>
+<li>Maharashtra, despite high case loads, achieved 19.5% coverage</li>
+<li>Uttar Pradesh, India’s most populous state, reached 10.4% coverage</li>
+</ul>
+<p><br></p>
+<hr>
+</section>
+</section>
+<section id="state-wise-overall-performance" class="level3">
+<h3 class="anchored" data-anchor-id="state-wise-overall-performance">State-wise overall performance</h3>
+<section id="high-performing-large-states" class="level4">
+<h4 class="anchored" data-anchor-id="high-performing-large-states">High-Performing Large States</h4>
+<section id="maharashtra" class="level5">
+<h5 class="anchored" data-anchor-id="maharashtra">Maharashtra</h5>
+<ul>
+<li>Despite having India’s second-largest population (123.1 million), achieved impressive vaccination coverage</li>
+<li>Reached 19.5% vaccination rate by June 2021</li>
+<li>Maintained consistent testing rates around 33,800 per 100,000 population</li>
+<li>Success factors: Strong healthcare infrastructure and urban centers with good medical facilities1</li>
+</ul>
+</section>
+<section id="karnataka" class="level5">
+<h5 class="anchored" data-anchor-id="karnataka">Karnataka</h5>
+<ul>
+<li>Population of 67.5 million</li>
+<li>Achieved 25.9% vaccination rate by June 2021</li>
+<li>Maintained high testing rates (50,700 per 100,000)</li>
+<li>Key advantage: Tech hub Bangalore’s infrastructure and private sector participation</li>
+</ul>
+</section>
+</section>
+<section id="underperforming-states" class="level4">
+<h4 class="anchored" data-anchor-id="underperforming-states">Underperforming States</h4>
+<section id="bihar" class="level5">
+<h5 class="anchored" data-anchor-id="bihar">Bihar</h5>
+<ul>
+<li>Large population (124.8 million) but low vaccination rate of 10.5% by June 2021</li>
+<li>Testing rates remained low at 26,600 per 100,000</li>
+<li>Challenges: Limited healthcare infrastructure and large rural population</li>
+</ul>
+</section>
+<section id="uttar-pradesh" class="level5">
+<h5 class="anchored" data-anchor-id="uttar-pradesh">Uttar Pradesh</h5>
+<ul>
+<li>India’s most populous state (237.8 million)</li>
+<li>Lowest vaccination rate among major states at 10.4% by June 2021</li>
+<li>Testing rates remained consistently low (24,300 per 100,000)</li>
+<li>Hindrances: Vast geographical area and inadequate healthcare facilities</li>
+</ul>
+</section>
+</section>
+<section id="key-factors-for-success" class="level4">
+<h4 class="anchored" data-anchor-id="key-factors-for-success">Key Factors for Success</h4>
+<section id="healthcare-infrastructure" class="level5">
+<h5 class="anchored" data-anchor-id="healthcare-infrastructure">Healthcare Infrastructure</h5>
+<ul>
+<li>States with established medical facilities showed better performance</li>
+<li>Urban centers with multiple vaccination sites performed better3</li>
+</ul>
+</section>
+<section id="population-size-impact" class="level5">
+<h5 class="anchored" data-anchor-id="population-size-impact">Population Size Impact</h5>
+<ul>
+<li>Smaller states like Ladakh (57.9%) and Lakshadweep (62.6%) achieved higher vaccination rates</li>
+<li>Large states required more complex logistics and distribution networks3</li>
+</ul>
+<p><br></p>
+<hr>
+</section>
+</section>
+</section>
+<section id="correlation-between-testing-and-vaccination" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-between-testing-and-vaccination">Correlation Between Testing and Vaccination</h3>
+<p>Several patterns emerge from the data:</p>
+<ul>
+<li><em>Positive Correlation:</em> States with robust testing infrastructure generally achieved higher vaccination rates</li>
+<li><em>Small vs Large States:</em> Smaller states/UTs showed faster vaccination progress, possibly due to manageable population sizes</li>
+<li><em>Resource Utilization:</em> States that established strong testing systems early (like Delhi, Kerala) maintained efficient vaccination programs</li>
+</ul>
+<p><br></p>
+<hr>
+</section>
+<section id="project-significance" class="level3">
+<h3 class="anchored" data-anchor-id="project-significance">Project Significance</h3>
+<p>This analysis is significant for several reasons:</p>
+<section id="policy-implications" class="level4">
+<h4 class="anchored" data-anchor-id="policy-implications">Policy Implications</h4>
+<ul>
+<li>Demonstrates the importance of healthcare infrastructure in pandemic response</li>
+<li>Highlights the need for targeted support to states with lower testing capabilities</li>
+<li>Shows how early testing capacity correlates with vaccination efficiency</li>
+</ul>
+</section>
+<section id="healthcare-planning" class="level4">
+<h4 class="anchored" data-anchor-id="healthcare-planning">Healthcare Planning</h4>
+<ul>
+<li>Provides insights for future pandemic preparedness</li>
+<li>Identifies successful models from high-performing states</li>
+<li>Reveals the importance of population size in healthcare delivery</li>
+</ul>
+</section>
+<section id="resource-allocation" class="level4">
+<h4 class="anchored" data-anchor-id="resource-allocation">Resource Allocation</h4>
+<ul>
+<li>Helps understand how testing infrastructure impacts vaccination programs</li>
+<li>Identifies states needing additional support</li>
+<li>Shows the effectiveness of different state-level approaches</li>
+</ul>
+</section>
+<section id="public-health-strategy" class="level4">
+<h4 class="anchored" data-anchor-id="public-health-strategy">Public Health Strategy</h4>
+<ul>
+<li>Demonstrates the value of comprehensive testing programs</li>
+<li>Shows how early infrastructure investment impacts long-term outcomes</li>
+<li>Highlights the importance of coordinated healthcare responses</li>
+</ul>
+<p><br></p>
+<hr>
+<p><strong>This project reveals critical insights into India’s COVID-19 response, showing how testing infrastructure and vaccination programs worked together in the nation’s largest public health initiative.</strong></p>
+</section>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
