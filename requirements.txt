@@ -3,3 +3,4 @@ numpy
 altair
 datetime
 statsmodels
+matplotlib
