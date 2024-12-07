@@ -1,15 +1,10 @@
-
 .DS_Store
-final_project - Copy_files/libs/bootstrap/bootstrap.min.css
-/shiny-app
-/shiny-app
-final_project_files/libs/quarto-html/tippy.umd.min.js
-shiny-app/__pycache__/app.cpython-311.pyc
-shiny-app/__pycache__/app.cpython-311.pyc
-final_project_files/figure-html/cell-4-output-2.png
-shiny-app/__pycache__/app.cpython-311.pyc
+*.pyc
+__pycache__/
+final_project_files/libs/
+final_project - Copy_files/libs/
+final_project_files/figure-html/
 *.png
 *.css
 *.woff
 *.js
-shiny-app/__pycache__/app.cpython-311.pyc
