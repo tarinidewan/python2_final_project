@@ -52,9 +52,9 @@ alt.renderers.enable("png", ppi=250)
 ```{python}
 #| include: false
 # load datasets
-covid_vacc = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_vaccine_statewise.csv') # MODIFY PATH ACCORDINGLY
-covid_test = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/StatewiseTestingDetails.csv') # MODIFY PATH ACCORDINGLY
-population = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/state_population.csv') # MODIFY PATH ACCORDINGLY
+covid_vacc = pd.read_csv('data/covid_vaccine_statewise.csv') # MODIFY PATH ACCORDINGLY
+covid_test = pd.read_csv('data/StatewiseTestingDetails.csv') # MODIFY PATH ACCORDINGLY
+population = pd.read_csv('data/state_population.csv') # MODIFY PATH ACCORDINGLY
 
 # convert dates to datetime
 covid_vacc['Date'] = pd.to_datetime(covid_vacc['Updated On'], format='%d/%m/%Y')
@@ -226,7 +226,7 @@ We ran a regression model to examine how testing rates, HDI, and healthcare infr
 # testing vs vaccination by # of hospitals 
 
 # adding hospital data as a proxy for infrastructure
-hospital = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/Hospital_India.csv') # MODIFY PATH ACCORDINGLY
+hospital = pd.read_csv('data/Hospital_India.csv') # MODIFY PATH ACCORDINGLY
 
 # rename columns and rows in the hospital dataset that use '&'
 hospital = hospital.rename(columns={'State/UT/India': 'State'})
@@ -267,7 +267,7 @@ scatter_hosp = alt.Chart(covid_merged).mark_circle(size=60).encode(
 # testing vs vaccination by HDI 
 
 # load the HDI data
-hdi = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/hdi_india_state.csv') # MODIFY PATH ACCORDINGLY
+hdi = pd.read_csv('data/hdi_india_state.csv') # MODIFY PATH ACCORDINGLY
 
 # create categories for HDI rank based on UNDP classifications; anything lower than India avg is low
 hdi['HDI_Category'] = hdi['HDI'].apply(lambda x: 'High' if x>=0.7 else ('Medium' if x>0.644 else 'Low'))
@@ -322,7 +322,7 @@ model_main = ols('vaccination_rate ~ testing_rate + total_hosp + HDI + testing_r
 print(model_main.summary())
 
 # Save the final dataset
-covid_final = covid_merged.to_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_final.csv') # MODIFY PATH ACCORDINGLY
+covid_final = covid_merged.to_csv('data/covid_final.csv') # MODIFY PATH ACCORDINGLY
 ```
 
 <br>
