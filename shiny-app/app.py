@@ -2,56 +2,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from shiny import App, render, ui
 
-# Load datasets
-covid_vacc = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_vaccine_statewise.csv') # MODIFY PATH ACCORDINGLY
-covid_test = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/StatewiseTestingDetails.csv') # MODIFY PATH ACCORDINGLY
-population = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/state_population.csv') # MODIFY PATH ACCORDINGLY
-hospital = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/Hospital_India.csv') # MODIFY PATH ACCORDINGLY
-
-# Data preprocessing (as in original code)
-covid_vacc['Date'] = pd.to_datetime(covid_vacc['Updated On'], format='%d/%m/%Y')
-covid_test['Date'] = pd.to_datetime(covid_test['Date'])
-
-covid_vacc = covid_vacc.rename(columns={'Total Doses Administered': 'total_doses'})
-covid_vacc = covid_vacc[~covid_vacc['total_doses'].isna()]
-covid_vacc = covid_vacc.sort_values(['State', 'Date'])
-
-covid_vacc['lagged_value'] = covid_vacc.groupby('State')['total_doses'].shift(1)
-covid_vacc['lagged_value'] = covid_vacc['lagged_value'].fillna(0)
-covid_vacc['total_doses_day'] = covid_vacc['total_doses'] - covid_vacc['lagged_value']
-covid_vacc = covid_vacc[covid_vacc['total_doses_day']>=0]
-
-covid_test = covid_test.sort_values(['State', 'Date'])
-covid_test['lagged_value'] = covid_test.groupby('State')['TotalSamples'].shift(1)
-covid_test['lagged_value'] = covid_test['lagged_value'].fillna(0)
-covid_test['total_samples_day'] = covid_test['TotalSamples'] - covid_test['lagged_value']
-covid_test = covid_test[covid_test['total_samples_day']>=0]
-
-covid_vacc = covid_vacc[(covid_vacc['Date'] > '2020-12-31')]
-covid_test = covid_test[(covid_test['Date'] > '2020-12-31')]
-
-covid_vacc['Month'] = covid_vacc['Date'].dt.strftime('%m').astype(int)
-covid_test['Month'] = covid_test['Date'].dt.strftime('%m').astype(int)
-
-covid_vacc_monthly = covid_vacc.sort_values('Date').groupby(['State', 'Month'])['total_doses_day'].sum().reset_index()
-covid_test_monthly = covid_test.sort_values('Date').groupby(['State', 'Month'])['total_samples_day'].sum().reset_index()
-
-covid_merged = pd.merge(covid_vacc_monthly, covid_test_monthly, on=['State', 'Month'], how='inner')
-covid_merged = pd.merge(covid_merged, population, on='State', how='left')
-
-covid_merged['testing_rate'] = 100*(covid_merged['total_samples_day'] / covid_merged['Projected Total Population'])
-covid_merged['vaccination_rate'] = 100*(covid_merged['total_doses_day'] / covid_merged['Projected Total Population'])
-
-# Process hospital data
-hospital = hospital.rename(columns={'State/UT/India': 'State', 'No. of beds available in public facilities': 'num_beds'})
-hospital['State'] = hospital['State'].replace({'Andaman & Nicobar Islands': 'Andaman and Nicobar Islands', 'Jammu & Kashmir': 'Jammu and Kashmir'})
-hospital['num_beds'] = pd.to_numeric(hospital['num_beds'], errors='coerce')
-
-# Merge hospital data
-covid_merged = pd.merge(covid_merged, hospital[['State', 'num_beds']], on='State', how='left')
+# Load dataset
+covid_merged = pd.read_csv('covid_final.csv')
 
 # Calculate hospital beds per capita
-covid_merged['beds_per_capita'] = covid_merged['num_beds'] / covid_merged['Projected Total Population'] * 100000
+covid_merged['beds_per_capita'] = (covid_merged['num_beds']/covid_merged['Projected Total Population']) * 100000
 
 # Shiny app UI
 app_ui = ui.page_fluid(
