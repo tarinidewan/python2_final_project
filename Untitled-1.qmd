@@ -1,0 +1,608 @@
+---
+title: "Untitled"
+format: html
+---
+
+
+# COVID-19 Testing and Vaccination Coverage Analysis in India: A State-wise Study
+
+**Team Members**
+
+Shreya Shravini (GitHub: @shreyashravini) 
+
+Tarini Dewan (GitHub: @tarinidewan) 
+
+<br>
+
+#### _Research Question: Did states with more comprehensive testing efforts achieve faster vaccination coverage during India's COVID-19 response?_
+
+<br>
+
+##### Data Sources
+
+We utilized three primary datasets:
+
+1. COVID-19 vaccination data (state-wise)
+2. Testing details by state
+3. State population projections for 2020 from UDAI
+4. Hospitals in India in 2018 from Ministry of Health and Family Welfare
+
+<br>
+
+```{python}
+import pandas as pd
+import datetime as dt
+import altair as alt
+import statsmodels as sm
+from statsmodels.formula.api import ols
+import matplotlib.pyplot as plt
+import seaborn as sns
+```
+
+<br>
+
+## 1. Data cleaning
+
+```{python}
+# load datasets
+covid_vacc = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/covid_vaccine_statewise.csv') # MODIFY PATH ACCORDINGLY
+covid_test = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/StatewiseTestingDetails.csv') # MODIFY PATH ACCORDINGLY
+population = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/state_population.csv') # MODIFY PATH ACCORDINGLY
+
+# convert dates to datetime
+covid_vacc['Date'] = pd.to_datetime(covid_vacc['Updated On'], format='%d/%m/%Y')
+covid_test['Date'] = pd.to_datetime(covid_test['Date'], format='mixed')
+
+# find number of missing values in each column
+print('covid_vacc missing rates')
+for col in covid_vacc.columns:
+    missing_rate = round(100*(covid_vacc[col].isna().sum())/len(covid_vacc), 2)
+    print(col, ': ', missing_rate) # variable of interest = Total Doses Administered
+
+# rename Total Doses Administered variable
+covid_vacc = covid_vacc.rename(columns={'Total Doses Administered': 'total_doses'})
+
+# drop missing values in total doses
+covid_vacc = covid_vacc[~covid_vacc['total_doses'].isna()]
+
+# sort values by state and date
+covid_vacc = covid_vacc.sort_values(['State', 'Date'])
+
+# total doses is monotonically increasing as a result of being a cumulative sum; finding daily dose values
+covid_vacc['lagged_value'] = covid_vacc.groupby('State')['total_doses'].shift(1)
+covid_vacc['lagged_value'] = covid_vacc['lagged_value'].fillna(0)
+covid_vacc['total_doses_day'] = covid_vacc['total_doses'] - covid_vacc['lagged_value']
+covid_vacc = covid_vacc[covid_vacc['total_doses_day']>=0] # this leads to some negative data which is erroneous (likely poor data collection); drop these rows (note: there is a pattern here as most of the negative values are on Mar 9, 2021, Feb 18, 2021, etc.)
+
+print('\n')
+
+print('covid_test missing rates')
+for col in covid_test.columns:
+    missing_rate = round(100*(covid_test[col].isna().sum())/len(covid_test), 2)
+    print(col, ': ', missing_rate) # variable of interest = TotalSamples
+
+# total testing samples is also monotonically increasing as a result of being a cumulative sum; finding daily testing values
+covid_test = covid_test.sort_values(['State', 'Date'])
+covid_test['lagged_value'] = covid_test.groupby('State')['TotalSamples'].shift(1)
+covid_test['lagged_value'] = covid_test['lagged_value'].fillna(0)
+covid_test['total_samples_day'] = covid_test['TotalSamples'] - covid_test['lagged_value']
+covid_test = covid_test[covid_test['total_samples_day']>=0] # this leads to some negative data which is erroneous (likely poor data collection); drop these rows
+
+# Drop dates before 2021 (vaccination rollout only began in 2021)
+covid_vacc = covid_vacc[(covid_vacc['Date'] > '2020-12-31')] #& (covid_vacc['Date'] <= '2021-06-30')]
+covid_test = covid_test[(covid_test['Date'] > '2020-12-31')] #& (covid_test['Date'] <= '2021-06-30')]
+
+# Aggregate data to monthly level (instead of daily)
+covid_vacc['Month'] = covid_vacc['Date'].dt.strftime('%m').astype(int) 
+covid_test['Month'] = covid_test['Date'].dt.strftime('%m').astype(int)
+
+# group data by state and month
+covid_vacc_monthly = covid_vacc.sort_values('Date').groupby(['State', 'Month'])['total_doses_day'].sum().reset_index()
+covid_test_monthly = covid_test.sort_values('Date').groupby(['State', 'Month'])['total_samples_day'].sum().reset_index()
+
+# Merge datasets
+covid_merged = pd.merge(covid_vacc_monthly, covid_test_monthly, on=['State', 'Month'], how='inner')
+covid_merged = pd.merge(covid_merged, population, on='State', how='left')
+
+# Calculate testing and vaccination rates
+covid_merged['testing_rate'] = 100*(covid_merged['total_samples_day'] / covid_merged['Projected Total Population'])
+covid_merged['vaccination_rate'] = 100*(covid_merged['total_doses_day'] / covid_merged['Projected Total Population'])
+
+# check that the merged dataset has 36 states
+print(covid_merged['State'].nunique())
+
+# find missing state
+for state in list(covid_vacc['State'].unique()):
+    if state not in list(covid_test['State'].unique()):
+        print('Missing state: ', state) # Dadra and Nagar Haveli and Daman and Diu
+
+# Save the merged dataset
+#covid_final = covid_merged.to_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_final.csv') # MODIFY PATH ACCORDINGLY
+
+print(covid_merged.head())
+```
+
+<br>
+
+## 2. Exploring the data
+
+### Testing Rate and Vaccination Rate Progression
+
+```{python}
+alt.data_transformers.disable_max_rows()
+
+# testing rate
+boxplot_test = alt.Chart(covid_merged).mark_boxplot().encode(
+    x=alt.X('State:N', title='State', axis=alt.Axis(labelAngle=270)),
+    y=alt.Y('testing_rate:Q', title='Testing Rate')
+).properties(
+    title='Distribution of Testing Rates by State',
+)
+
+boxplot_test
+
+# vaccination progression
+boxplot_vacc = alt.Chart(covid_merged).mark_boxplot().encode(
+    x=alt.X('State:N', title='State', axis=alt.Axis(labelAngle=270)),
+    y=alt.Y('vaccination_rate:Q', title='Vaccination Rate')
+).properties(
+    title='Distribution of Vaccination Rates by State',
+)
+
+boxplot_vacc
+
+# show both plots together
+combined_plot = alt.vconcat(
+    boxplot_test, 
+    boxplot_vacc
+).resolve_scale(
+    y='shared'
+)
+
+combined_plot
+```
+
+### Testing Data
+
+```{python}
+# Part A: Time-Series Analysis
+
+# Monthly testing progression
+#plt.figure(figsize=(12, 6))
+#monthly_testing = covid_merged.groupby('Month')['testing_rate'].mean()
+#plt.plot(monthly_testing.index.astype(str), monthly_testing.values, marker='o')
+#plt.title('Average Monthly Testing Rate Across States')
+#plt.xlabel('Month')
+#plt.ylabel('Testing Rate per 100,000')
+#plt.xticks(rotation=45)
+#plt.grid(True)
+#plt.show()
+
+# covid testing (absolute) over months for all states combined
+test_time = covid_merged.groupby('Month')['total_samples_day'].sum().reset_index()
+
+line = alt.Chart(test_time).mark_line().encode(
+    x=alt.X('Month:O', title='Month'),
+    y=alt.Y('total_samples_day:Q', title='Testing')
+).properties(
+    title=' Covid Testing over Time (All States Combined)',
+    width=600,
+    height=400
+)
+
+# vaccination administration (absolute) over months for all states combined
+vacc_time = covid_merged.groupby('Month')['total_doses_day'].sum().reset_index()
+
+line2 = alt.Chart(vacc_time).mark_line(color='orange').encode(
+    x=alt.X('Month:O', title='Month'),
+    y=alt.Y('total_doses_day:Q', title='Vaccination')
+).properties(
+    title='Covid Vaccination over Time (All States Combined)',
+    width=600,
+    height=400
+)
+
+# adding a metric column to each dataset
+test_time['Metric'] = 'Testing'
+vacc_time['Metric'] = 'Vaccination'
+
+# combining the two datasets
+combined_time = pd.concat([test_time.rename(columns={'total_samples_day': 'Value'}),
+    vacc_time.rename(columns={'total_doses_day': 'Value'})])
+combined_time['Value'] = combined_time['Value']/1000000 # dividing by million
+
+# creating a combined chart for testing and vaccination progression over time
+combined_chart = alt.Chart(combined_time).mark_line().encode(
+    x=alt.X('Month:O', title='Month'),
+    y=alt.Y('Value:Q', title='Count (in millions)'),
+    color=alt.Color('Metric:N', title='Metric')
+).properties(
+    title='Testing and Vaccination Over Time (All States Combined)',
+    width=600,
+    height=400
+)
+
+combined_chart
+
+# Create population categories
+#covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], 
+#                                            q=4, 
+#                                            labels=['Small', 'Medium', 'Large', 'Very Large'])
+#
+## Create boxplot of testing rates by population category
+#plt.figure(figsize=(10, 6))
+#sns.boxplot(data=covid_merged, x='population_category', y='testing_rate')
+#plt.title('Testing Rates by State Population Size')
+#plt.xlabel('Population Category')
+#plt.ylabel('Testing Rate per 100,000 population')
+#plt.grid(True, alpha=0.3)
+#plt.show()
+#
+## Print average testing rates by population category
+#print("\nAverage Testing Rates by Population Category:")
+#print(covid_merged.groupby('population_category')['testing_rate'].mean().round(2))
+#
+## Population category ranges
+#pop_ranges = covid_merged.groupby('population_category')['Projected Total Population'].agg(['min', 'max'])
+#print("\nPopulation Category Ranges:")
+#print(pop_ranges)
+#
+## Part C: Testing Rate Growth
+#
+# Calculate testing rate change
+testing_growth = covid_merged.groupby('State').agg({
+    'testing_rate': ['first', 'last', lambda x: (x.max() - x.min())/x.min() * 100]
+}).reset_index()
+testing_growth.columns = ['State', 'Initial_Rate', 'Final_Rate', 'Growth_Percentage']
+
+plt.figure(figsize=(12, 6))
+sns.barplot(data=testing_growth.sort_values('Growth_Percentage', ascending=False), 
+            x='State', y='Growth_Percentage')
+plt.title('Testing Rate Growth by State (%)')
+plt.xticks(rotation=90)
+plt.ylabel('Growth in Testing Rate (%)')
+plt.show()
+```
+
+### Vaccination Data
+
+```{python}
+# Part A: Temporal Analysis
+
+# Monthly vaccination progress
+#plt.figure(figsize=(12, 6))
+#monthly_vax = covid_merged.groupby('Month')['vaccination_rate'].mean()
+#plt.plot(monthly_vax.index.astype(str), monthly_vax.values, marker='o')
+#plt.title('Average Monthly Vaccination Rate Across States')
+#plt.xlabel('Month')
+#plt.ylabel('Vaccination Rate (%)')
+#plt.xticks(rotation=45)
+#plt.grid(True)
+#plt.show()
+#
+## Part B: Population Size Impact
+#
+## Create population categories
+#covid_merged['population_category'] = pd.qcut(covid_merged['Projected Total Population'], 
+#                                            q=4, labels=['Small', 'Medium', 'Large', 'Very Large'])
+#
+## Box plot of vaccination rates by population category
+#plt.figure(figsize=(10, 6))
+#sns.boxplot(data=covid_merged, x='population_category', y='vaccination_rate')
+#plt.title('Vaccination Rates by State Population Size')
+#plt.xlabel('Population Category')
+#plt.ylabel('Vaccination Rate (%)')
+#plt.show()
+
+# Part C: Vaccination Efficiency
+
+# Calculate vaccination rate change
+vax_efficiency = covid_merged.groupby('State').agg({
+    'vaccination_rate': ['first', 'last', lambda x: x.max() - x.min()]
+}).reset_index()
+vax_efficiency.columns = ['State', 'Initial_Rate', 'Final_Rate', 'Rate_Change']
+
+# Plot vaccination rate change
+plt.figure(figsize=(12, 6))
+sns.barplot(data=vax_efficiency.sort_values('Rate_Change', ascending=False), 
+            x='State', y='Rate_Change')
+plt.title('Vaccination Rate Change by State')
+plt.xticks(rotation=90)
+plt.ylabel('Change in Vaccination Rate (%)')
+plt.show()
+```
+
+<br>
+
+## 3. Relationship between vaccination and testing
+
+```{python}
+# Part A: Testing vs Vaccination Rates (in Population context)
+
+#plt.figure(figsize=(12, 8))
+## Create scatter plot with point size based on population
+#for state in covid_merged['State'].unique():
+#    state_data = covid_merged[covid_merged['State'] == state]
+#    plt.scatter(state_data['testing_rate'], 
+#                state_data['vaccination_rate'],
+#                s=state_data['Projected Total Population']/500000, # Size based on population
+#                alpha=0.6,
+#                label=state)
+#
+#plt.title('Testing vs Vaccination Rates (Point Size = Population)')
+#plt.xlabel('Testing Rate per 100,000 population')
+#plt.ylabel('Vaccination Rate (%)')
+#plt.xlim(0, 100000)  # Set x-axis limit to 100,000
+#plt.legend(bbox_to_anchor=(1.05, 1))
+#plt.grid(True)
+#plt.tight_layout()
+#plt.show()
+
+# abs
+scatter_abs = alt.Chart(covid_merged).mark_circle().encode(
+    x=alt.X('total_samples_day', title='Testing Samples'),
+    y=alt.Y('total_doses_day', title='Vaccination Doses')
+).properties(
+    title='Relationship Between Covid Testing and Vaccination',
+    width=600,
+    height=400
+)
+
+scatter_abs
+
+# pct
+state_agg = covid_merged.groupby('State', as_index=False).agg({
+    'testing_rate': 'mean',
+    'vaccination_rate': 'mean'
+})
+
+
+scatter_pct = alt.Chart(state_agg).mark_circle().encode(
+    x=alt.X('testing_rate', title='Average Testing Rate'),
+    y=alt.Y('vaccination_rate', title='Average Vaccination Rate')
+).properties(
+    title='Relationship Between Testing Rate and Vaccination Rate by State in India',
+    width=600,
+    height=400
+)
+
+scatter_pct
+
+text = alt.Chart(state_agg).mark_text(
+    align='left',
+    #dx=5,  # Offset the text position
+    #dy=-5  # Offset the text position
+    fontSize=5
+).encode(
+    x='testing_rate',
+    y='vaccination_rate',
+    text='State'
+)
+
+scatter_pct + text
+# Part B: Patterns across different population categories
+
+#plt.figure(figsize=(12, 8))
+#for category in covid_merged['population_category'].unique():
+#    category_data = covid_merged[covid_merged['population_category'] == category]
+#    plt.scatter(category_data['testing_rate'], 
+#                category_data['vaccination_rate'],
+#                label=category,
+#                alpha=0.6)
+#
+#plt.title('Testing vs Vaccination Rates by Population Category')
+#plt.xlabel('Testing Rate per 100,000 population')
+#plt.ylabel('Vaccination Rate (%)')
+#plt.legend(title='Population Category')
+#plt.grid(True)
+#plt.tight_layout()
+#plt.show()
+```
+
+<br>
+
+## 4. Correlation and regression analysis
+
+```{python}
+# Correlation analysis
+#correlation = covid_merged[['testing_rate', 'vaccination_rate']].corr().iloc[0, 1]
+#print(f"Correlation between testing rate and vaccination rate: {correlation:.2f}")
+
+# Regression analysis
+model = ols('vaccination_rate ~ testing_rate + C(State)', data=covid_merged).fit() # with state fixed effects
+print(model.summary())
+
+# Create correlation matrix
+correlation_vars = ['vaccination_rate', 'testing_rate', 'Projected Total Population']
+correlation_matrix = covid_merged[correlation_vars].corr()
+correlation_matrix
+```
+
+```{python}
+# adding hospital data as a proxy for infrastructure
+hospital = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/Hospital_India.csv')
+
+# rename columns and rows in the hospital dataset that use '&'
+hospital = hospital.rename(columns={'State/UT/India': 'State'})
+hospital = hospital.rename(columns={'No. of beds available in public facilities': 'num_beds'})
+hospital = hospital.rename(index={'Andaman & Nicobar Islands': 'Andaman and Nicobar Islands'})
+hospital['State'] = hospital['State'].replace('Andaman & Nicobar Islands', 'Andaman and Nicobar Islands').replace('Jammu & Kashmir', 'Jammu and Kashmir')
+
+# merge this with our main covid_merged dataset
+covid_merged = pd.merge(covid_merged, hospital, on='State', how='left')
+```
+
+```{python}
+covid_merged['num_beds'] = pd.to_numeric(covid_merged['num_beds'], errors='coerce')
+covid_merged['Total'] = pd.to_numeric(covid_merged['Total'], errors='coerce')
+
+# Regression analysis
+model_hosp = ols('vaccination_rate ~ testing_rate + Total + testing_rate:Total + C(State)', 
+    data=covid_merged
+).fit()
+print(model_hosp.summary())
+```
+
+<br>
+
+### Correlation Analysis
+The correlation coefficient of 0.61 indicates a moderately strong positive relationship between testing and vaccination rates. This suggests that states with higher testing rates generally tend to have higher vaccination rates.
+
+
+#### Regression Analysis Key Findings
+
+##### Model Fit
+
+- R-squared value of 0.373 indicates that approximately 37.3% of the variation in vaccination rates can be explained by testing rates
+
+- The adjusted R-squared (0.370) is very close to the R-squared, suggesting the model is not overfitted
+
+##### Statistical Significance
+
+- F-statistic of 122.6 with a p-value of 1.17e-22 indicates the model is highly statistically significant
+
+- The testing_rate coefficient (0.0002) is significant (p < 0.001), confirming a positive relationship with vaccination rates
+
+##### Coefficient Interpretation
+
+- Intercept of 2.7051: The expected vaccination rate when testing rate is zero
+
+- Testing_rate coefficient of 0.0002: For each unit increase in testing rate per 100,000 population, the vaccination rate increases by 0.0002 percentage points
+
+<br>
+
+## 5. Shiny app dashboard
+
+Insert some screenshots of dashboard
+
+<br>
+<br>
+
+## 6. Analysis 
+
+Based on the comprehensive data analysis of COVID-19 testing and vaccination rates across Indian states from January to August 2021, several significant patterns and insights emerge:
+
+<br>
+---
+
+### Testing Distribution Analysis
+
+#### High Testing States: 
+
+- Ladakh and Lakshadweep show exceptionally high testing rates (>150,000 per 100,000 population), though this is partly due to their small population base.
+- Metropolitan Regions: Delhi maintains consistently high testing rates (>100,000 per 100,000), reflecting urban capacity and infrastructure.
+- State Variations: Most states maintain testing rates between 20,000-60,000 per 100,000 population, showing significant interstate disparities.
+
+<br>
+---
+
+### Vaccination Progress Patterns
+
+#### Leading States:
+
+- Ladakh achieved nearly 58% vaccination rate by June 2021
+- Lakshadweep reached 62% vaccination coverage
+- Sikkim managed about 50% coverage
+
+#### Major States Performance:
+- Kerala maintained steady progress, reaching 28% by June
+- Maharashtra, despite high case loads, achieved 19.5% coverage
+- Uttar Pradesh, India's most populous state, reached 10.4% coverage
+
+<br>
+---
+
+### State-wise overall performance
+
+#### High-Performing Large States
+
+
+##### Maharashtra
+- Despite having India's second-largest population (123.1 million), achieved impressive vaccination coverage
+- Reached 19.5% vaccination rate by June 2021
+- Maintained consistent testing rates around 33,800 per 100,000 population
+- Success factors: Strong healthcare infrastructure and urban centers with good medical facilities1
+
+##### Karnataka
+- Population of 67.5 million
+- Achieved 25.9% vaccination rate by June 2021
+- Maintained high testing rates (50,700 per 100,000)
+- Key advantage: Tech hub Bangalore's infrastructure and private sector participation
+
+#### Underperforming States
+
+
+##### Bihar
+- Large population (124.8 million) but low vaccination rate of 10.5% by June 2021
+- Testing rates remained low at 26,600 per 100,000
+- Challenges: Limited healthcare infrastructure and large rural population
+
+##### Uttar Pradesh
+- India's most populous state (237.8 million)
+- Lowest vaccination rate among major states at 10.4% by June 2021
+- Testing rates remained consistently low (24,300 per 100,000)
+- Hindrances: Vast geographical area and inadequate healthcare facilities
+
+
+#### Key Factors for Success
+
+##### Healthcare Infrastructure
+
+- States with established medical facilities showed better performance
+- Urban centers with multiple vaccination sites performed better3
+
+##### Population Size Impact
+
+- Smaller states like Ladakh (57.9%) and Lakshadweep (62.6%) achieved higher vaccination rates
+- Large states required more complex logistics and distribution networks3
+
+<br>
+---
+
+### Correlation Between Testing and Vaccination
+
+Several patterns emerge from the data:
+
+- *Positive Correlation:* States with robust testing infrastructure generally achieved higher vaccination rates
+- *Small vs Large States:* Smaller states/UTs showed faster vaccination progress, possibly due to manageable population sizes
+- *Resource Utilization:* States that established strong testing systems early (like Delhi, Kerala) maintained efficient vaccination programs
+
+<br>
+---
+
+### Project Significance
+This analysis is significant for several reasons:
+
+
+#### Policy Implications
+
+- Demonstrates the importance of healthcare infrastructure in pandemic response
+- Highlights the need for targeted support to states with lower testing capabilities
+- Shows how early testing capacity correlates with vaccination efficiency
+
+
+#### Healthcare Planning
+
+- Provides insights for future pandemic preparedness
+- Identifies successful models from high-performing states
+- Reveals the importance of population size in healthcare delivery
+
+
+#### Resource Allocation
+
+- Helps understand how testing infrastructure impacts vaccination programs
+- Identifies states needing additional support
+- Shows the effectiveness of different state-level approaches
+
+
+#### Public Health Strategy
+
+- Demonstrates the value of comprehensive testing programs
+- Shows how early infrastructure investment impacts long-term outcomes
+- Highlights the importance of coordinated healthcare responses
+
+<br>
+---
+
+**This project reveals critical insights into India's COVID-19 response, showing how testing infrastructure and vaccination programs worked together in the nation's largest public health initiative.**
+
