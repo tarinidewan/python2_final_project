@@ -11,3 +11,4 @@ shiny-app/__pycache__/app.cpython-311.pyc
 *.png
 *.css
 *.woff
+*.js
