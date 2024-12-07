@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>COVID-19 Testing and Vaccination Coverage Analysis in India</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="final_project_files/libs/clipboard/clipboard.min.js"></script>
+<script src="final_project_files/libs/quarto-html/quarto.js"></script>
+<script src="final_project_files/libs/quarto-html/popper.min.js"></script>
+<script src="final_project_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="final_project_files/libs/quarto-html/anchor.min.js"></script>
+<link href="final_project_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="final_project_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="final_project_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="final_project_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="final_project_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">COVID-19 Testing and Vaccination Coverage Analysis in India</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Shreya Shravini (Section 3; <span class="citation" data-cites="shreyashravini">@shreyashravini</span>), Tarini Dewan (Section 1; <span class="citation" data-cites="tarinidewan">@tarinidewan</span>)</p>
+<p>December 7, 2024</p>
+<p><br></p>
+<section id="research-question-did-states-with-more-comprehensive-testing-efforts-achieve-faster-vaccination-coverage-during-indias-covid-19-response" class="level5">
+<h5 class="anchored" data-anchor-id="research-question-did-states-with-more-comprehensive-testing-efforts-achieve-faster-vaccination-coverage-during-indias-covid-19-response"><em>Research Question: Did states with more comprehensive testing efforts achieve faster vaccination coverage during India’s COVID-19 response?</em></h5>
+<p>The COVID-19 pandemic tested healthcare systems worldwide, with countries racing to both test and vaccinate their populations. Our analysis examines how testing capacity affected vaccination rates across Indian states from January to August 2021, while considering factors like healthcare systems and socioeconomic differences.</p>
+<p>The motivation to study this question comes from the need to make better choices about where to put resources during public health emergencies. If states with good testing programs gave out vaccines faster, infrastructure is likely the key barrier in underperforming states - since successful programs indicate they already have trained staff, data systems, and coordinated healthcare networks in place.</p>
+<p>On the other hand, if states with strong testing still struggled with vaccination, public awareness is likely the barrier. Given that vaccine confidence in India is <a href="https://www.vaccineconfidence.org/vci/country/in/#classDfn">generally high,</a> the challenge lies in reaching underserved communities and ensuring access to health information, particularly in areas with lower literacy rates.</p>
+<p>The answer also matters because testing centers can help build a culture of preventive healthcare. When people have good experiences with healthcare facilities, they’re more likely to engage with the system proactively rather than only seeking care when sick, which could shape future public health programs.</p>
+<p><br></p>
+</section>
+<section id="data-sources-and-cleaning" class="level5">
+<h5 class="anchored" data-anchor-id="data-sources-and-cleaning">Data Sources and Cleaning</h5>
+<p>Our analysis draws from multiple data sources across India. For vaccination and testing data, we use daily state-level records from covid19india.org covering 2021. This includes daily vaccination numbers (both first and second doses) and testing samples for each state. We complement this with state population projections from UIDAI (2020), hospital counts from the Ministry of Health (2018) as a measure of healthcare infrastructure, and state-wise Human Development Index data from UNDP Global Lab (2022).</p>
+<p>Our data preparation involved several steps. First, we noticed that the vaccination and testing numbers in our raw data were cumulative daily totals - each day’s number was monotonically increasing. To get actual daily numbers, we created a lag variable that captured the previous day’s total for each state, then subtracted this lagged value to find the marginal increase in tests or vaccines. We identified instances where the calculated daily rates were negative - a data quality concern since daily testing and vaccination numbers should either increase or remain constant. We removed these observations from our analysis. In the testing data, we found inconsistencies where the components (positive and negative tests) were sometimes missing or, when available, didn’t sum to the reported total tests. However, since our analysis uses only the total test numbers, these inconsistencies don’t affect our findings.</p>
+<p>Since India’s vaccination program started in 2021, we limited our testing data to match this timeframe. This gave us eight months of data (January to August 2021) to analyze. After aggregating daily data to monthly totals and combining our datasets, we covered 35 out of India’s 36 states and union territories, missing only Dadra and Nagar Haveli and Daman and Diu - a gap that shouldn’t significantly impact our findings given its small population.</p>
+<p>While merging our combined vaccination-testing dataset with population, hospital, and HDI data, we lost data for Ladakh due to missing hospital and HDI data, bringing our final analysis to 34 states and territories. We calculated per-capita testing and vaccination rates using population data. While testing and vaccination rates vary by month, variables like population, hospitals per capita, and HDI were only available at a single point in time. This is acceptable since these are structural characteristics that don’t change significantly over our eight-month study period.</p>
+<p>For our exploratory analysis, we categorized states by HDI scores (using UNDP’s “high” and “medium” classifications, plus a “low” category for states below the country’s average) and by hospitals per capita (divided into three equal quantiles using pandas’ qcut). While this basic binning approach has limitations, it provides a useful starting point for pattern analysis.</p>
+<p><br></p>
+</section>
+<section id="data-exploration-and-results" class="level5">
+<h5 class="anchored" data-anchor-id="data-exploration-and-results">Data Exploration and Results</h5>
+<p>We examine the distribution of testing and vaccination rates across states using boxplots, as they capture variation across both space (states) and time (months) - each box represents how a state’s testing or vaccination rate varied across our eight-month study period.</p>
+<p>The testing rates boxplot shows most states tested between 2-10% of their population monthly, with some notable outliers. Lakshadweep, for instance, tested over 40% of its population in some months, likely due to its small, isolated island population.</p>
+<p>The vaccination rates boxplot reveals most states vaccinated between 2-15% of their population monthly. Urban areas and states with stronger healthcare infrastructure (Delhi, Kerala, and Telangana) consistently achieved higher rates of 15-20%, while resource-constrained states like Bihar and Jharkhand managed only 2-3%. States that performed well in testing generally also achieved higher vaccination rates, suggesting underlying healthcare capacity influenced both outcomes.</p>
+<div id="df9715cd" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="final_project_files/figure-html/cell-4-output-1.png" width="643" height="382" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="final_project_files/figure-html/cell-4-output-2.png" width="643" height="387" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at aggregate trends, we found testing and vaccination rates across states generally moved in parallel, despite operating at different scales. This pattern was briefly interrupted around May 2021 due to a vaccine <a href="https://www.google.com/url?q=https://carnegieendowment.org/posts/2021/05/what-is-happening-to-indias-covid-19-vaccine-program?lang%3Den&amp;sa=D&amp;source=editors&amp;ust=1733558473293879&amp;usg=AOvVaw0rkCmvkblw29twpwc_gU6j">supply shortage</a>, but resumed once supplies were restored.</p>
+<div id="f188205f" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="final_project_files/figure-html/cell-5-output-1.png" width="533" height="259" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We examined the relationship between testing and vaccination rates through two scatter plots that group states by healthcare infrastructure and development levels. Each point shows a state’s monthly performance, with states colored by hospitals per capita in one plot and HDI categories in the other. In both plots, higher-performing states (blue dots) cluster toward the upper-right, indicating success in both testing and vaccination. This consistent pattern suggests that both physical healthcare infrastructure and broader socioeconomic development played important roles in determining states’ COVID-19 response capacity.</p>
+<p>We ran a regression model to examine how testing rates, HDI, and healthcare infrastructure affect vaccination rates, including interaction terms to understand how testing’s impact varies with development levels. Our results show that higher testing rates and HDI scores are positively associated with vaccination rates. However, we found an unexpected negative relationship between number of hospitals and vaccination rates, suggesting that successful vaccination efforts might depend more on targeted campaigns than existing hospital infrastructure. Testing had a stronger effect on vaccination rates in states with lower HDI, indicating that expanding testing infrastructure could particularly benefit vaccination coverage in less developed states.</p>
+<div id="506f07ae" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="final_project_files/figure-html/cell-6-output-1.png" width="805" height="335" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We developed an interactive Shiny dashboard to explore relationships between testing, vaccination, and healthcare infrastructure across Indian states. Users can compare any two states and choose between visualizations of testing, vaccination, and hospital bed relationships. A comparison of Delhi and Bihar shows how infrastructure gaps affected COVID-19 response. Delhi’s healthcare capacity is five times that of Bihar, corresponding to stark differences in performance - Delhi achieved testing rates of 8-14% while Bihar managed only 1-4%. This suggests existing healthcare infrastructure influenced states’ pandemic response capabilities.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/shiny_hosp.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Shiny App</figcaption>
+</figure>
+</div>
+<p><br></p>
+</section>
+<section id="discussion" class="level5">
+<h5 class="anchored" data-anchor-id="discussion">Discussion</h5>
+<p>While our analysis shows correlations rather than causal relationships, the findings have important policy implications. The strong link between testing and vaccination, especially in lower HDI states, indicates that investing in testing infrastructure could strengthen vaccine delivery systems. However, simply building more hospitals may not be the most effective strategy. Policymakers should consider targeted approaches like mobile vaccination units, community health centers, and local drives, particularly in areas with limited healthcare access. The influence of socioeconomic development on vaccination rates also shows that states should work on improving overall development indicators while building healthcare capacity.</p>
+<p>Future research could examine how specific components of testing programs influence vaccination success, which types of targeted campaigns work best in different settings, and how states with limited infrastructure but successful vaccination programs achieved their results.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
