@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 from shiny import App, render, ui
 
 # Load datasets
-covid_vacc = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/covid_vaccine_statewise.csv')
-covid_test = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/StatewiseTestingDetails.csv')
-population = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/state_population.csv')
-hospital = pd.read_csv('C:/Users/Shreya Work/OneDrive/Documents/GitHub/python2_final_project/data/Hospital_India.csv')
+covid_vacc = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/covid_vaccine_statewise.csv') # MODIFY PATH ACCORDINGLY
+covid_test = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/StatewiseTestingDetails.csv') # MODIFY PATH ACCORDINGLY
+population = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/state_population.csv') # MODIFY PATH ACCORDINGLY
+hospital = pd.read_csv('/Users/tarini_dewan/Desktop/UChicago/Python_2/python2_final_project/data/Hospital_India.csv') # MODIFY PATH ACCORDINGLY
 
-# Data preprocessing (as in your original code)
+# Data preprocessing (as in original code)
 covid_vacc['Date'] = pd.to_datetime(covid_vacc['Updated On'], format='%d/%m/%Y')
 covid_test['Date'] = pd.to_datetime(covid_test['Date'])
 
